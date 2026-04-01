@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
+    <Style src="project://database/Assets/!Game/UI/USS/MainMenu.uss?fileID=7433441132597879392&amp;guid=32047276b80916f48a6fdef06ae17069&amp;type=3#MainMenu"/>
+    <ui:VisualElement name="main-menu-panel" class="main-menu">
+        <ui:Label text="MODFALL" class="main-menu__title"/>
+        <ui:VisualElement name="VisualElement" class="main-menu__buttons">
+            <ui:Button name="btn-play" text="Play" class="main-menu__button"/>
+            <ui:Button name="btn-settings" text="Settings" class="main-menu__button"/>
+            <ui:Button name="btn-quit" text="Quit" class="main-menu__button"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

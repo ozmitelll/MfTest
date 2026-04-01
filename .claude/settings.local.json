@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /d/Unity/Unity Editors/Modfall-Test -not -path */Library* -not -path */Temp* -not -path */Logs* -not -path */obj* -type d)"
+    ]
+  }
+}
