@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1998012037388828399}
   - component: {fileID: 8269492657054898504}
   - component: {fileID: 379329225167579793}
+  - component: {fileID: 2809075539112830778}
+  - component: {fileID: 338320203155040176}
   - component: {fileID: 6079183383983146259}
   - component: {fileID: 4233572017106506380}
   m_Layer: 0
@@ -50,8 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369279f41b2440538aa7b24c7d62b1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Enemy
-  HealthSystem: {fileID: 1998012037388828399}
-  StatsSystem: {fileID: 8269492657054898504}
+  _healthSystem: {fileID: 1998012037388828399}
+  _statsSystem: {fileID: 8269492657054898504}
+  _modificationInventory: {fileID: 338320203155040176}
+  _modificationLoadoutSystem: {fileID: 2809075539112830778}
   Config: {fileID: 11400000, guid: d113ae467ace1d8458848a6fdf428a30, type: 2}
 --- !u!114 &1998012037388828399
 MonoBehaviour:
@@ -91,6 +95,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.EnemyHealthBar
   _worldOffset: {x: 0, y: 2.2, z: 0}
   _template: {fileID: 9197481963319205126, guid: 9c6f2c10aa7d57f48a61aab1d12b9396, type: 3}
+--- !u!114 &2809075539112830778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d04f91b0edc8f43b7ee860d14d5bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationLoadoutSystem
+--- !u!114 &338320203155040176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e550332f07e754bbfb5491919bb1dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationInventory
 --- !u!136 &6079183383983146259
 CapsuleCollider:
   m_ObjectHideFlags: 0

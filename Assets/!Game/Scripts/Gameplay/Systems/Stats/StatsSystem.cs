@@ -29,5 +29,18 @@ namespace _Game.Scripts.Gameplay.Systems.Stats
             AttackRate          = new Stat(config.AttackRate);
             AttackDamageType    = config.AttackDamageType;
         }
+
+        public Stat GetStat(StatType statType) => statType switch
+        {
+            StatType.MaxHealth => MaxHealth,
+            StatType.MoveSpeed => MoveSpeed,
+            StatType.Armor => Armor,
+            StatType.MagicResistance => MagicResistance,
+            StatType.ElementalResistance => ElementalResistance,
+            StatType.AttackDamage => AttackDamage,
+            StatType.AttackRange => AttackRange,
+            StatType.AttackRate => AttackRate,
+            _ => throw new System.ArgumentOutOfRangeException(nameof(statType), statType, null)
+        };
     }
 }

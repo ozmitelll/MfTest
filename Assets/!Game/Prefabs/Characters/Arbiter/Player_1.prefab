@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 2395646296731491303}
   - component: {fileID: 9014751891681568719}
   - component: {fileID: 8992920512455885696}
+  - component: {fileID: 8573528384545869105}
+  - component: {fileID: -6412384164030413956}
   m_Layer: 0
   m_Name: Player_1
   m_TagString: Untagged
@@ -51,8 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a91ad9217854c73b0aff199ceee6216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Player
-  HealthSystem: {fileID: -5216329550504973019}
-  StatsSystem: {fileID: -5613544498213944258}
+  _healthSystem: {fileID: -5216329550504973019}
+  _statsSystem: {fileID: -5613544498213944258}
+  _modificationInventory: {fileID: 8573528384545869105}
+  _modificationLoadoutSystem: {fileID: -6412384164030413956}
   _movementSystem: {fileID: 8357369456277282854}
   _skillSystem: {fileID: 9014751891681568719}
   _interactionSystem: {fileID: 2395646296731491303}
@@ -148,6 +152,30 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8573528384545869105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036613480237024420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e550332f07e754bbfb5491919bb1dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationInventory
+--- !u!114 &-6412384164030413956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036613480237024420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d04f91b0edc8f43b7ee860d14d5bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationLoadoutSystem
 --- !u!1 &2829309248600377396
 GameObject:
   m_ObjectHideFlags: 0

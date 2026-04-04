@@ -36,4 +36,30 @@ namespace _Game.Scripts.Core
     {
         public _Game.Scripts.Gameplay.Interactables.Chest Chest;
     }
+
+    // --- Modifications ---
+    public struct OnModificationCardAddedEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Entity Entity;
+        public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardInstance Card;
+        public int TotalCards;
+    }
+
+    public struct OnModificationInstalledEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Entity Entity;
+        public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardInstance Card;
+        public int SlotIndex;
+        public int UsedCapacity;
+        public int Capacity;
+    }
+
+    public struct OnModificationRemovedEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Entity Entity;
+        public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardInstance Card;
+        public int SlotIndex;
+        public int UsedCapacity;
+        public int Capacity;
+    }
 }

@@ -10,8 +10,7 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy
 
         private void Awake()
         {
-            StatsSystem.Initialize(Config);
-            HealthSystem.Initialize(StatsSystem.MaxHealth.Value);
+            InitializeEntity(Config);
         }
 
         private void OnEnable()  => HealthSystem.OnDied += OnDied;

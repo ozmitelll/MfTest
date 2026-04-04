@@ -1,4 +1,4 @@
-﻿using _Game.Scripts.Gameplay.Entities.Player;
+using _Game.Scripts.Gameplay.Entities.Player;
 using _Game.Scripts.Gameplay.TopDownCamera;
 using _Game.Scripts.Services;
 using _Game.Scripts.UI.Controllers;
@@ -14,17 +14,21 @@ namespace _Game.Scripts.Core
         [SerializeField] private Player           testPlayer;
 
         private SessionService _sessionService;
-        private LevelService   _levelService;
-        private HUDController  _hudController;
+        private LevelService _levelService;
+        private HUDController _hudController;
 
         private void Awake()
         {
             ServiceLocator.Instance.Register(new InteractionService());
+            ServiceLocator.Instance.Register(new PlayerService());
+            ServiceLocator.Instance.Register(new ModificationScreenService());
         }
 
         private void Start()
         {
-            _hudController = new HUDController(_hudDocument.rootVisualElement);
+            var root = _hudDocument.rootVisualElement;
+
+            _hudController = new HUDController(root);
             _hudController.Subscribe();
 
             _levelService = new LevelService();
@@ -34,6 +38,7 @@ namespace _Game.Scripts.Core
             _levelService.LoadLevel(_sessionService.GetCurrentStageConfig());
 
             var player = Object.Instantiate(testPlayer, _levelService.CurrentLevel.playerSpawnPoint.position, Quaternion.identity);
+            ServiceLocator.Instance.Get<PlayerService>().SetPlayer(player);
             ServiceLocator.Instance.Get<CursorService>().SetCursor(testPlayer.config.GameplayCursor);
             cameraController.SetTarget(player.transform);
 
@@ -48,6 +53,9 @@ namespace _Game.Scripts.Core
 
         private void Update() => _hudController?.Tick();
 
-        private void OnDestroy() => _hudController?.Dispose();
+        private void OnDestroy()
+        {
+            _hudController?.Dispose();
+        }
     }
 }

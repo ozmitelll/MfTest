@@ -19,6 +19,19 @@ namespace _Game.Scripts.Gameplay.Systems.Health
             IsDead        = false;
         }
 
+        public void SetMaxHealth(float maxHealth, bool preserveRatio)
+        {
+            float sanitizedMaxHealth = Mathf.Max(1f, maxHealth);
+            float healthRatio = MaxHealth > 0f ? CurrentHealth / MaxHealth : 1f;
+
+            MaxHealth = sanitizedMaxHealth;
+            CurrentHealth = preserveRatio
+                ? Mathf.Clamp(MaxHealth * healthRatio, 0f, MaxHealth)
+                : Mathf.Min(CurrentHealth, MaxHealth);
+
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
+        }
+
         public void TakeDamage(float amount)
         {
             if (IsDead || amount <= 0f) return;

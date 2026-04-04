@@ -19,8 +19,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         private void Awake()
         {
             _input = new InputSystem_Actions();
-            StatsSystem.Initialize(config);
-            HealthSystem.Initialize(StatsSystem.MaxHealth.Value);
+            InitializeEntity(config);
             _movementSystem.Initialize(_input.Player, StatsSystem);
             _skillSystem.Initialize(_input.Player, this);
             _interactionSystem.Initialize(_input.Player, this);

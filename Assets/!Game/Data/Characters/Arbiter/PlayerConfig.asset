@@ -21,4 +21,8 @@ MonoBehaviour:
   AttackRange: 2
   AttackRate: 5
   AttackDamageType: 0
+  ModificationCapacity: 10
+  StartingModifications:
+  - _card: {fileID: 11400000, guid: 2714cc02b94082443bcd07defe1164e3, type: 2}
+    _installOnStart: 1
   GameplayCursor: {fileID: 11400000, guid: fbe6253f252254547b01ed0441058404, type: 2}

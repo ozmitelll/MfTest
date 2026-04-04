@@ -1,4 +1,5 @@
 using _Game.Scripts.Gameplay.Systems.Combat;
+using _Game.Scripts.Gameplay.Systems.Modifications;
 using UnityEngine;
 
 namespace _Game.Scripts.Configs
@@ -21,5 +22,9 @@ namespace _Game.Scripts.Configs
         public float      AttackRange      = 2f;
         public float      AttackRate       = 1f;    // attacks per second
         public DamageType AttackDamageType = DamageType.Pure;
+
+        [Header("Modifications")]
+        [Min(0)] public int ModificationCapacity = 10;
+        public StartingModificationEntry[] StartingModifications;
     }
 }
