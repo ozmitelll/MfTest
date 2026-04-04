@@ -35,6 +35,8 @@ namespace _Game.Scripts.Core
             ServiceLocator.Instance.Register(_levelService);
 
             _sessionService = ServiceLocator.Instance.Get<SessionService>();
+            _sessionService.EnsureSessionRunning();
+            _hudController.SetTimer(_sessionService.ElapsedTime);
             _levelService.LoadLevel(_sessionService.GetCurrentStageConfig());
 
             var player = Object.Instantiate(testPlayer, _levelService.CurrentLevel.playerSpawnPoint.position, Quaternion.identity);
@@ -51,7 +53,11 @@ namespace _Game.Scripts.Core
             });
         }
 
-        private void Update() => _hudController?.Tick();
+        private void Update()
+        {
+            _sessionService?.Tick(Time.deltaTime);
+            _hudController?.Tick();
+        }
 
         private void OnDestroy()
         {

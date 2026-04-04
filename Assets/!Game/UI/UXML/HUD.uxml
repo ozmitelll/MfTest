@@ -3,6 +3,11 @@
     <Style src="../USS/HUD.uss"/>
     <ui:VisualElement name="hud-root" picking-mode="Ignore" class="hud-root">
 
+        <ui:VisualElement name="timer-panel" class="timer-panel">
+            <ui:Label text="TIME" class="timer-label"/>
+            <ui:Label name="timer-text" class="timer-text" text="00:00"/>
+        </ui:VisualElement>
+
         <ui:VisualElement name="health-panel" class="health-panel">
             <ui:Label text="HP" class="health-label"/>
             <ui:VisualElement name="health-bar-bg" class="health-bar-bg">

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Configs.GameConfig
   stages:
   - {fileID: 11400000, guid: 679113226cc2ec24680c1b4bf3938d38, type: 2}
+  ModificationCardDatabase: {fileID: 11400000, guid: 9afc1dd2b06a6cc4aa22471de9ab9bec, type: 2}

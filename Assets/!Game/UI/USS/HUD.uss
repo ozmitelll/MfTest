@@ -4,6 +4,34 @@
     height: 100%;
 }
 
+.timer-panel {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    translate: -50% 0;
+    min-width: 120px;
+    background-color: rgba(15, 15, 26, 0.8);
+    border-radius: var(--border-radius);
+    border-width: 1px;
+    border-color: var(--color-secondary);
+    padding: 8px 14px 10px;
+    align-items: center;
+}
+
+.timer-label {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+}
+
+.timer-text {
+    font-size: 18px;
+    color: var(--color-text);
+    -unity-font-style: bold;
+}
+
 /* ── Health panel — bottom-left ── */
 .health-panel {
     position: absolute;

@@ -24,7 +24,7 @@ namespace _Game.Scripts.Core
 
         void OnPlayClicked()
         {
-            ServiceLocator.Instance.Get<SceneService>().LoadScene(SceneNames.Game,0);
+            ServiceLocator.Instance.Get<SessionService>().StartSession();
         }
 
         void OnQuitClicked()

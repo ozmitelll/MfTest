@@ -20,6 +20,7 @@ namespace _Game.Scripts.Core
             var sessionService = new SessionService();
             sessionService.SetGameConfig(_gameConfig);
             serviceLocator.Register(sessionService);
+            serviceLocator.Register(new ModificationCardDatabaseService(_gameConfig.ModificationCardDatabase));
 
             var sceneService = new SceneService(serviceLocator);
             serviceLocator.Register(sceneService);

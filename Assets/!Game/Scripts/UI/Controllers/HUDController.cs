@@ -1,5 +1,6 @@
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities.Player.Systems;
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,7 @@ namespace _Game.Scripts.UI.Controllers
         // ── Health ───────────────────────────────────────────────────────
         private readonly VisualElement _healthFill;
         private readonly Label         _healthText;
+        private readonly Label         _timerText;
 
         // ── Skills ───────────────────────────────────────────────────────
         private readonly VisualElement[] _skillIcons  = new VisualElement[4];
@@ -20,6 +22,7 @@ namespace _Game.Scripts.UI.Controllers
 
         public HUDController(VisualElement root)
         {
+            _timerText = root.Q<Label>("timer-text");
             _healthFill = root.Q("health-bar-fill");
             _healthText = root.Q<Label>("health-text");
 
@@ -51,8 +54,28 @@ namespace _Game.Scripts.UI.Controllers
                 _passiveIcon.style.backgroundImage = new StyleBackground(passive);
         }
 
-        public void Subscribe() => EventBus.Subscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
-        public void Dispose()   => EventBus.Unsubscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
+        public void Subscribe()
+        {
+            EventBus.Subscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
+            EventBus.Subscribe<OnTimerTickEvent>(OnTimerTick);
+        }
+
+        public void Dispose()
+        {
+            EventBus.Unsubscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
+            EventBus.Unsubscribe<OnTimerTickEvent>(OnTimerTick);
+        }
+
+        public void SetTimer(float timeSeconds)
+        {
+            if (_timerText == null)
+                return;
+
+            TimeSpan elapsed = TimeSpan.FromSeconds(Mathf.Max(0f, timeSeconds));
+            _timerText.text = elapsed.TotalHours >= 1d
+                ? $"{(int)elapsed.TotalHours:00}:{elapsed.Minutes:00}:{elapsed.Seconds:00}"
+                : $"{elapsed.Minutes:00}:{elapsed.Seconds:00}";
+        }
 
         // Вызывается каждый кадр из GameBootstrap.Update()
         public void Tick()
@@ -75,5 +98,7 @@ namespace _Game.Scripts.UI.Controllers
             _healthFill.style.width = Length.Percent(pct * 100f);
             _healthText.text = $"{Mathf.CeilToInt(evt.Current)} / {Mathf.CeilToInt(evt.Max)}";
         }
+
+        private void OnTimerTick(OnTimerTickEvent evt) => SetTimer(evt.Time);
     }
 }

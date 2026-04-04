@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationCardDefinition
   _id: 1
   _displayName: Increase Damage
+  _rarity: 2
+  _cardType: 1
   _rank: 1
   _installCost: 2
   _description: Increase Damage
