@@ -1,0 +1,12 @@
+.cursor-root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.cursor {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+}

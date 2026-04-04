@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../USS/Common.uss"/>
+    <Style src="../USS/HUD.uss"/>
+    <ui:VisualElement name="hud-root" picking-mode="Ignore" class="hud-root">
+
+        <ui:VisualElement name="health-panel" class="health-panel">
+            <ui:Label text="HP" class="health-label"/>
+            <ui:VisualElement name="health-bar-bg" class="health-bar-bg">
+                <ui:VisualElement name="health-bar-fill" class="health-bar-fill"/>
+            </ui:VisualElement>
+            <ui:Label name="health-text" class="health-text" text="— / —"/>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

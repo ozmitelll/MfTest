@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8283402746977126412}
   - component: {fileID: 4133069552373077687}
+  - component: {fileID: -5216329550504973019}
   - component: {fileID: 8357369456277282854}
   - component: {fileID: 8992920512455885696}
   m_Layer: 0
@@ -47,7 +48,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a91ad9217854c73b0aff199ceee6216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Player
+  HealthSystem: {fileID: -5216329550504973019}
+  config: {fileID: 11400000, guid: f930c15afecf35d40869645e2ccbac26, type: 2}
   _movementSystem: {fileID: 8357369456277282854}
+--- !u!114 &-5216329550504973019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036613480237024420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96ee0fca2d838fb4d9d7b75d001af6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Systems.Health.HealthSystem
 --- !u!114 &8357369456277282854
 MonoBehaviour:
   m_ObjectHideFlags: 0

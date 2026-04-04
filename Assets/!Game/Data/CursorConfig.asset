@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf832f2ba9a778248a3d4e49b9fa36e9, type: 3}
+  m_Name: CursorConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Configs.CursorConfig
+  Texture: {fileID: 5866165431930342980, guid: e1883b17ac644b245b69fac1c6018a9c, type: 3}
+  Hotspot: {x: 16, y: 16}
+  Size: {x: 32, y: 32}

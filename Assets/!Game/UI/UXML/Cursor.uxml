@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/Cursor.uss"/>
+    <ui:VisualElement name="cursor-root" picking-mode="Ignore" class="cursor-root">
+        <ui:VisualElement name="cursor" picking-mode="Ignore" class="cursor"/>
+    </ui:VisualElement>
+</ui:UXML>

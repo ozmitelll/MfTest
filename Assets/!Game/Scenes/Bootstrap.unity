@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Core.Bootstrap
   serviceLocatorPrefab: {fileID: 7918138448647279240, guid: 50368a3da773b5e4c961879fc0e04877, type: 3}
   _gameConfig: {fileID: 11400000, guid: ab9f90af4ba300e459a9b1068fd0735a, type: 2}
+  _cursorControllerPrefab: {fileID: 6055388424200478384, guid: 4bea3d724e9b14a419b0f2bce060f9cc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
