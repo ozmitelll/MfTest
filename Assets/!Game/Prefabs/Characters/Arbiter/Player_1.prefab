@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 8283402746977126412}
   - component: {fileID: 4133069552373077687}
   - component: {fileID: -5216329550504973019}
+  - component: {fileID: -5613544498213944258}
   - component: {fileID: 8357369456277282854}
+  - component: {fileID: 9014751891681568719}
   - component: {fileID: 8992920512455885696}
   m_Layer: 0
   m_Name: Player_1
@@ -49,8 +51,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Player
   HealthSystem: {fileID: -5216329550504973019}
-  config: {fileID: 11400000, guid: f930c15afecf35d40869645e2ccbac26, type: 2}
+  StatsSystem: {fileID: -5613544498213944258}
   _movementSystem: {fileID: 8357369456277282854}
+  _skillSystem: {fileID: 9014751891681568719}
+  config: {fileID: 11400000, guid: f930c15afecf35d40869645e2ccbac26, type: 2}
 --- !u!114 &-5216329550504973019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +67,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ee0fca2d838fb4d9d7b75d001af6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Systems.Health.HealthSystem
+--- !u!114 &-5613544498213944258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036613480237024420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04666f7d73c28af4e829890bf8c12322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Stats.StatsSystem
 --- !u!114 &8357369456277282854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +91,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1506f9321add446b9e29afc2d84d7309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Systems.PlayerMovementSystem
+--- !u!114 &9014751891681568719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036613480237024420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc3cc141f36b8a419f7346eb43c1930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Systems.PlayerSkillSystem
+  _skill1: {fileID: 11400000, guid: fa6181a4151f0d24fa1078d948c77e7d, type: 2}
+  _skill2: {fileID: 0}
+  _skill3: {fileID: 11400000, guid: 59ea7067f45724f4899ad22a28dae316, type: 2}
+  _skill4: {fileID: 0}
+  _passive: {fileID: 0}
 --- !u!143 &8992920512455885696
 CharacterController:
   m_ObjectHideFlags: 0

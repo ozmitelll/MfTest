@@ -8,6 +8,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
     public class Player : Entity
     {
         [SerializeField] private PlayerMovementSystem _movementSystem;
+        [SerializeField] private PlayerSkillSystem   _skillSystem;
         public PlayerConfig config;
 
         private InputSystem_Actions _input;
@@ -15,8 +16,10 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         private void Awake()
         {
             _input = new InputSystem_Actions();
-            _movementSystem.Initialize(_input.Player, config);
-            HealthSystem.Initialize(config.MaxHealth);
+            StatsSystem.Initialize(config);
+            HealthSystem.Initialize(StatsSystem.MaxHealth.Value);
+            _movementSystem.Initialize(_input.Player, StatsSystem);
+            _skillSystem.Initialize(_input.Player, this);
         }
 
         private void OnEnable()

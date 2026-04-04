@@ -19,6 +19,6 @@ MonoBehaviour:
   ElementalResistance: 0
   AttackDamage: 10
   AttackRange: 2
-  AttackRate: 1
+  AttackRate: 5
   AttackDamageType: 0
   GameplayCursor: {fileID: 11400000, guid: fbe6253f252254547b01ed0441058404, type: 2}

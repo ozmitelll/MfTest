@@ -1,4 +1,4 @@
-namespace _Game.Scripts.Systems.Combat
+namespace _Game.Scripts.Gameplay.Systems.Combat
 {
     public enum DamageType
     {

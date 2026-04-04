@@ -1,4 +1,4 @@
-using _Game.Scripts.Systems.Combat;
+using _Game.Scripts.Gameplay.Systems.Combat;
 using UnityEngine;
 
 namespace _Game.Scripts.Configs
