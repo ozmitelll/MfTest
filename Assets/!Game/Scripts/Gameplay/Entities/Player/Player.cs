@@ -11,6 +11,8 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         [SerializeField] private PlayerSkillSystem   _skillSystem;
         public PlayerConfig config;
 
+        public PlayerSkillSystem SkillSystem => _skillSystem;
+
         private InputSystem_Actions _input;
 
         private void Awake()

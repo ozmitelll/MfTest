@@ -82,6 +82,10 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         public float GetCooldownRatio(int slot) =>
             _maxCooldowns[slot] > 0f ? Mathf.Clamp01(_cooldowns[slot] / _maxCooldowns[slot]) : 0f;
 
+        public float  GetRemainingCooldown(int slot) => Mathf.Max(0f, _cooldowns[slot]);
+        public Sprite GetSkillIcon(int slot)          => GetSkill(slot)?.Icon;
+        public Sprite GetPassiveIcon()                => _passive?.Icon;
+
         private ActiveSkill GetSkill(int slot) => slot switch
         {
             0 => _skill1, 1 => _skill2, 2 => _skill3, 3 => _skill4, _ => null

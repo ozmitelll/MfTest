@@ -32,13 +32,16 @@ namespace _Game.Scripts.Core
             ServiceLocator.Instance.Get<CursorService>().SetCursor(testPlayer.config.GameplayCursor);
             cameraController.SetTarget(player.transform);
 
-            // Публикуем начальное состояние здоровья чтобы HUD заполнился сразу
+            _hudController.SetSkillSystem(player.SkillSystem);
+
             EventBus.Publish(new OnPlayerHealthChangedEvent
             {
                 Current = player.HealthSystem.CurrentHealth,
                 Max     = player.HealthSystem.MaxHealth
             });
         }
+
+        private void Update() => _hudController?.Tick();
 
         private void OnDestroy() => _hudController?.Dispose();
     }

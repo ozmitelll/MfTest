@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7495503625549773050}
   - component: {fileID: 1998012037388828399}
   - component: {fileID: 8269492657054898504}
+  - component: {fileID: 379329225167579793}
   - component: {fileID: 6079183383983146259}
   - component: {fileID: 4233572017106506380}
   m_Layer: 0
@@ -76,6 +77,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04666f7d73c28af4e829890bf8c12322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Stats.StatsSystem
+--- !u!114 &379329225167579793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d3a67da35d23d4baa5339631991fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.EnemyHealthBar
+  _worldOffset: {x: 0, y: 2.2, z: 0}
+  _template: {fileID: 9197481963319205126, guid: 9c6f2c10aa7d57f48a61aab1d12b9396, type: 3}
 --- !u!136 &6079183383983146259
 CapsuleCollider:
   m_ObjectHideFlags: 0

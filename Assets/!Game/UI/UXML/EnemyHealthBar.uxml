@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../USS/EnemyHealthBar.uss"/>
+    <ui:VisualElement name="enemy-health-bar" class="enemy-health-bar">
+        <ui:VisualElement name="enemy-health-bar__fill" class="enemy-health-bar__fill"/>
+    </ui:VisualElement>
+</ui:UXML>

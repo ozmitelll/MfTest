@@ -11,5 +11,51 @@
             <ui:Label name="health-text" class="health-text" text="— / —"/>
         </ui:VisualElement>
 
+        <!-- ── Skill bar ── -->
+        <ui:VisualElement name="skill-bar" class="skill-bar">
+
+            <!-- LMB — без кулдауна -->
+            <ui:VisualElement class="skill-slot">
+                <ui:VisualElement name="skill-icon-0" class="skill-icon"/>
+                <ui:Label text="LMB" class="skill-key-label"/>
+            </ui:VisualElement>
+
+            <!-- RMB -->
+            <ui:VisualElement class="skill-slot">
+                <ui:VisualElement name="skill-icon-1" class="skill-icon">
+                    <ui:VisualElement name="skill-cd-overlay-1" class="skill-cd-overlay"/>
+                    <ui:Label name="skill-cd-text-1" class="skill-cd-text"/>
+                </ui:VisualElement>
+                <ui:Label text="RMB" class="skill-key-label"/>
+            </ui:VisualElement>
+
+            <!-- Space -->
+            <ui:VisualElement class="skill-slot">
+                <ui:VisualElement name="skill-icon-2" class="skill-icon">
+                    <ui:VisualElement name="skill-cd-overlay-2" class="skill-cd-overlay"/>
+                    <ui:Label name="skill-cd-text-2" class="skill-cd-text"/>
+                </ui:VisualElement>
+                <ui:Label text="SPACE" class="skill-key-label"/>
+            </ui:VisualElement>
+
+            <!-- G -->
+            <ui:VisualElement class="skill-slot">
+                <ui:VisualElement name="skill-icon-3" class="skill-icon">
+                    <ui:VisualElement name="skill-cd-overlay-3" class="skill-cd-overlay"/>
+                    <ui:Label name="skill-cd-text-3" class="skill-cd-text"/>
+                </ui:VisualElement>
+                <ui:Label text="G" class="skill-key-label"/>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="skill-bar-divider"/>
+
+            <!-- Passive -->
+            <ui:VisualElement class="skill-slot skill-slot--passive">
+                <ui:VisualElement name="skill-icon-passive" class="skill-icon"/>
+                <ui:Label text="PASSIVE" class="skill-key-label"/>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>
