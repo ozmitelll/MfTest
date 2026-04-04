@@ -1,4 +1,5 @@
 using _Game.Scripts.Gameplay.Entities.Player;
+using _Game.Scripts.Gameplay.Director;
 using _Game.Scripts.Gameplay.TopDownCamera;
 using _Game.Scripts.Services;
 using _Game.Scripts.UI.Controllers;
@@ -16,6 +17,7 @@ namespace _Game.Scripts.Core
         private SessionService _sessionService;
         private LevelService _levelService;
         private HUDController _hudController;
+        private DirectorSystem _directorSystem;
 
         private void Awake()
         {
@@ -44,6 +46,13 @@ namespace _Game.Scripts.Core
             ServiceLocator.Instance.Get<CursorService>().SetCursor(testPlayer.config.GameplayCursor);
             cameraController.SetTarget(player.transform);
 
+            _directorSystem = new DirectorSystem(
+                _sessionService.GameConfig,
+                _sessionService,
+                _levelService,
+                ServiceLocator.Instance.Get<PlayerService>());
+            _directorSystem.Initialize();
+
             _hudController.SetSkillSystem(player.SkillSystem);
 
             EventBus.Publish(new OnPlayerHealthChangedEvent
@@ -56,11 +65,13 @@ namespace _Game.Scripts.Core
         private void Update()
         {
             _sessionService?.Tick(Time.deltaTime);
+            _directorSystem?.Tick(Time.deltaTime);
             _hudController?.Tick();
         }
 
         private void OnDestroy()
         {
+            _directorSystem?.Dispose();
             _hudController?.Dispose();
         }
     }

@@ -10,6 +10,7 @@ namespace _Game.Scripts.Services
     public class LevelService : IService
     {
         public Level CurrentLevel { get; private set; }
+        public LevelConfig CurrentLevelConfig { get; private set; }
         public event Action<Level> OnLevelLoaded;
         public event Action OnLevelUnloaded;
 
@@ -18,7 +19,9 @@ namespace _Game.Scripts.Services
             UnloadLevel();
             
             var levelCfg = stage.Levels[Random.Range(0, stage.Levels.Length)];
+            CurrentLevelConfig = levelCfg;
             CurrentLevel = Object.Instantiate(levelCfg.LevelPrefab);
+            CurrentLevel.Initialize(levelCfg);
             OnLevelLoaded?.Invoke(CurrentLevel);
         }
 
@@ -28,6 +31,7 @@ namespace _Game.Scripts.Services
             
             Object.Destroy(CurrentLevel.gameObject);
             CurrentLevel = null;
+            CurrentLevelConfig = null;
             OnLevelUnloaded?.Invoke();
         }
     }

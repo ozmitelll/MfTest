@@ -199,6 +199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Level
   playerSpawnPoint: {fileID: 6403886097189859112}
+  _directorSpawnSurfaces:
+  - {fileID: 1314295121392806624}
 --- !u!1001 &1054464120767077243
 PrefabInstance:
   m_ObjectHideFlags: 0

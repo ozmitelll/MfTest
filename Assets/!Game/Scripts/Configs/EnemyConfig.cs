@@ -9,6 +9,9 @@ namespace _Game.Scripts.Configs
         public float DetectionRange = 10f;
         public float AggroRange     = 15f;
 
+        [Header("Director")]
+        [Min(1f)] public float DirectorCost = 10f;
+
         [Header("Rewards")]
         public int CoinDrop = 5;
     }

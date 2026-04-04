@@ -11,6 +11,7 @@ namespace _Game.Scripts.Services
         public float ElapsedTime { get; private set; }
         public int CurrentDifficultyLevel { get; private set; }
         public bool IsSessionActive { get; private set; }
+        public GameConfig GameConfig => _gameConfig;
         
         private GameConfig _gameConfig;
         private float _nextTimerTickTime;
