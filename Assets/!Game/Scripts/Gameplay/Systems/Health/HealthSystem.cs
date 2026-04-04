@@ -1,10 +1,13 @@
 using System;
+using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Systems.Health
 {
     public class HealthSystem : MonoBehaviour
     {
+        private StatusEffectSystem _statusEffectSystem;
+
         public float CurrentHealth { get; private set; }
         public float MaxHealth     { get; private set; }
         public bool  IsDead        { get; private set; }
@@ -36,7 +39,17 @@ namespace _Game.Scripts.Gameplay.Systems.Health
         {
             if (IsDead || amount <= 0f) return;
 
-            CurrentHealth = Mathf.Max(0f, CurrentHealth - amount);
+            _statusEffectSystem ??= GetComponent<StatusEffectSystem>();
+
+            float finalDamage = _statusEffectSystem != null
+                ? _statusEffectSystem.ModifyIncomingDamage(amount)
+                : amount;
+
+            if (_statusEffectSystem != null &&
+                _statusEffectSystem.ShouldIgnoreIncomingDamage(finalDamage, CurrentHealth))
+                return;
+
+            CurrentHealth = Mathf.Max(0f, CurrentHealth - finalDamage);
             OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
             if (CurrentHealth == 0f)

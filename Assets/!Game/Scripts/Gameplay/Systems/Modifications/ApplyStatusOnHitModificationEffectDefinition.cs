@@ -1,42 +1,36 @@
-using System;
 using _Game.Scripts.Gameplay.Entities;
 using _Game.Scripts.Gameplay.Skills;
+using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Systems.Modifications
 {
-    [Serializable]
-    public class SkillContextModificationEffectDefinition : ModificationEffectDefinition
+    [System.Serializable]
+    public class ApplyStatusOnHitModificationEffectDefinition : ModificationEffectDefinition
     {
         [SerializeField] private SkillTargetMask _targets = SkillTargetMask.AllActive;
-        [SerializeField] private SkillModifierValueType _valueType;
-        [SerializeField] private float _value;
+        [SerializeField] private StatusEffectDefinition _statusEffect;
+        [SerializeField] [Min(1)] private int _stacksToApply = 1;
+        [SerializeField] [Min(0f)] private float _durationOverride;
 
         public override bool AppliesOnInstall => false;
 
         public override bool CanModifySkill(SkillSlot skillSlot) =>
-            skillSlot != SkillSlot.None && (_targets & ToMask(skillSlot)) != 0;
+            _statusEffect != null &&
+            skillSlot != SkillSlot.None &&
+            (_targets & ToMask(skillSlot)) != 0;
 
         public override void ModifySkillContext(Entity entity, ref SkillContext context)
         {
-            switch (_valueType)
+            if (_statusEffect == null)
+                return;
+
+            context.AddOutgoingStatus(new OutgoingStatusRequest
             {
-                case SkillModifierValueType.DamageFlat:
-                    context.FlatDamageBonus += _value;
-                    break;
-
-                case SkillModifierValueType.DamagePercent:
-                    context.DamageMultiplier += _value;
-                    break;
-
-                case SkillModifierValueType.CooldownPercent:
-                    context.CooldownMultiplier += _value;
-                    break;
-
-                case SkillModifierValueType.ProjectileSpeedPercent:
-                    context.ProjectileSpeedMultiplier += _value;
-                    break;
-            }
+                Definition = _statusEffect,
+                DurationOverride = _durationOverride,
+                StackCount = _stacksToApply
+            });
         }
 
         public override void Apply(Entity entity) { }

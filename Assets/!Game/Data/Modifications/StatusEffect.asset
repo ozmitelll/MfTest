@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b8619811f403764eba3be36525c0807, type: 3}
+  m_Name: StatusEffect
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.StatusEffects.StatusEffectDefinition
+  _id: status_1
+  _displayName: Fire
+  _description: 
+  _defaultDuration: 3
+  _stackingMode: 1
+  _maxStacks: 10
+  _restartTickOnReapply: 1
+  _tickMode: 1
+  _fixedTickInterval: 0.5
+  _flatDamagePerSecond: 15
+  _sourceDamagePercentPerSecond: 0
+  _targetCurrentHealthPercentPerSecond: 0
+  _blocksMovement: 0
+  _blocksSkills: 0
+  _ignoreNonLethalDamage: 0
+  _moveSpeedPercentPerStack: 0
+  _moveSpeedStackingMode: 0
+  _incomingDamageTakenPercentPerStack: 0

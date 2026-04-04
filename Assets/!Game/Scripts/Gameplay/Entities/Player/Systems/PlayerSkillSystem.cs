@@ -1,5 +1,6 @@
 using _Game.Scripts.Gameplay.Entities;
 using _Game.Scripts.Gameplay.Skills;
+using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         private InputSystem_Actions.PlayerActions _actions;
         private Entity _owner;
         private Camera _camera;
+        private StatusEffectSystem _statusEffects;
         private bool   _initialized;
 
         public void Initialize(InputSystem_Actions.PlayerActions actions, Entity owner)
@@ -28,6 +30,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
             _actions     = actions;
             _owner       = owner;
             _camera      = Camera.main;
+            _statusEffects = owner.StatusEffectSystem;
             _initialized = true;
             _passive?.OnApply(owner);
 
@@ -77,6 +80,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         private void TryActivate(int slot, ActiveSkill skill, SkillSlot skillSlot)
         {
             if (skill == null || _cooldowns[slot] > 0f) return;
+            if (_statusEffects?.BlocksSkills == true) return;
 
             var ctx = BuildContext(skillSlot);
             if (!skill.CanActivate(ctx)) return;

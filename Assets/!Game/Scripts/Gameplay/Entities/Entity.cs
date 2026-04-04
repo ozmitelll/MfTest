@@ -2,6 +2,7 @@
 using _Game.Scripts.Configs;
 using _Game.Scripts.Gameplay.Systems.Health;
 using _Game.Scripts.Gameplay.Systems.Modifications;
+using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using _Game.Scripts.Gameplay.Systems.Stats;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace _Game.Scripts.Gameplay.Entities
         [SerializeField] private StatsSystem _statsSystem;
         [SerializeField] private ModificationInventory _modificationInventory;
         [SerializeField] private ModificationLoadoutSystem _modificationLoadoutSystem;
+        [SerializeField] private StatusEffectSystem _statusEffectSystem;
 
         public HealthSystem HealthSystem =>
             _healthSystem != null ? _healthSystem : _healthSystem = GetComponent<HealthSystem>() ?? gameObject.AddComponent<HealthSystem>();
@@ -30,6 +32,11 @@ namespace _Game.Scripts.Gameplay.Entities
                 ? _modificationLoadoutSystem
                 : _modificationLoadoutSystem = GetComponent<ModificationLoadoutSystem>() ?? gameObject.AddComponent<ModificationLoadoutSystem>();
 
+        public StatusEffectSystem StatusEffectSystem =>
+            _statusEffectSystem != null
+                ? _statusEffectSystem
+                : _statusEffectSystem = GetComponent<StatusEffectSystem>() ?? gameObject.AddComponent<StatusEffectSystem>();
+
         protected void InitializeEntity(EntityConfig config)
         {
             if (config == null)
@@ -37,6 +44,7 @@ namespace _Game.Scripts.Gameplay.Entities
 
             StatsSystem.Initialize(config);
             HealthSystem.Initialize(StatsSystem.MaxHealth.Value);
+            StatusEffectSystem.Initialize(this);
             ModificationInventory.Clear();
             ModificationLoadoutSystem.Initialize(this, ModificationInventory, config.ModificationCapacity);
 

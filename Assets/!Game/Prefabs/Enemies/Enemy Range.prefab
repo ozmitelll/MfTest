@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7618672927219161959}
   - component: {fileID: 7495503625549773050}
   - component: {fileID: 1998012037388828399}
+  - component: {fileID: 2220633442589817347}
   - component: {fileID: 8269492657054898504}
   - component: {fileID: 379329225167579793}
   - component: {fileID: 2809075539112830778}
@@ -56,6 +57,7 @@ MonoBehaviour:
   _statsSystem: {fileID: 8269492657054898504}
   _modificationInventory: {fileID: 338320203155040176}
   _modificationLoadoutSystem: {fileID: 2809075539112830778}
+  _statusEffectSystem: {fileID: 2220633442589817347}
   Config: {fileID: 11400000, guid: d113ae467ace1d8458848a6fdf428a30, type: 2}
 --- !u!114 &1998012037388828399
 MonoBehaviour:
@@ -69,6 +71,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ee0fca2d838fb4d9d7b75d001af6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Health.HealthSystem
+--- !u!114 &2220633442589817347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b4779927dd58046aeee11e79e2d0c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.StatusEffects.StatusEffectSystem
 --- !u!114 &8269492657054898504
 MonoBehaviour:
   m_ObjectHideFlags: 0

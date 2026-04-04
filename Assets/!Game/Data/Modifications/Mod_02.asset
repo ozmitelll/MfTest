@@ -21,6 +21,7 @@ MonoBehaviour:
   - rid: 2762187703343907183
   - rid: 2762187703343907184
   - rid: 2762187703343907190
+  - rid: 2762187703343907199
   references:
     version: 2
     RefIds:
@@ -42,3 +43,10 @@ MonoBehaviour:
         _statType: 0
         _mode: 0
         _value: -20
+    - rid: 2762187703343907199
+      type: {class: ApplyStatusOnHitModificationEffectDefinition, ns: _Game.Scripts.Gameplay.Systems.Modifications, asm: Assembly-CSharp}
+      data:
+        _targets: 1
+        _statusEffect: {fileID: 11400000, guid: e79ac28fe28d740488007e724732dbb1, type: 2}
+        _stacksToApply: 1
+        _durationOverride: 0

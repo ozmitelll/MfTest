@@ -1,10 +1,11 @@
+using System;
 using _Game.Scripts.Gameplay.Entities;
 using _Game.Scripts.Gameplay.Systems.Stats;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Systems.Modifications
 {
-    [CreateAssetMenu(fileName = "StatModificationEffect", menuName = "Modfall/Modifications/Stat Effect")]
+    [Serializable]
     public class StatModificationEffectDefinition : ModificationEffectDefinition
     {
         [SerializeField] private StatType _statType;
