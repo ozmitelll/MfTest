@@ -13,7 +13,8 @@ namespace _Game.Scripts.Gameplay.Skills
         public override float GetCooldown(SkillContext ctx)
         {
             var rate = ctx.Owner.StatsSystem.AttackRate.Value;
-            return rate > 0f ? 1f / rate : Cooldown;
+            float baseCooldown = rate > 0f ? 1f / rate : Cooldown;
+            return ctx.ResolveCooldown(baseCooldown);
         }
 
         public override void Activate(SkillContext ctx)
@@ -24,8 +25,8 @@ namespace _Game.Scripts.Gameplay.Skills
             var proj = go.GetComponent<Projectile>();
             proj.Launch(
                 ctx.AimDirection,
-                ctx.Owner.StatsSystem.AttackDamage.Value,
-                ProjectileSpeed,
+                ctx.ResolveDamage(ctx.Owner.StatsSystem.AttackDamage.Value),
+                ctx.ResolveProjectileSpeed(ProjectileSpeed),
                 ctx.Owner
             );
         }

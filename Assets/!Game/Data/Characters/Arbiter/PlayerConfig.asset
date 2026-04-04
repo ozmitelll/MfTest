@@ -25,4 +25,6 @@ MonoBehaviour:
   StartingModifications:
   - _card: {fileID: 11400000, guid: 2714cc02b94082443bcd07defe1164e3, type: 2}
     _installOnStart: 1
+  - _card: {fileID: 11400000, guid: 7b281cca1044ea346bd0985a156b3b8b, type: 2}
+    _installOnStart: 0
   GameplayCursor: {fileID: 11400000, guid: fbe6253f252254547b01ed0441058404, type: 2}

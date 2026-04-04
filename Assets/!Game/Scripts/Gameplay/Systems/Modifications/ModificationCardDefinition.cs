@@ -11,7 +11,7 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
         [SerializeField] [Min(1)] private int _rank = 1;
         [SerializeField] [Min(0)] private int _installCost = 1;
         [SerializeField] [TextArea] private string _description;
-        [SerializeField] private ModificationEffectDefinition[] _effects;
+        [SerializeReference] private ModificationEffectDefinition[] _effects;
 
         public string Id => _id;
         public string DisplayName => string.IsNullOrWhiteSpace(_displayName) ? name : _displayName;

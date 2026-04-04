@@ -63,22 +63,22 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
                 if (_cooldowns[i] > 0f)
                     _cooldowns[i] -= Time.deltaTime;
 
-            if (_skill1 is { HoldToRepeat: true } && _actions.Skill1.IsPressed()) TryActivate(0, _skill1);
-            if (_skill2 is { HoldToRepeat: true } && _actions.Skill2.IsPressed()) TryActivate(1, _skill2);
-            if (_skill3 is { HoldToRepeat: true } && _actions.Skill3.IsPressed()) TryActivate(2, _skill3);
-            if (_skill4 is { HoldToRepeat: true } && _actions.Skill4.IsPressed()) TryActivate(3, _skill4);
+            if (_skill1 is { HoldToRepeat: true } && _actions.Skill1.IsPressed()) TryActivate(0, _skill1, SkillSlot.Skill1);
+            if (_skill2 is { HoldToRepeat: true } && _actions.Skill2.IsPressed()) TryActivate(1, _skill2, SkillSlot.Skill2);
+            if (_skill3 is { HoldToRepeat: true } && _actions.Skill3.IsPressed()) TryActivate(2, _skill3, SkillSlot.Skill3);
+            if (_skill4 is { HoldToRepeat: true } && _actions.Skill4.IsPressed()) TryActivate(3, _skill4, SkillSlot.Skill4);
         }
 
-        private void OnSkill1(InputAction.CallbackContext _) => TryActivate(0, _skill1);
-        private void OnSkill2(InputAction.CallbackContext _) => TryActivate(1, _skill2);
-        private void OnSkill3(InputAction.CallbackContext _) => TryActivate(2, _skill3);
-        private void OnSkill4(InputAction.CallbackContext _) => TryActivate(3, _skill4);
+        private void OnSkill1(InputAction.CallbackContext _) => TryActivate(0, _skill1, SkillSlot.Skill1);
+        private void OnSkill2(InputAction.CallbackContext _) => TryActivate(1, _skill2, SkillSlot.Skill2);
+        private void OnSkill3(InputAction.CallbackContext _) => TryActivate(2, _skill3, SkillSlot.Skill3);
+        private void OnSkill4(InputAction.CallbackContext _) => TryActivate(3, _skill4, SkillSlot.Skill4);
 
-        private void TryActivate(int slot, ActiveSkill skill)
+        private void TryActivate(int slot, ActiveSkill skill, SkillSlot skillSlot)
         {
             if (skill == null || _cooldowns[slot] > 0f) return;
 
-            var ctx = BuildContext();
+            var ctx = BuildContext(skillSlot);
             if (!skill.CanActivate(ctx)) return;
 
             skill.Activate(ctx);
@@ -100,15 +100,22 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
             0 => _skill1, 1 => _skill2, 2 => _skill3, 3 => _skill4, _ => null
         };
 
-        private SkillContext BuildContext()
+        private SkillContext BuildContext(SkillSlot skillSlot)
         {
             var aim = GetAimPosition();
-            return new SkillContext
+            SkillContext context = new SkillContext
             {
                 Owner        = _owner,
+                SkillSlot    = skillSlot,
                 AimPosition  = aim,
-                AimDirection = (aim - _owner.transform.position).normalized
+                AimDirection = (aim - _owner.transform.position).normalized,
+                DamageMultiplier = 1f,
+                CooldownMultiplier = 1f,
+                ProjectileSpeedMultiplier = 1f
             };
+
+            _owner.ModificationLoadoutSystem.ApplySkillModifiers(ref context);
+            return context;
         }
 
         private Vector3 GetAimPosition()

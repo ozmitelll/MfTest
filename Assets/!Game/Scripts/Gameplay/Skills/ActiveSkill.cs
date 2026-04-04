@@ -10,7 +10,7 @@ namespace _Game.Scripts.Gameplay.Skills
 
         public virtual bool  CanActivate(SkillContext ctx) => true;
         // Переопредели чтобы считать кулдаун из стата владельца (например 1/AttackRate)
-        public virtual float GetCooldown(SkillContext ctx) => Cooldown;
+        public virtual float GetCooldown(SkillContext ctx) => ctx.ResolveCooldown(Cooldown);
 
         public abstract void Activate(SkillContext ctx);
     }

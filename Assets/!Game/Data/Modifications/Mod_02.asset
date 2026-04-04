@@ -10,21 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb73fef38a250c0448b1fc9ef4cd215d, type: 3}
-  m_Name: Mod_01
+  m_Name: Mod_02
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationCardDefinition
   _id: 1
-  _displayName: Move Speed
+  _displayName: Increase Damage
   _rank: 1
   _installCost: 2
-  _description: Increase Mod Stat
+  _description: Increase Damage
   _effects:
-  - rid: 2762187703343907182
+  - rid: 2762187703343907183
+  - rid: 2762187703343907184
+  - rid: 2762187703343907190
   references:
     version: 2
     RefIds:
-    - rid: 2762187703343907182
+    - rid: 2762187703343907183
+      type: {class: SkillContextModificationEffectDefinition, ns: _Game.Scripts.Gameplay.Systems.Modifications, asm: Assembly-CSharp}
+      data:
+        _targets: 1
+        _valueType: 0
+        _value: 10
+    - rid: 2762187703343907184
       type: {class: StatModificationEffectDefinition, ns: _Game.Scripts.Gameplay.Systems.Modifications, asm: Assembly-CSharp}
       data:
         _statType: 1
         _mode: 0
         _value: 5
+    - rid: 2762187703343907190
+      type: {class: StatModificationEffectDefinition, ns: _Game.Scripts.Gameplay.Systems.Modifications, asm: Assembly-CSharp}
+      data:
+        _statType: 0
+        _mode: 0
+        _value: -20

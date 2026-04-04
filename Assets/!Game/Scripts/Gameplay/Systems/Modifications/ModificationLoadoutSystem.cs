@@ -1,6 +1,7 @@
 using System.Linq;
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Skills;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Systems.Modifications
@@ -216,6 +217,26 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
             return true;
         }
 
+        public void ApplySkillModifiers(ref SkillContext context)
+        {
+            if (_entity == null)
+                return;
+
+            foreach (ModificationCardInstance card in _slots)
+            {
+                if (card?.Definition == null)
+                    continue;
+
+                foreach (ModificationEffectDefinition effect in card.Definition.Effects)
+                {
+                    if (effect == null || !effect.CanModifySkill(context.SkillSlot))
+                        continue;
+
+                    effect.ModifySkillContext(_entity, ref context);
+                }
+            }
+        }
+
         public void ClearInstalledCards()
         {
             for (int i = 0; i < _slots.Length; i++)
@@ -241,6 +262,9 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                     continue;
                 }
 
+                if (!effect.AppliesOnInstall)
+                    continue;
+
                 effect.Apply(_entity);
             }
         }
@@ -254,6 +278,9 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                     Debug.LogWarning($"[{nameof(ModificationLoadoutSystem)}] Card '{card.Definition.DisplayName}' has a null effect reference.", this);
                     continue;
                 }
+
+                if (!effect.AppliesOnInstall)
+                    continue;
 
                 effect.Remove(_entity);
             }
