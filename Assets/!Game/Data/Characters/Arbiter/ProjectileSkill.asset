@@ -17,5 +17,5 @@ MonoBehaviour:
   Description: 
   Cooldown: 0
   HoldToRepeat: 1
-  ProjectilePrefab: {fileID: 3378190024152503162, guid: 3f77575ca048512468c28ae7ccf789f2, type: 3}
+  ProjectilePrefab: {fileID: 2916712458531833162, guid: b6422cb81fc7d01438cfb19f935d7584, type: 3}
   ProjectileSpeed: 15

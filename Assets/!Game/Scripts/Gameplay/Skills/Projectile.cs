@@ -33,8 +33,9 @@ namespace _Game.Scripts.Gameplay.Skills
         {
             var entity = other.GetComponent<Entity>();
             if (entity == null || entity == _owner) return;
-
+            
             entity.HealthSystem.TakeDamage(_damage);
+            Debug.Log(entity.name);
             Destroy(gameObject);
         }
     }

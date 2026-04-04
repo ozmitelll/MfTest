@@ -10,8 +10,10 @@ namespace _Game.Scripts.Core
     public struct OnPlayerDiedEvent { }
 
     // --- Enemy ---
-    // OnEnemyDiedEvent будет добавлен когда появится класс Enemy
-    // public struct OnEnemyDiedEvent { public Enemy Enemy; }
+    public struct OnEnemyDiedEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Enemy.Enemy Enemy;
+    }
 
     // --- Session ---
     public struct OnSessionEndedEvent { }
