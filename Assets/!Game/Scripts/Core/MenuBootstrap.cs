@@ -13,7 +13,7 @@ namespace _Game.Scripts.Core
         // private SettingsView _settingsView;
         // private CharacterSelectView _characterSelectView;
 
-        private void Awake()
+        private void Start()
         {
             var root = _document.rootVisualElement;
             _menuView = new MenuView(root.Q("main-menu-panel"));

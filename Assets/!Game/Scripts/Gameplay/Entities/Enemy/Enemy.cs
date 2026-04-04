@@ -6,7 +6,7 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy
 {
     public class Enemy : Entity
     {
-        [SerializeField] public EnemyConfig Config;
+        public EnemyConfig Config;
 
         private void Awake()
         {

@@ -31,4 +31,9 @@ namespace _Game.Scripts.Core
 
     // --- Level ---
     public struct OnPortalChargedEvent { }
+
+    public struct OnChestOpenedEvent
+    {
+        public _Game.Scripts.Gameplay.Interactables.Chest Chest;
+    }
 }

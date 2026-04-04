@@ -17,6 +17,11 @@ namespace _Game.Scripts.Core
         private LevelService   _levelService;
         private HUDController  _hudController;
 
+        private void Awake()
+        {
+            ServiceLocator.Instance.Register(new InteractionService());
+        }
+
         private void Start()
         {
             _hudController = new HUDController(_hudDocument.rootVisualElement);

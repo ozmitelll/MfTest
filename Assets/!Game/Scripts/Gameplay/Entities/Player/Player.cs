@@ -9,6 +9,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
     {
         [SerializeField] private PlayerMovementSystem _movementSystem;
         [SerializeField] private PlayerSkillSystem   _skillSystem;
+        [SerializeField] private InteractionSystem   _interactionSystem;
         public PlayerConfig config;
 
         public PlayerSkillSystem SkillSystem => _skillSystem;
@@ -22,6 +23,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
             HealthSystem.Initialize(StatsSystem.MaxHealth.Value);
             _movementSystem.Initialize(_input.Player, StatsSystem);
             _skillSystem.Initialize(_input.Player, this);
+            _interactionSystem.Initialize(_input.Player, this);
         }
 
         private void OnEnable()

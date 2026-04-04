@@ -25,6 +25,8 @@ namespace _Game.Scripts.Gameplay.TopDownCamera
 
         private void LateUpdate()
         {
+            if (_target == null) return;
+
             Vector3 aimWorld = CursorToWorldPlane(_target.position.y);
             Vector3 raw = aimWorld - _target.position;
             raw.y = 0f;

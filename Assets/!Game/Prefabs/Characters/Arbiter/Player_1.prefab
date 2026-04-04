@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -5216329550504973019}
   - component: {fileID: -5613544498213944258}
   - component: {fileID: 8357369456277282854}
+  - component: {fileID: 2395646296731491303}
   - component: {fileID: 9014751891681568719}
   - component: {fileID: 8992920512455885696}
   m_Layer: 0
@@ -54,6 +55,7 @@ MonoBehaviour:
   StatsSystem: {fileID: -5613544498213944258}
   _movementSystem: {fileID: 8357369456277282854}
   _skillSystem: {fileID: 9014751891681568719}
+  _interactionSystem: {fileID: 2395646296731491303}
   config: {fileID: 11400000, guid: f930c15afecf35d40869645e2ccbac26, type: 2}
 --- !u!114 &-5216329550504973019
 MonoBehaviour:
@@ -91,6 +93,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1506f9321add446b9e29afc2d84d7309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Systems.PlayerMovementSystem
+--- !u!114 &2395646296731491303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036613480237024420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132ffcdab27ce2940ae08277451c8352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Systems.InteractionSystem
+  _range: 2
 --- !u!114 &9014751891681568719
 MonoBehaviour:
   m_ObjectHideFlags: 0

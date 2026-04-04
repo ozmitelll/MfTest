@@ -35,7 +35,6 @@ namespace _Game.Scripts.Gameplay.Skills
             if (entity == null || entity == _owner) return;
             
             entity.HealthSystem.TakeDamage(_damage);
-            Debug.Log(entity.name);
             Destroy(gameObject);
         }
     }

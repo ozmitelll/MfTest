@@ -21,17 +21,25 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         private InputSystem_Actions.PlayerActions _actions;
         private Entity _owner;
         private Camera _camera;
+        private bool   _initialized;
 
         public void Initialize(InputSystem_Actions.PlayerActions actions, Entity owner)
         {
-            _actions = actions;
-            _owner   = owner;
-            _camera  = Camera.main;
+            _actions     = actions;
+            _owner       = owner;
+            _camera      = Camera.main;
+            _initialized = true;
             _passive?.OnApply(owner);
+
+            _actions.Skill1.performed += OnSkill1;
+            _actions.Skill2.performed += OnSkill2;
+            _actions.Skill3.performed += OnSkill3;
+            _actions.Skill4.performed += OnSkill4;
         }
 
         private void OnEnable()
         {
+            if (!_initialized) return;
             _actions.Skill1.performed += OnSkill1;
             _actions.Skill2.performed += OnSkill2;
             _actions.Skill3.performed += OnSkill3;
@@ -40,6 +48,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
 
         private void OnDisable()
         {
+            if (!_initialized) return;
             _actions.Skill1.performed -= OnSkill1;
             _actions.Skill2.performed -= OnSkill2;
             _actions.Skill3.performed -= OnSkill3;
