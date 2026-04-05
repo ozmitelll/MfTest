@@ -24,9 +24,12 @@ MonoBehaviour:
   - rid: 2762187703343907184
   - rid: 2762187703343907190
   - rid: 2762187703343907199
+  - rid: -2
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 2762187703343907183
       type: {class: SkillContextModificationEffectDefinition, ns: _Game.Scripts.Gameplay.Systems.Modifications, asm: Assembly-CSharp}
       data:

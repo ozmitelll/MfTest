@@ -41,9 +41,19 @@ namespace _Game.Scripts.Core
             _hudController.SetTimer(_sessionService.ElapsedTime);
             _levelService.LoadLevel(_sessionService.GetCurrentStageConfig());
 
-            var player = Object.Instantiate(testPlayer, _levelService.CurrentLevel.playerSpawnPoint.position, Quaternion.identity);
+            Player playerPrefab = _sessionService.SelectedPlayerPrefab != null
+                ? _sessionService.SelectedPlayerPrefab
+                : testPlayer;
+
+            if (playerPrefab == null)
+            {
+                Debug.LogError($"[{nameof(GameBootstrap)}] No player prefab assigned for gameplay startup.", this);
+                return;
+            }
+
+            var player = Object.Instantiate(playerPrefab, _levelService.CurrentLevel.playerSpawnPoint.position, Quaternion.identity);
             ServiceLocator.Instance.Get<PlayerService>().SetPlayer(player);
-            ServiceLocator.Instance.Get<CursorService>().SetCursor(testPlayer.config.GameplayCursor);
+            ServiceLocator.Instance.Get<CursorService>().SetCursor(playerPrefab.config.GameplayCursor);
             cameraController.SetTarget(player.transform);
 
             _directorSystem = new DirectorSystem(

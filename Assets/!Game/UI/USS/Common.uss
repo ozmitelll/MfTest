@@ -8,6 +8,31 @@
     --color-text-muted: #8B7355;
     --color-danger: #C0392B;
 
+    --surface-panel: rgba(20, 19, 34, 0.86);
+    --surface-panel-strong: rgba(13, 13, 23, 0.94);
+    --surface-panel-soft: rgba(232, 213, 181, 0.05);
+    --surface-panel-accent: rgba(212, 168, 67, 0.10);
+    --surface-panel-elevated: rgba(28, 27, 45, 0.92);
+    --surface-panel-glow: rgba(67, 117, 212, 0.10);
+    --border-subtle: rgba(232, 213, 181, 0.18);
+    --border-strong: rgba(232, 213, 181, 0.42);
+    --border-accent: rgba(212, 168, 67, 0.72);
+    --border-frame: rgba(255, 247, 232, 0.10);
+    --overlay-backdrop: rgba(10, 8, 18, 0.92);
+    --overlay-soft: rgba(10, 8, 18, 0.58);
+    --text-strong: #FFF7E8;
+    --text-soft: rgba(232, 213, 181, 0.82);
+    --text-faint: rgba(232, 213, 181, 0.62);
+    --text-dim: rgba(232, 213, 181, 0.46);
+    --chip-selected: rgba(212, 168, 67, 0.16);
+    --chip-hover: rgba(232, 213, 181, 0.08);
+    --button-primary-bg: rgba(212, 168, 67, 0.18);
+    --button-primary-bg-hover: rgba(212, 168, 67, 0.28);
+    --button-secondary-bg: rgba(232, 213, 181, 0.05);
+    --button-secondary-bg-hover: rgba(232, 213, 181, 0.10);
+    --accent-warm-soft: rgba(212, 168, 67, 0.22);
+    --accent-cool-soft: rgba(100, 138, 214, 0.18);
+
     --font-size-small: 14px;
     --font-size-base: 18px;
     --font-size-large: 28px;

@@ -8,12 +8,16 @@ namespace _Game.Scripts.Gameplay.Skills
     [CreateAssetMenu(fileName = "ArcSlashSkill", menuName = "Modfall/Skills/Arc Slash Skill")]
     public class ArcSlashSkill : ActiveSkill
     {
+        private const int InitialHitBufferSize = 16;
+
         [Header("Arc Slash")]
         [Min(0.1f)] public float Range = 3f;
         [Range(1f, 360f)] public float ArcAngle = 180f;
         [Min(0f)] public float ForwardOffset = 1f;
         public LayerMask HitMask = ~0;
         public bool RotateOwnerToAim = true;
+
+        [System.NonSerialized] private Collider[] _hitBuffer = new Collider[InitialHitBufferSize];
 
         public override float GetCooldown(SkillContext ctx)
         {
@@ -31,15 +35,16 @@ namespace _Game.Scripts.Gameplay.Skills
                 owner.rotation = Quaternion.LookRotation(aimDirection);
 
             Vector3 attackCenter = owner.position + aimDirection * ForwardOffset;
-            Collider[] hits = Physics.OverlapSphere(attackCenter, Range, HitMask, QueryTriggerInteraction.Ignore);
+            int hitCount = CollectHits(attackCenter);
             float halfArc = ArcAngle * 0.5f;
             float damage = ctx.ResolveDamage(ctx.Owner.StatsSystem.AttackDamage.Value);
             StatusEffectApplicationPayload[] statusPayloads = ctx.BuildStatusPayloads();
             var hitEntities = new HashSet<Entity>();
 
-            for (int i = 0; i < hits.Length; i++)
+            for (int i = 0; i < hitCount; i++)
             {
-                Entity entity = hits[i].GetComponent<Entity>() ?? hits[i].GetComponentInParent<Entity>();
+                Collider hit = _hitBuffer[i];
+                Entity entity = hit.GetComponent<Entity>() ?? hit.GetComponentInParent<Entity>();
                 if (entity == null || entity == ctx.Owner || entity.HealthSystem.IsDead || !hitEntities.Add(entity))
                     continue;
 
@@ -56,6 +61,30 @@ namespace _Game.Scripts.Gameplay.Skills
                 for (int statusIndex = 0; statusIndex < statusPayloads.Length; statusIndex++)
                     entity.StatusEffectSystem.ApplyStatus(statusPayloads[statusIndex]);
             }
+        }
+
+        private int CollectHits(Vector3 attackCenter)
+        {
+            if (_hitBuffer == null || _hitBuffer.Length == 0)
+                _hitBuffer = new Collider[InitialHitBufferSize];
+
+            int hitCount;
+
+            do
+            {
+                hitCount = Physics.OverlapSphereNonAlloc(
+                    attackCenter,
+                    Range,
+                    _hitBuffer,
+                    HitMask,
+                    QueryTriggerInteraction.Ignore);
+
+                if (hitCount < _hitBuffer.Length)
+                    return hitCount;
+
+                _hitBuffer = new Collider[_hitBuffer.Length * 2];
+            }
+            while (true);
         }
 
         private static Vector3 GetAimDirection(SkillContext ctx, Transform owner)

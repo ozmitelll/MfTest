@@ -315,6 +315,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Core.MenuBootstrap
   _document: {fileID: 1433290265}
+  _availablePlayers:
+  - {fileID: 4133069552373077687, guid: 6f2b9e9422df5964f972e2da7007467c, type: 3}
+  - {fileID: 4133069552373077687, guid: 5de0d4d95ea44c42831a28c7ca6d8578, type: 3}
 --- !u!1 &2070311484
 GameObject:
   m_ObjectHideFlags: 0

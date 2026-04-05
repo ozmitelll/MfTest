@@ -22,5 +22,5 @@ MonoBehaviour:
   ForwardOffset: 1.2
   HitMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   RotateOwnerToAim: 1

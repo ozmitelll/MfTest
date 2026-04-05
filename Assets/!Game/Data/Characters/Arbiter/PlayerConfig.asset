@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8edc7602d00c87c428384fb6fc815bf9, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Configs.PlayerConfig
+  DisplayName: Arbiter
+  Archetype: Ranged Operative
+  Summary: Sustained ranged fighter with rapid fire pressure and high attack rate.
   MaxHealth: 100
   MoveSpeed: 5
   Armor: 0

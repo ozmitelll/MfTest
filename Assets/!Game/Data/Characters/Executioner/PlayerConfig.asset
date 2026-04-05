@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8edc7602d00c87c428384fb6fc815bf9, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Configs.PlayerConfig
+  DisplayName: Executioner
+  Archetype: Melee Vanguard
+  Summary: Heavy close-range duelist that cleaves through a 180-degree arc toward the cursor.
   MaxHealth: 150
   MoveSpeed: 4.25
   Armor: 2

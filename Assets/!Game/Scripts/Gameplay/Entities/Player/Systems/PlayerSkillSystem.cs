@@ -98,6 +98,8 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         public float  GetRemainingCooldown(int slot) => Mathf.Max(0f, _cooldowns[slot]);
         public Sprite GetSkillIcon(int slot)          => GetSkill(slot)?.Icon;
         public Sprite GetPassiveIcon()                => _passive?.Icon;
+        public ActiveSkill GetConfiguredSkill(int slot) => GetSkill(slot);
+        public PassiveSkill GetConfiguredPassive() => _passive;
 
         private ActiveSkill GetSkill(int slot) => slot switch
         {

@@ -1,6 +1,7 @@
 ﻿using _Game.Scripts.Configs;
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities.Enemy;
+using _Game.Scripts.Gameplay.Entities.Player;
 using UnityEngine;
 
 namespace _Game.Scripts.Services
@@ -12,11 +13,13 @@ namespace _Game.Scripts.Services
         public int CurrentDifficultyLevel { get; private set; }
         public bool IsSessionActive { get; private set; }
         public GameConfig GameConfig => _gameConfig;
+        public Player SelectedPlayerPrefab { get; private set; }
         
         private GameConfig _gameConfig;
         private float _nextTimerTickTime;
         
         public void SetGameConfig(GameConfig gameCfg) => _gameConfig = gameCfg;
+        public void SetSelectedPlayerPrefab(Player playerPrefab) => SelectedPlayerPrefab = playerPrefab;
 
         public StageConfig GetCurrentStageConfig()
         {
