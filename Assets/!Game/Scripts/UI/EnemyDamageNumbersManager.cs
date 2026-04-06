@@ -87,6 +87,7 @@ namespace _Game.Scripts.UI
                 text = Mathf.Max(1, Mathf.RoundToInt(damageEvent.Damage)).ToString()
             };
 
+            label.AddToClassList("enemy-damage-number");
             label.style.position = Position.Absolute;
             label.style.fontSize = settings.FontSize;
             label.style.color = ResolveDamageColor(damageEvent, settings);

@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <Style src="../USS/EnemyHealthBar.uss"/>
-    <ui:VisualElement name="enemy-health-bar" class="enemy-health-bar">
+    <Style src="project://database/Assets/!Game/UI/USS/EnemyHealthBar.uss?fileID=7433441132597879392&amp;guid=d4e73ca44342c874a9b4554e7526c16c&amp;type=3#EnemyHealthBar"/>
+    <ui:VisualElement name="enemy-health-bar" class="enemy-health-bar" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
         <ui:VisualElement name="enemy-health-bar__fill" class="enemy-health-bar__fill"/>
     </ui:VisualElement>
 </ui:UXML>

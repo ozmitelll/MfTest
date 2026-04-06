@@ -1,38 +1,28 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <Style src="../USS/Common.uss"/>
-    <Style src="../USS/HUD.uss"/>
-    <ui:Template name="BossHealthBarTemplate" src="BossHealthBar.uxml"/>
-    <ui:Template name="ModificationPickupToastTemplate" src="ModificationPickupToast.uxml"/>
-    <ui:VisualElement name="hud-root" picking-mode="Ignore" class="hud-root">
-
+    <ui:Template name="BossHealthBarTemplate" src="project://database/Assets/!Game/UI/UXML/BossHealthBar.uxml?fileID=9197481963319205126&amp;guid=4f4e78b74d01437aa2780d8d123a04ee&amp;type=3#BossHealthBar"/>
+    <ui:Template name="ModificationPickupToastTemplate" src="project://database/Assets/!Game/UI/UXML/ModificationPickupToast.uxml?fileID=9197481963319205126&amp;guid=a0b17f4d77f7408887afc6d6320d5d70&amp;type=3#ModificationPickupToast"/>
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
+    <Style src="project://database/Assets/!Game/UI/USS/HUD.uss?fileID=7433441132597879392&amp;guid=f53dcfcc31d745041992fd8e2fb0bde7&amp;type=3#HUD"/>
+    <ui:VisualElement name="hud-root" picking-mode="Ignore" class="hud-root" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
         <ui:Instance template="BossHealthBarTemplate"/>
         <ui:Instance template="ModificationPickupToastTemplate"/>
-
         <ui:VisualElement name="timer-panel" class="timer-panel">
             <ui:Label text="TIME" class="timer-label"/>
-            <ui:Label name="timer-text" class="timer-text" text="00:00"/>
+            <ui:Label name="timer-text" text="00:00" class="timer-text"/>
         </ui:VisualElement>
-
         <ui:VisualElement name="health-panel" class="health-panel">
             <ui:Label text="HP" class="health-label"/>
             <ui:VisualElement name="health-bar-bg" class="health-bar-bg">
                 <ui:VisualElement name="health-bar-fill" class="health-bar-fill"/>
             </ui:VisualElement>
-            <ui:Label name="health-text" class="health-text" text="— / —"/>
+            <ui:Label name="health-text" text="— / —" class="health-text"/>
         </ui:VisualElement>
-
-        <ui:Label name="interaction-prompt" class="interaction-prompt" text=""/>
-
-        <!-- ── Skill bar ── -->
+        <ui:Label name="interaction-prompt" text="" class="interaction-prompt"/>
         <ui:VisualElement name="skill-bar" class="skill-bar">
-
-            <!-- LMB — без кулдауна -->
             <ui:VisualElement class="skill-slot">
                 <ui:VisualElement name="skill-icon-0" class="skill-icon"/>
                 <ui:Label text="LMB" class="skill-key-label"/>
             </ui:VisualElement>
-
-            <!-- RMB -->
             <ui:VisualElement class="skill-slot">
                 <ui:VisualElement name="skill-icon-1" class="skill-icon">
                     <ui:VisualElement name="skill-cd-overlay-1" class="skill-cd-overlay"/>
@@ -40,8 +30,6 @@
                 </ui:VisualElement>
                 <ui:Label text="RMB" class="skill-key-label"/>
             </ui:VisualElement>
-
-            <!-- Space -->
             <ui:VisualElement class="skill-slot">
                 <ui:VisualElement name="skill-icon-2" class="skill-icon">
                     <ui:VisualElement name="skill-cd-overlay-2" class="skill-cd-overlay"/>
@@ -49,8 +37,6 @@
                 </ui:VisualElement>
                 <ui:Label text="SPACE" class="skill-key-label"/>
             </ui:VisualElement>
-
-            <!-- G -->
             <ui:VisualElement class="skill-slot">
                 <ui:VisualElement name="skill-icon-3" class="skill-icon">
                     <ui:VisualElement name="skill-cd-overlay-3" class="skill-cd-overlay"/>
@@ -58,16 +44,11 @@
                 </ui:VisualElement>
                 <ui:Label text="G" class="skill-key-label"/>
             </ui:VisualElement>
-
             <ui:VisualElement class="skill-bar-divider"/>
-
-            <!-- Passive -->
             <ui:VisualElement class="skill-slot skill-slot--passive">
                 <ui:VisualElement name="skill-icon-passive" class="skill-icon"/>
                 <ui:Label text="PASSIVE" class="skill-key-label"/>
             </ui:VisualElement>
-
         </ui:VisualElement>
-
     </ui:VisualElement>
 </ui:UXML>

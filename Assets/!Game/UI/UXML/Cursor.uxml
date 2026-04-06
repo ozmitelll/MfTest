@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/!Game/UI/USS/Cursor.uss"/>
-    <ui:VisualElement name="cursor-root" picking-mode="Ignore" class="cursor-root">
+    <ui:VisualElement name="cursor-root" picking-mode="Ignore" class="cursor-root" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
         <ui:VisualElement name="cursor" picking-mode="Ignore" class="cursor"/>
     </ui:VisualElement>
 </ui:UXML>

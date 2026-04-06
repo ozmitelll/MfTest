@@ -1,10 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <Style src="../USS/Common.uss"/>
-    <Style src="../USS/PortalChargeBar.uss"/>
-    <ui:VisualElement name="portal-charge-bar" class="portal-charge-bar">
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
+    <Style src="project://database/Assets/!Game/UI/USS/PortalChargeBar.uss?fileID=7433441132597879392&amp;guid=9c0b97baad7c4b5d9393e32fed0d1824&amp;type=3#PortalChargeBar"/>
+    <ui:VisualElement name="portal-charge-bar" class="portal-charge-bar" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
         <ui:VisualElement class="portal-charge-bar__track">
             <ui:VisualElement name="portal-charge-bar__fill" class="portal-charge-bar__fill"/>
         </ui:VisualElement>
-        <ui:Label name="portal-charge-bar__status" class="portal-charge-bar__status" text="Stand in field"/>
+        <ui:Label name="portal-charge-bar__status" text="Stand in field" class="portal-charge-bar__status"/>
     </ui:VisualElement>
 </ui:UXML>

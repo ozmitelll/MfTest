@@ -1,45 +1,38 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <Style src="../USS/Common.uss"/>
-    <Style src="../USS/ModificationStationWindow.uss"/>
-
-    <ui:VisualElement name="modification-window-overlay" class="mod-window-overlay">
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
+    <Style src="project://database/Assets/!Game/UI/USS/ModificationStationWindow.uss?fileID=7433441132597879392&amp;guid=721620f16b83e3943a20d2b77f4d153d&amp;type=3#ModificationStationWindow"/>
+    <ui:VisualElement name="modification-window-overlay" class="mod-window-overlay" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
         <ui:VisualElement name="modification-window" class="mod-window">
             <ui:VisualElement class="mod-window-header">
                 <ui:Label name="modification-window-title" text="Modifications" class="mod-window-title"/>
                 <ui:Button name="modification-window-close-button" text="Close" class="mod-window-close-button"/>
             </ui:VisualElement>
-
             <ui:VisualElement class="mod-window-tab-row">
                 <ui:Button name="modification-loadout-tab-button" text="Loadout" class="mod-window-tab-button mod-window-tab-button--active"/>
                 <ui:Button name="modification-upgrade-tab-button" text="Upgrade" class="mod-window-tab-button"/>
             </ui:VisualElement>
-
             <ui:VisualElement name="modification-loadout-panel" class="mod-window-panel">
                 <ui:VisualElement class="mod-window-summary-row">
                     <ui:Label name="modification-capacity-label" text="Capacity 0 / 0" class="mod-window-capacity"/>
                     <ui:Label name="modification-status-label" text="Select a card below, then click an empty slot to install it." class="mod-window-status"/>
                 </ui:VisualElement>
-
                 <ui:VisualElement class="mod-window-main-row">
                     <ui:VisualElement class="mod-window-left-column">
                         <ui:VisualElement class="mod-window-loadout-column">
                             <ui:Label text="Loadout Slots" class="mod-window-section-title"/>
                             <ui:VisualElement name="modification-slot-grid" class="mod-slot-grid"/>
                         </ui:VisualElement>
-
                         <ui:VisualElement name="modification-inventory-section" class="mod-window-inventory-section">
                             <ui:Label text="Available Modifiers" class="mod-window-section-title"/>
                             <ui:ScrollView name="modification-inventory-scroll" mode="Vertical" class="mod-inventory-scroll"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="mod-window-stats-column">
                         <ui:Label text="Character Stats" class="mod-window-section-title"/>
                         <ui:ScrollView name="modification-stats-container" class="mod-stats-scroll"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-
             <ui:VisualElement name="modification-upgrade-panel" class="mod-window-panel mod-window-panel--hidden">
                 <ui:VisualElement class="mod-upgrade-placeholder">
                     <ui:Label text="Upgrade" class="mod-window-section-title"/>

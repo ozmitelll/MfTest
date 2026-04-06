@@ -148,7 +148,6 @@
 }
 
 .profile-card__value--mono {
-    unity-font-definition: none;
 }
 
 .character-select__heading {

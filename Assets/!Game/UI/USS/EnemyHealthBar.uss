@@ -16,3 +16,7 @@
     background-color: rgb(192, 57, 43);
     border-radius: 3px;
 }
+
+.enemy-damage-number {
+    -unity-font-definition: url("project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&guid=cb0ab6447395bb243a28c96a30ded3bf&type=3#VictorMono-VariableFont_wght");
+}

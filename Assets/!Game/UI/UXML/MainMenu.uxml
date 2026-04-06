@@ -1,9 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
     <Style src="project://database/Assets/!Game/UI/USS/MainMenu.uss?fileID=7433441132597879392&amp;guid=32047276b80916f48a6fdef06ae17069&amp;type=3#MainMenu"/>
-    <ui:VisualElement name="menu-root" class="menu-root">
+    <ui:VisualElement name="menu-root" class="menu-root" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
         <ui:VisualElement name="menu-background-glow" class="menu-background-glow"/>
-
         <ui:VisualElement name="main-menu-panel" class="main-menu">
             <ui:VisualElement class="main-menu__card">
                 <ui:Label text="SESSION ROGUELIKE" class="main-menu__eyebrow"/>
@@ -16,7 +15,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-
         <ui:VisualElement name="character-select-panel" class="character-select">
             <ui:VisualElement class="character-select__frame">
                 <ui:VisualElement class="character-select__topbar">
@@ -24,12 +22,10 @@
                         <ui:Label text="Operator Link" class="profile-card__label"/>
                         <ui:Label text="steamID" class="profile-card__value profile-card__value--mono"/>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="character-select__heading">
                         <ui:Label text="Select Operative" class="character-select__eyebrow"/>
                         <ui:VisualElement name="character-strip" class="character-strip"/>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="selection-sidecards">
                         <ui:VisualElement class="selection-card">
                             <ui:Label text="Run Setup" class="selection-card__title"/>
@@ -50,7 +46,6 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-
                 <ui:VisualElement class="character-select__content">
                     <ui:VisualElement class="stats-panel">
                         <ui:Label text="Summary" class="stats-panel__title"/>
@@ -74,13 +69,11 @@
                             </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="character-main-panel">
                         <ui:VisualElement class="character-preview-ghost">
                             <ui:Label text="Operative" class="character-preview__label"/>
                             <ui:Label name="character-preview-badge" text="A" class="character-preview-badge"/>
                         </ui:VisualElement>
-
                         <ui:VisualElement class="character-center-panel">
                             <ui:Label text="Operative Class" class="character-center-panel__label"/>
                             <ui:Label name="character-role" text="RANGED OPERATIVE" class="character-role"/>
@@ -91,7 +84,6 @@
                             <ui:VisualElement name="character-skills" class="character-skills"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
-
                     <ui:VisualElement class="action-panel">
                         <ui:Label text="Deployment" class="action-panel__label"/>
                         <ui:Label name="launch-location-value" text="Emporium" class="action-panel__hidden-label"/>
