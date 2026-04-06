@@ -20,6 +20,11 @@ namespace _Game.Scripts.Core
         public _Game.Scripts.Gameplay.Entities.Bosses.Boss Boss;
     }
 
+    public struct OnBossSpawnedEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Bosses.Boss Boss;
+    }
+
     // --- Session ---
     public struct OnSessionEndedEvent { }
 

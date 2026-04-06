@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 531830410206503897}
   - component: {fileID: 3269286470685051539}
   - component: {fileID: -8428180110415418561}
+  - component: {fileID: -4897243958736327381}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -129,3 +130,20 @@ MonoBehaviour:
   _chargePrompt: Charge portal
   _bossSpawnForwardOffset: 4
   _bossSpawnHeightOffset: 0.5
+  _chargeDuration: 3
+  _chargeRadius: 2.5
+  _chargeAreaOffset: {x: 0, y: 0.5, z: 0}
+--- !u!114 &-4897243958736327381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748366994676444001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c30c4d65ab94f6cb8cb7f5412476df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Interactables.PortalChargeBar
+  _worldOffset: {x: 0, y: 2.3, z: 0}
+  _template: {fileID: 9197481963319205126, guid: 6e91895d6f434f63b3b91ddff9426b5f, type: 3}

@@ -1,0 +1,42 @@
+.boss-health-bar {
+    display: none;
+    width: 440px;
+    padding: 12px 16px 14px;
+    background-color: var(--surface-panel-strong);
+    border-width: 1px;
+    border-color: var(--border-accent);
+    border-radius: 12px;
+    align-items: stretch;
+}
+
+.boss-health-bar__name {
+    color: var(--text-strong);
+    font-size: var(--font-size-small);
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+}
+
+.boss-health-bar__track {
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    border-width: 1px;
+    border-color: var(--border-subtle);
+}
+
+.boss-health-bar__fill {
+    height: 100%;
+    width: 100%;
+    background-color: var(--color-danger);
+    border-radius: 8px;
+}
+
+.boss-health-bar__value {
+    margin-top: 6px;
+    color: var(--text-soft);
+    font-size: 12px;
+    -unity-text-align: middle-center;
+}

@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../USS/Common.uss"/>
+    <Style src="../USS/PortalChargeBar.uss"/>
+    <ui:VisualElement name="portal-charge-bar" class="portal-charge-bar">
+        <ui:VisualElement class="portal-charge-bar__track">
+            <ui:VisualElement name="portal-charge-bar__fill" class="portal-charge-bar__fill"/>
+        </ui:VisualElement>
+        <ui:Label name="portal-charge-bar__status" class="portal-charge-bar__status" text="Stand in field"/>
+    </ui:VisualElement>
+</ui:UXML>

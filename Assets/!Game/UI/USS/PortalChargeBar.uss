@@ -1,0 +1,31 @@
+.portal-charge-bar {
+    position: absolute;
+    width: 96px;
+    padding: 6px 7px 7px;
+    background-color: rgba(12, 11, 24, 0.82);
+    border-width: 1px;
+    border-color: var(--border-accent);
+    border-radius: 10px;
+    align-items: stretch;
+}
+
+.portal-charge-bar__track {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.portal-charge-bar__fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-accent);
+    border-radius: 4px;
+}
+
+.portal-charge-bar__status {
+    margin-top: 4px;
+    color: var(--text-strong);
+    font-size: 10px;
+    -unity-text-align: middle-center;
+}

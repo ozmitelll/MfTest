@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../USS/Common.uss"/>
+    <Style src="../USS/BossHealthBar.uss"/>
+    <ui:VisualElement name="boss-health-bar" class="boss-health-bar">
+        <ui:Label name="boss-health-bar__name" class="boss-health-bar__name" text="Boss"/>
+        <ui:VisualElement name="boss-health-bar__track" class="boss-health-bar__track">
+            <ui:VisualElement name="boss-health-bar__fill" class="boss-health-bar__fill"/>
+        </ui:VisualElement>
+        <ui:Label name="boss-health-bar__value" class="boss-health-bar__value" text="0 / 0"/>
+    </ui:VisualElement>
+</ui:UXML>

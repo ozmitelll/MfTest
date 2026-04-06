@@ -1,6 +1,7 @@
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities.Player.Systems;
 using System;
+using _Game.Scripts.Gameplay.Entities.Bosses;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,6 +19,11 @@ namespace _Game.Scripts.UI.Controllers
         private readonly VisualElement[] _cdOverlays  = new VisualElement[3]; // слоты 1,2,3
         private readonly Label[]         _cdTexts     = new Label[3];
         private readonly VisualElement   _passiveIcon;
+        private readonly VisualElement   _bossBar;
+        private readonly VisualElement   _bossBarFill;
+        private readonly Label           _bossBarName;
+        private readonly Label           _bossBarValue;
+        private Boss                     _activeBoss;
         private PlayerSkillSystem        _skillSystem;
 
         public HUDController(VisualElement root)
@@ -36,6 +42,13 @@ namespace _Game.Scripts.UI.Controllers
             }
 
             _passiveIcon = root.Q("skill-icon-passive");
+            _bossBar = root.Q("boss-health-bar");
+            _bossBarFill = root.Q("boss-health-bar__fill");
+            _bossBarName = root.Q<Label>("boss-health-bar__name");
+            _bossBarValue = root.Q<Label>("boss-health-bar__value");
+
+            if (_bossBar != null)
+                _bossBar.style.display = DisplayStyle.None;
         }
 
         public void SetSkillSystem(PlayerSkillSystem skillSystem)
@@ -58,12 +71,17 @@ namespace _Game.Scripts.UI.Controllers
         {
             EventBus.Subscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
             EventBus.Subscribe<OnTimerTickEvent>(OnTimerTick);
+            EventBus.Subscribe<OnBossSpawnedEvent>(OnBossSpawned);
+            EventBus.Subscribe<OnBossDiedEvent>(OnBossDied);
         }
 
         public void Dispose()
         {
             EventBus.Unsubscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
             EventBus.Unsubscribe<OnTimerTickEvent>(OnTimerTick);
+            EventBus.Unsubscribe<OnBossSpawnedEvent>(OnBossSpawned);
+            EventBus.Unsubscribe<OnBossDiedEvent>(OnBossDied);
+            DetachBoss();
         }
 
         public void SetTimer(float timeSeconds)
@@ -100,5 +118,56 @@ namespace _Game.Scripts.UI.Controllers
         }
 
         private void OnTimerTick(OnTimerTickEvent evt) => SetTimer(evt.Time);
+
+        private void OnBossSpawned(OnBossSpawnedEvent evt) => AttachBoss(evt.Boss);
+
+        private void OnBossDied(OnBossDiedEvent evt)
+        {
+            if (evt.Boss == _activeBoss)
+                DetachBoss();
+        }
+
+        private void AttachBoss(Boss boss)
+        {
+            DetachBoss();
+
+            if (boss == null || _bossBar == null || _bossBarFill == null)
+                return;
+
+            _activeBoss = boss;
+            _activeBoss.HealthSystem.OnHealthChanged += OnBossHealthChanged;
+            _bossBarName.text = GetBossDisplayName(_activeBoss);
+            _bossBar.style.display = DisplayStyle.Flex;
+            OnBossHealthChanged(_activeBoss.HealthSystem.CurrentHealth, _activeBoss.HealthSystem.MaxHealth);
+        }
+
+        private void DetachBoss()
+        {
+            if (_activeBoss != null)
+                _activeBoss.HealthSystem.OnHealthChanged -= OnBossHealthChanged;
+
+            _activeBoss = null;
+
+            if (_bossBar != null)
+                _bossBar.style.display = DisplayStyle.None;
+        }
+
+        private void OnBossHealthChanged(float current, float max)
+        {
+            if (_bossBarFill == null)
+                return;
+
+            float pct = max > 0f ? current / max : 0f;
+            _bossBarFill.style.width = Length.Percent(pct * 100f);
+
+            if (_bossBarValue != null)
+                _bossBarValue.text = $"{Mathf.CeilToInt(current)} / {Mathf.CeilToInt(max)}";
+        }
+
+        private static string GetBossDisplayName(Boss boss)
+        {
+            string rawName = boss.Config != null ? boss.Config.name : boss.name;
+            return rawName.Replace("(Clone)", string.Empty).Trim();
+        }
     }
 }
