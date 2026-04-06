@@ -2,9 +2,11 @@
     <Style src="../USS/Common.uss"/>
     <Style src="../USS/HUD.uss"/>
     <ui:Template name="BossHealthBarTemplate" src="BossHealthBar.uxml"/>
+    <ui:Template name="ModificationPickupToastTemplate" src="ModificationPickupToast.uxml"/>
     <ui:VisualElement name="hud-root" picking-mode="Ignore" class="hud-root">
 
         <ui:Instance template="BossHealthBarTemplate"/>
+        <ui:Instance template="ModificationPickupToastTemplate"/>
 
         <ui:VisualElement name="timer-panel" class="timer-panel">
             <ui:Label text="TIME" class="timer-label"/>

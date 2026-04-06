@@ -39,6 +39,67 @@
     translate: -50% 0;
 }
 
+.modification-pickup-toast {
+    position: absolute;
+    top: 132px;
+    right: -380px;
+    width: 332px;
+    opacity: 0;
+}
+
+.modification-pickup-card {
+    min-height: 168px;
+    padding: 14px;
+    background-color: rgba(20, 19, 34, 0.94);
+    border-width: 1px;
+    border-color: var(--border-accent);
+    border-radius: 14px;
+}
+
+.modification-pickup-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.modification-pickup-title {
+    color: var(--text-faint);
+    font-size: 10px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.modification-pickup-badge {
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+    color: var(--color-accent);
+    background-color: rgba(212, 168, 67, 0.14);
+}
+
+.modification-pickup-name {
+    color: var(--text-strong);
+    font-size: 24px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+    white-space: normal;
+}
+
+.modification-pickup-meta {
+    color: var(--text-soft);
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.modification-pickup-description {
+    color: var(--text-soft);
+    font-size: var(--font-size-small);
+    white-space: normal;
+}
+
 /* ── Health panel — bottom-left ── */
 .health-panel {
     position: absolute;

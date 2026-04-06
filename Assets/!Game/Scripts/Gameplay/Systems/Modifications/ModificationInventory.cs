@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Systems.Modifications
 {
+    public enum ModificationCardAddReason
+    {
+        Unknown = 0,
+        Initialization = 1,
+        LootPickup = 2
+    }
+
     public class ModificationInventory : MonoBehaviour
     {
         private readonly List<ModificationCardInstance> _cards = new();
@@ -14,7 +21,7 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
 
         private void Awake() => _owner = GetComponent<Entity>();
 
-        public ModificationCardInstance AddCard(ModificationCardDefinition definition)
+        public ModificationCardInstance AddCard(ModificationCardDefinition definition, ModificationCardAddReason reason = ModificationCardAddReason.Unknown)
         {
             if (definition == null)
             {
@@ -30,7 +37,8 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
             {
                 Entity = _owner,
                 Card = instance,
-                TotalCards = _cards.Count
+                TotalCards = _cards.Count,
+                Reason = reason
             });
 
             return instance;

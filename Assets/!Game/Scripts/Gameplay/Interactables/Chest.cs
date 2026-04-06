@@ -1,5 +1,6 @@
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities.Player;
+using _Game.Scripts.Gameplay.Systems.Modifications;
 using _Game.Scripts.Services;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace _Game.Scripts.Gameplay.Interactables
 
                 if (cardDatabaseService.TryGetRandomCard(out var rewardCard))
                 {
-                    player.ModificationInventory.AddCard(rewardCard);
+                    player.ModificationInventory.AddCard(rewardCard, ModificationCardAddReason.LootPickup);
                     Debug.Log($"Chest rewarded '{rewardCard.DisplayName}' ({rewardCard.Rarity}, {rewardCard.CardType}).", this);
                 }
                 else

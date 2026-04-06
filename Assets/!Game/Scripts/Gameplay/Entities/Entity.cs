@@ -59,7 +59,7 @@ namespace _Game.Scripts.Gameplay.Entities
                     continue;
                 }
 
-                ModificationCardInstance card = ModificationInventory.AddCard(entry.Card);
+                ModificationCardInstance card = ModificationInventory.AddCard(entry.Card, ModificationCardAddReason.Initialization);
                 if (card == null || !entry.InstallOnStart)
                     continue;
 

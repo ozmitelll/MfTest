@@ -53,6 +53,7 @@ namespace _Game.Scripts.Core
         public _Game.Scripts.Gameplay.Entities.Entity Entity;
         public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardInstance Card;
         public int TotalCards;
+        public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardAddReason Reason;
     }
 
     public struct OnModificationInstalledEvent
