@@ -19,6 +19,8 @@
             <ui:Label name="health-text" class="health-text" text="— / —"/>
         </ui:VisualElement>
 
+        <ui:Label name="interaction-prompt" class="interaction-prompt" text=""/>
+
         <!-- ── Skill bar ── -->
         <ui:VisualElement name="skill-bar" class="skill-bar">
 

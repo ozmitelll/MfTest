@@ -2,6 +2,7 @@ using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities.Player.Systems;
 using System;
 using _Game.Scripts.Gameplay.Entities.Bosses;
+using _Game.Scripts.Gameplay.Entities.Player;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,7 +24,10 @@ namespace _Game.Scripts.UI.Controllers
         private readonly VisualElement   _bossBarFill;
         private readonly Label           _bossBarName;
         private readonly Label           _bossBarValue;
+        private readonly Label           _interactionPrompt;
         private Boss                     _activeBoss;
+        private Player                   _player;
+        private InteractionSystem        _interactionSystem;
         private PlayerSkillSystem        _skillSystem;
 
         public HUDController(VisualElement root)
@@ -46,9 +50,13 @@ namespace _Game.Scripts.UI.Controllers
             _bossBarFill = root.Q("boss-health-bar__fill");
             _bossBarName = root.Q<Label>("boss-health-bar__name");
             _bossBarValue = root.Q<Label>("boss-health-bar__value");
+            _interactionPrompt = root.Q<Label>("interaction-prompt");
 
             if (_bossBar != null)
                 _bossBar.style.display = DisplayStyle.None;
+
+            if (_interactionPrompt != null)
+                _interactionPrompt.style.display = DisplayStyle.None;
         }
 
         public void SetSkillSystem(PlayerSkillSystem skillSystem)
@@ -65,6 +73,12 @@ namespace _Game.Scripts.UI.Controllers
             var passive = skillSystem.GetPassiveIcon();
             if (passive != null)
                 _passiveIcon.style.backgroundImage = new StyleBackground(passive);
+        }
+
+        public void SetInteractionContext(Player player, InteractionSystem interactionSystem)
+        {
+            _player = player;
+            _interactionSystem = interactionSystem;
         }
 
         public void Subscribe()
@@ -98,7 +112,10 @@ namespace _Game.Scripts.UI.Controllers
         // Вызывается каждый кадр из GameBootstrap.Update()
         public void Tick()
         {
-            if (_skillSystem == null) return;
+            UpdateInteractionPrompt();
+
+            if (_skillSystem == null)
+                return;
 
             for (int i = 0; i < 3; i++)
             {
@@ -168,6 +185,20 @@ namespace _Game.Scripts.UI.Controllers
         {
             string rawName = boss.Config != null ? boss.Config.name : boss.name;
             return rawName.Replace("(Clone)", string.Empty).Trim();
+        }
+
+        private void UpdateInteractionPrompt()
+        {
+            if (_interactionPrompt == null)
+                return;
+
+            string prompt = string.Empty;
+            if (_player != null && _interactionSystem?.CurrentInteractable?.CanInteract(_player) == true)
+                prompt = _interactionSystem.CurrentInteractable.InteractionPrompt;
+
+            bool hasPrompt = !string.IsNullOrWhiteSpace(prompt);
+            _interactionPrompt.text = hasPrompt ? prompt : string.Empty;
+            _interactionPrompt.style.display = hasPrompt ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

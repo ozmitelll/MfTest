@@ -19,7 +19,8 @@ namespace _Game.Scripts.Gameplay.Interactables
         }
 
         [SerializeField] private string _summonPrompt = "Summon boss";
-        [SerializeField] private string _chargePrompt = "Charge portal";
+        [SerializeField] private string _chargePrompt = "Charging portal...";
+        [SerializeField] private string _travelPrompt = "Press to enter next stage";
         [SerializeField] private float _bossSpawnForwardOffset = 4f;
         [SerializeField] private float _bossSpawnHeightOffset = 0.5f;
         [SerializeField, Min(0.1f)] private float _chargeDuration = 3f;
@@ -30,8 +31,11 @@ namespace _Game.Scripts.Gameplay.Interactables
         private Transform _spawnPoint;
         private Boss _activeBoss;
         private PlayerService _playerService;
+        private LevelService _levelService;
+        private SessionService _sessionService;
         private float _chargeElapsed;
         private bool _isPlayerInsideChargeArea;
+        private bool _isTransitioning;
         private PortalState _state;
 
         public string InteractionPrompt => _state switch
@@ -39,7 +43,8 @@ namespace _Game.Scripts.Gameplay.Interactables
             PortalState.Idle when HasConfiguredBosses => $"{_summonPrompt}  [F]",
             PortalState.ReadyToCharge when _isPlayerInsideChargeArea => _chargePrompt,
             PortalState.ReadyToCharge => "Stand in the portal field",
-            PortalState.Charged => "Portal charged",
+            PortalState.Charged when !_isTransitioning => $"{_travelPrompt}  [F]",
+            PortalState.Charged => "Transitioning...",
             _ => string.Empty
         };
 
@@ -66,6 +71,7 @@ namespace _Game.Scripts.Gameplay.Interactables
             _activeBoss = null;
             _chargeElapsed = 0f;
             _isPlayerInsideChargeArea = false;
+            _isTransitioning = false;
             _state = PortalState.Idle;
 
             if (_spawnPoint != null)
@@ -74,11 +80,13 @@ namespace _Game.Scripts.Gameplay.Interactables
 
         private void Start()
         {
-            if (ServiceLocator.Instance != null && ServiceLocator.Instance.Has<InteractionService>())
-                ServiceLocator.Instance.Get<InteractionService>().Register(this);
+            ServiceLocator.Instance.Get<InteractionService>().Register(this);
 
-            if (ServiceLocator.Instance != null && ServiceLocator.Instance.Has<PlayerService>())
-                _playerService = ServiceLocator.Instance.Get<PlayerService>();
+            _playerService = ServiceLocator.Instance.Get<PlayerService>();
+
+            _levelService = ServiceLocator.Instance.Get<LevelService>();
+
+            _sessionService = ServiceLocator.Instance.Get<SessionService>();
 
             EventBus.Subscribe<OnBossDiedEvent>(OnBossDied);
         }
@@ -116,28 +124,23 @@ namespace _Game.Scripts.Gameplay.Interactables
 
         public bool CanInteract(Player player)
         {
-            if (player == null)
-                return false;
-
             return _state switch
             {
                 PortalState.Idle => HasConfiguredBosses,
+                PortalState.Charged => !_isTransitioning,
                 _ => false
             };
         }
 
         public void Interact(Player player)
         {
-            if (player == null)
-                return;
-
             switch (_state)
             {
                 case PortalState.Idle:
                     SpawnBoss();
                     break;
-                case PortalState.ReadyToCharge:
-                    ChargePortal();
+                case PortalState.Charged:
+                    TravelToNextStage(player);
                     break;
             }
         }
@@ -156,6 +159,7 @@ namespace _Game.Scripts.Gameplay.Interactables
             _activeBoss = Object.Instantiate(bossPrefab, spawnPosition, spawnRotation, _level != null ? _level.transform : null);
             _chargeElapsed = 0f;
             _isPlayerInsideChargeArea = false;
+            _isTransitioning = false;
             _state = PortalState.BossAlive;
 
             EventBus.Publish(new OnBossSpawnedEvent { Boss = _activeBoss });
@@ -184,6 +188,7 @@ namespace _Game.Scripts.Gameplay.Interactables
             _activeBoss = null;
             _chargeElapsed = 0f;
             _isPlayerInsideChargeArea = false;
+            _isTransitioning = false;
             _state = PortalState.ReadyToCharge;
         }
 
@@ -194,25 +199,62 @@ namespace _Game.Scripts.Gameplay.Interactables
 
             _chargeElapsed = _chargeDuration;
             _isPlayerInsideChargeArea = false;
+            _isTransitioning = false;
             _state = PortalState.Charged;
             Debug.Log("Заряжено", this);
             EventBus.Publish(new OnPortalChargedEvent());
         }
 
+        private void TravelToNextStage(Player player)
+        {
+            if (_state != PortalState.Charged || _isTransitioning)
+                return;
+
+            ResolveRuntimeServices();
+
+            _isTransitioning = true;
+
+            if (!_sessionService.NextStage())
+            {
+                _sessionService.EndSession();
+                return;
+            }
+
+            _levelService.LoadLevel(_sessionService.GetCurrentStageConfig());
+
+            Level nextLevel = _levelService.CurrentLevel;
+            if (nextLevel == null || nextLevel.playerSpawnPoint == null)
+            {
+                Debug.LogError($"[{nameof(Portal)}] Next level or player spawn point is missing after stage transition.", this);
+                return;
+            }
+
+            player.transform.SetPositionAndRotation(nextLevel.playerSpawnPoint.position, nextLevel.playerSpawnPoint.rotation);
+            EventBus.Publish(new OnPlayerHealthChangedEvent
+            {
+                Current = player.HealthSystem.CurrentHealth,
+                Max = player.HealthSystem.MaxHealth
+            });
+        }
+
         private bool EvaluatePlayerInChargeArea()
         {
-            if (_playerService == null && ServiceLocator.Instance != null && ServiceLocator.Instance.Has<PlayerService>())
-                _playerService = ServiceLocator.Instance.Get<PlayerService>();
+            ResolveRuntimeServices();
 
             Player player = _playerService?.Player;
-            if (player == null)
-                return false;
 
             Vector3 chargeCenter = transform.position + _chargeAreaOffset;
             Vector3 playerPosition = player.transform.position;
             playerPosition.y = chargeCenter.y;
 
             return (playerPosition - chargeCenter).sqrMagnitude <= _chargeRadius * _chargeRadius;
+        }
+
+        private void ResolveRuntimeServices()
+        {
+            _playerService = ServiceLocator.Instance.Get<PlayerService>();
+            _levelService = ServiceLocator.Instance.Get<LevelService>();
+            _sessionService = ServiceLocator.Instance.Get<SessionService>();
         }
 
         private void OnDrawGizmosSelected()

@@ -13,6 +13,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         public PlayerConfig config;
 
         public PlayerSkillSystem SkillSystem => _skillSystem;
+        public InteractionSystem InteractionSystem => _interactionSystem;
 
         private InputSystem_Actions _input;
 

@@ -127,7 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Interactables.Portal
   _summonPrompt: Summon boss
-  _chargePrompt: Charge portal
+  _chargePrompt: Charging portal...
+  _travelPrompt: Press to enter next stage
   _bossSpawnForwardOffset: 4
   _bossSpawnHeightOffset: 0.5
   _chargeDuration: 3

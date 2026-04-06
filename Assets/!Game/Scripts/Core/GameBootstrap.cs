@@ -64,6 +64,7 @@ namespace _Game.Scripts.Core
             _directorSystem.Initialize();
 
             _hudController.SetSkillSystem(player.SkillSystem);
+            _hudController.SetInteractionContext(player, player.InteractionSystem);
 
             EventBus.Publish(new OnPlayerHealthChangedEvent
             {

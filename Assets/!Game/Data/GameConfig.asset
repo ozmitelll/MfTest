@@ -28,4 +28,5 @@ MonoBehaviour:
   DirectorExpectedPlayerPowerPerDifficulty: 0.15
   stages:
   - {fileID: 11400000, guid: 679113226cc2ec24680c1b4bf3938d38, type: 2}
+  - {fileID: 11400000, guid: ba7a9009f323a6b4caa4e8a4b9a93394, type: 2}
   ModificationCardDatabase: {fileID: 11400000, guid: 9afc1dd2b06a6cc4aa22471de9ab9bec, type: 2}

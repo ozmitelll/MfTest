@@ -82,6 +82,24 @@
     margin-top: 5px;
 }
 
+.interaction-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 112px;
+    translate: -50% 0;
+    min-width: 220px;
+    max-width: 420px;
+    padding: 8px 14px;
+    background-color: rgba(15, 15, 26, 0.82);
+    border-width: 1px;
+    border-color: var(--border-accent);
+    border-radius: var(--border-radius);
+    color: var(--text-strong);
+    font-size: var(--font-size-small);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
 /* ── Skill bar — bottom center ── */
 .skill-bar {
     position: absolute;
