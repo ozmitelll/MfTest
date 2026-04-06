@@ -27,6 +27,7 @@ namespace _Game.Scripts.Gameplay.Skills
                 ctx.AimDirection,
                 ctx.ResolveDamage(ctx.Owner.StatsSystem.AttackDamage.Value),
                 ctx.ResolveProjectileSpeed(ProjectileSpeed),
+                ctx.DamageType,
                 ctx.Owner,
                 ctx.BuildStatusPayloads()
             );

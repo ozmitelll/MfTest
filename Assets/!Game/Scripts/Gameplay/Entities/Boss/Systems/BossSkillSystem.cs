@@ -112,7 +112,7 @@ namespace _Game.Scripts.Gameplay.Entities.Bosses
             if (_cooldowns[index] > 0f || _statusEffects?.BlocksSkills == true)
                 return false;
 
-            SkillContext context = BuildContext(skillSlot, aimPosition);
+            SkillContext context = BuildContext(skill, skillSlot, aimPosition);
             if (!skill.CanActivate(context))
                 return false;
 
@@ -123,7 +123,7 @@ namespace _Game.Scripts.Gameplay.Entities.Bosses
             return true;
         }
 
-        private SkillContext BuildContext(SkillSlot skillSlot, Vector3 aimPosition)
+        private SkillContext BuildContext(ActiveSkill skill, SkillSlot skillSlot, Vector3 aimPosition)
         {
             Vector3 origin = _owner.transform.position;
             Vector3 direction = aimPosition - origin;
@@ -136,6 +136,7 @@ namespace _Game.Scripts.Gameplay.Entities.Bosses
             {
                 Owner = _owner,
                 SkillSlot = skillSlot,
+                DamageType = skill != null ? skill.ResolveDamageType(_owner) : _owner.StatsSystem.AttackDamageType,
                 AimPosition = aimPosition,
                 AimDirection = direction.normalized,
                 DamageMultiplier = 1f,

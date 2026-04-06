@@ -15,6 +15,8 @@ MonoBehaviour:
   SkillName: Rocket Strike
   Icon: {fileID: 0}
   Description: 
+  UseOwnerAttackDamageType: 1
+  DamageType: 0
   Cooldown: 0
   HoldToRepeat: 1
   ProjectilePrefab: {fileID: 2916712458531833162, guid: b6422cb81fc7d01438cfb19f935d7584, type: 3}

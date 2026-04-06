@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Systems.Combat;
 using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 
@@ -38,6 +39,7 @@ namespace _Game.Scripts.Gameplay.Skills
             int hitCount = CollectHits(attackCenter);
             float halfArc = ArcAngle * 0.5f;
             float damage = ctx.ResolveDamage(ctx.Owner.StatsSystem.AttackDamage.Value);
+            DamageType damageType = ctx.DamageType;
             StatusEffectApplicationPayload[] statusPayloads = ctx.BuildStatusPayloads();
             var hitEntities = new HashSet<Entity>();
 
@@ -56,7 +58,7 @@ namespace _Game.Scripts.Gameplay.Skills
                 if (Vector3.Angle(aimDirection, toTarget.normalized) > halfArc)
                     continue;
 
-                entity.HealthSystem.TakeDamage(damage);
+                entity.HealthSystem.TakeDamage(damage, damageType);
 
                 for (int statusIndex = 0; statusIndex < statusPayloads.Length; statusIndex++)
                     entity.StatusEffectSystem.ApplyStatus(statusPayloads[statusIndex]);

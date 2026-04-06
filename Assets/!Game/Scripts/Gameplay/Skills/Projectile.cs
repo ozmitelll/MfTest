@@ -1,4 +1,5 @@
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Systems.Combat;
 using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace _Game.Scripts.Gameplay.Skills
         private Vector3 _direction;
         private float   _speed;
         private float   _damage;
+        private DamageType _damageType;
         private Entity  _owner;
         private StatusEffectApplicationPayload[] _statusPayloads;
 
@@ -19,12 +21,14 @@ namespace _Game.Scripts.Gameplay.Skills
             Vector3 direction,
             float damage,
             float speed,
+            DamageType damageType,
             Entity owner,
             StatusEffectApplicationPayload[] statusPayloads)
         {
             _direction = direction;
             _damage    = damage;
             _speed     = speed;
+            _damageType = damageType;
             _owner     = owner;
             _statusPayloads = statusPayloads;
 
@@ -42,7 +46,7 @@ namespace _Game.Scripts.Gameplay.Skills
             var entity = other.GetComponent<Entity>();
             if (entity == null || entity == _owner) return;
             
-            entity.HealthSystem.TakeDamage(_damage);
+            entity.HealthSystem.TakeDamage(_damage, _damageType);
 
             if (_statusPayloads != null)
             {

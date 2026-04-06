@@ -9,6 +9,15 @@ namespace _Game.Scripts.Core
 
     public struct OnPlayerDiedEvent { }
 
+    public struct OnEntityDamagedEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Entity Target;
+        public float Damage;
+        public _Game.Scripts.Gameplay.Systems.Combat.DamageType DamageType;
+        public bool IsStatusDamage;
+        public _Game.Scripts.Gameplay.Systems.StatusEffects.StatusEffectDefinition StatusEffect;
+    }
+
     // --- Enemy ---
     public struct OnEnemyDiedEvent
     {

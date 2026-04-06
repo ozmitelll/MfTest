@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Systems.Combat;
 using UnityEngine;
 
 namespace _Game.Scripts.Gameplay.Systems.StatusEffects
@@ -16,6 +17,7 @@ namespace _Game.Scripts.Gameplay.Systems.StatusEffects
             public int Stacks;
             public float SourceDamageSnapshot;
             public float SourceAttackRateSnapshot;
+            public DamageType DamageType;
             public float TickElapsed;
         }
 
@@ -98,6 +100,7 @@ namespace _Game.Scripts.Gameplay.Systems.StatusEffects
                     Stacks = Mathf.Clamp(payload.StackCount, 1, payload.Definition.MaxStacks),
                     SourceDamageSnapshot = payload.SourceDamageSnapshot,
                     SourceAttackRateSnapshot = payload.SourceAttackRateSnapshot,
+                    DamageType = payload.DamageType,
                     TickElapsed = 0f
                 });
 
@@ -107,6 +110,7 @@ namespace _Game.Scripts.Gameplay.Systems.StatusEffects
             activeEffect.Source = payload.Source;
             activeEffect.SourceDamageSnapshot = payload.SourceDamageSnapshot;
             activeEffect.SourceAttackRateSnapshot = payload.SourceAttackRateSnapshot;
+            activeEffect.DamageType = payload.DamageType;
 
             switch (payload.Definition.StackingMode)
             {
@@ -209,7 +213,11 @@ namespace _Game.Scripts.Gameplay.Systems.StatusEffects
                 return;
 
             float tickDamage = damagePerSecond * tickInterval * Mathf.Max(1, effect.Stacks);
-            _owner.HealthSystem.TakeDamage(tickDamage);
+            _owner.HealthSystem.TakeDamage(
+                tickDamage,
+                effect.DamageType,
+                isStatusDamage: true,
+                sourceStatusEffect: effect.Definition);
         }
 
         private static float GetStackedPercent(

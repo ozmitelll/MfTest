@@ -1,4 +1,5 @@
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Systems.Combat;
 
 namespace _Game.Scripts.Gameplay.Systems.StatusEffects
 {
@@ -10,5 +11,6 @@ namespace _Game.Scripts.Gameplay.Systems.StatusEffects
         public int StackCount;
         public float SourceDamageSnapshot;
         public float SourceAttackRateSnapshot;
+        public DamageType DamageType;
     }
 }

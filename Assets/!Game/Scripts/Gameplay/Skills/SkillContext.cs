@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Systems.Combat;
 using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace _Game.Scripts.Gameplay.Skills
     {
         public Entity  Owner;
         public SkillSlot SkillSlot;
+        public DamageType DamageType;
         public Vector3 AimPosition;   // точка прицела в мировых координатах
         public Vector3 AimDirection;  // нормализованное направление от владельца к прицелу
         public float DamageMultiplier;
@@ -54,7 +56,8 @@ namespace _Game.Scripts.Gameplay.Skills
                     Duration = request.DurationOverride > 0f ? request.DurationOverride : request.Definition.DefaultDuration,
                     StackCount = Mathf.Max(1, request.StackCount),
                     SourceDamageSnapshot = resolvedDamage,
-                    SourceAttackRateSnapshot = attackRate
+                    SourceAttackRateSnapshot = attackRate,
+                    DamageType = DamageType
                 };
             }
 

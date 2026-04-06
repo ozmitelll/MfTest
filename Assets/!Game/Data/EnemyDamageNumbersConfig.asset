@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bb6b6170d24ab9b3f7f4d31b671c11, type: 3}
+  m_Name: EnemyDamageNumbersConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Configs.EnemyDamageNumbersConfig
+  WorldOffset: {x: 0, y: 2.2, z: 0}
+  HorizontalSpawnRadius: 30
+  VerticalSpawnRadius: 16
+  Lifetime: 0.7
+  RiseDistance: 42
+  HorizontalDrift: 10
+  Pure:
+    DirectColor: {r: 0.95, g: 0.95, b: 0.95, a: 1}
+    StatusColor: {r: 0.72, g: 0.72, b: 0.72, a: 1}
+    FontSize: 20
+  Magical:
+    DirectColor: {r: 0.45, g: 0.82, b: 1, a: 1}
+    StatusColor: {r: 0.3, g: 0.95, b: 1, a: 1}
+    FontSize: 20
+  Elemental:
+    DirectColor: {r: 1, g: 0.64, b: 0.25, a: 1}
+    StatusColor: {r: 1, g: 0.82, b: 0.35, a: 1}
+    FontSize: 20
+  StatusEffects:
+  - StatusEffect: {fileID: 11400000, guid: e79ac28fe28d740488007e724732dbb1, type: 2}
+    Color: {r: 1, g: 0.48, b: 0.1, a: 1}

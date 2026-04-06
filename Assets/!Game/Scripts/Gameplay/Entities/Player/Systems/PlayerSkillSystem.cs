@@ -82,7 +82,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
             if (skill == null || _cooldowns[slot] > 0f) return;
             if (_statusEffects?.BlocksSkills == true) return;
 
-            var ctx = BuildContext(skillSlot);
+            var ctx = BuildContext(skill, skillSlot);
             if (!skill.CanActivate(ctx)) return;
 
             skill.Activate(ctx);
@@ -106,13 +106,14 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
             0 => _skill1, 1 => _skill2, 2 => _skill3, 3 => _skill4, _ => null
         };
 
-        private SkillContext BuildContext(SkillSlot skillSlot)
+        private SkillContext BuildContext(ActiveSkill skill, SkillSlot skillSlot)
         {
             var aim = GetAimPosition();
             SkillContext context = new SkillContext
             {
                 Owner        = _owner,
                 SkillSlot    = skillSlot,
+            DamageType   = skill != null ? skill.ResolveDamageType(_owner) : _owner.StatsSystem.AttackDamageType,
                 AimPosition  = aim,
                 AimDirection = (aim - _owner.transform.position).normalized,
                 DamageMultiplier = 1f,

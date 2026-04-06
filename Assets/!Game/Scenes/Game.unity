@@ -563,6 +563,7 @@ GameObject:
   - component: {fileID: 1486136131}
   - component: {fileID: 1486136130}
   - component: {fileID: 1486136129}
+  - component: {fileID: 1486136132}
   m_Layer: 0
   m_Name: ===== Enemy HP Bars Layer =====
   m_TagString: Untagged
@@ -583,6 +584,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.UI.EnemyBarsLayer
   _styleSheet: {fileID: 7433441132597879392, guid: d4e73ca44342c874a9b4554e7526c16c, type: 3}
+--- !u!114 &1486136132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486136128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eaf0d0c7c15496cb4495fcbbdcf1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.UI.EnemyDamageNumbersManager
+  _config: {fileID: 11400000, guid: aec77cc1ebf34ef8b8d3711f6af834bb, type: 2}
+  _layer: {fileID: 1486136129}
 --- !u!114 &1486136130
 MonoBehaviour:
   m_ObjectHideFlags: 0

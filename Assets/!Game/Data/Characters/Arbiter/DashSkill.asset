@@ -15,6 +15,8 @@ MonoBehaviour:
   SkillName: 
   Icon: {fileID: 0}
   Description: 
+  UseOwnerAttackDamageType: 1
+  DamageType: 0
   Cooldown: 1
   MaxDistance: 6
   GroundMask:

@@ -1,4 +1,7 @@
 using System;
+using _Game.Scripts.Core;
+using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Systems.Combat;
 using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
 
@@ -6,6 +9,7 @@ namespace _Game.Scripts.Gameplay.Systems.Health
 {
     public class HealthSystem : MonoBehaviour
     {
+        private Entity _ownerEntity;
         private StatusEffectSystem _statusEffectSystem;
 
         public float CurrentHealth { get; private set; }
@@ -35,7 +39,11 @@ namespace _Game.Scripts.Gameplay.Systems.Health
             OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
 
-        public void TakeDamage(float amount)
+        public void TakeDamage(
+            float amount,
+            DamageType damageType = DamageType.Pure,
+            bool isStatusDamage = false,
+            StatusEffectDefinition sourceStatusEffect = null)
         {
             if (IsDead || amount <= 0f) return;
 
@@ -49,7 +57,26 @@ namespace _Game.Scripts.Gameplay.Systems.Health
                 _statusEffectSystem.ShouldIgnoreIncomingDamage(finalDamage, CurrentHealth))
                 return;
 
+            float previousHealth = CurrentHealth;
             CurrentHealth = Mathf.Max(0f, CurrentHealth - finalDamage);
+            float appliedDamage = previousHealth - CurrentHealth;
+
+            if (appliedDamage > 0f)
+            {
+                _ownerEntity ??= GetComponent<Entity>();
+                if (_ownerEntity != null)
+                {
+                    EventBus.Publish(new OnEntityDamagedEvent
+                    {
+                        Target = _ownerEntity,
+                        Damage = appliedDamage,
+                        DamageType = damageType,
+                        IsStatusDamage = isStatusDamage,
+                        StatusEffect = sourceStatusEffect
+                    });
+                }
+            }
+
             OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
             if (CurrentHealth == 0f)
