@@ -1,31 +1,39 @@
-﻿using _Game.Scripts.Configs;
+using _Game.Scripts.Configs;
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Systems.Stats;
 using _Game.Scripts.Services;
 using UnityEngine;
 
-namespace _Game.Scripts.Gameplay.Entities.Enemy
+namespace _Game.Scripts.Gameplay.Entities.Bosses
 {
-    public class Enemy : Entity
+    [RequireComponent(typeof(BossSkillSystem))]
+    public class Boss : Entity
     {
         public EnemyConfig Config;
 
+        [SerializeField] private BossSkillSystem _skillSystem;
+
         private int _appliedDifficultyLevel;
 
-        protected virtual void Awake()
+        public BossSkillSystem SkillSystem =>
+            _skillSystem != null ? _skillSystem : _skillSystem = GetComponent<BossSkillSystem>() ?? gameObject.AddComponent<BossSkillSystem>();
+
+        private void Awake()
         {
             InitializeEntity(Config);
+            SkillSystem.Initialize(this);
 
             if (ServiceLocator.Instance != null && ServiceLocator.Instance.Has<SessionService>())
                 ServiceLocator.Instance.Get<SessionService>().ApplyDifficulty(this);
         }
 
-        protected virtual void OnEnable()  => HealthSystem.OnDied += OnDied;
-        protected virtual void OnDisable() => HealthSystem.OnDied -= OnDied;
+        private void OnEnable() => HealthSystem.OnDied += OnDied;
 
-        protected virtual void OnDied()
+        private void OnDisable() => HealthSystem.OnDied -= OnDied;
+
+        private void OnDied()
         {
-            EventBus.Publish(new OnEnemyDiedEvent { Enemy = this });
+            EventBus.Publish(new OnBossDiedEvent { Boss = this });
             Destroy(gameObject);
         }
 

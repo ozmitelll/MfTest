@@ -1,4 +1,5 @@
 ﻿using _Game.Scripts.Configs;
+using _Game.Scripts.Gameplay.Interactables;
 using _Game.Scripts.Gameplay.Entities.Enemy;
 using UnityEngine;
 
@@ -12,11 +13,16 @@ namespace _Game.Scripts.Gameplay
         [Header("Core")]
         public Transform playerSpawnPoint;
 
+        [Header("Portal")]
+        [SerializeField] private Portal _portalPrefab;
+        [SerializeField] private Transform[] _portalSpawnPoints;
+
         [Header("Director")]
         [SerializeField] private Collider[] _directorSpawnSurfaces;
 
         private LevelConfig _config;
         private Collider[] _cachedDirectorSpawnSurfaces;
+        private Portal _spawnedPortal;
 
         public LevelConfig Config => _config;
         public Enemy[] DirectorEnemyPrefabs => _config != null ? _config.DirectorEnemyPrefabs : null;
@@ -27,6 +33,35 @@ namespace _Game.Scripts.Gameplay
         {
             _config = config;
             _cachedDirectorSpawnSurfaces = null;
+            SpawnPortal();
+        }
+
+        private void SpawnPortal()
+        {
+            if (_spawnedPortal != null)
+                Destroy(_spawnedPortal.gameObject);
+
+            if (_portalPrefab == null)
+            {
+                Debug.LogWarning($"[{nameof(Level)}] Portal prefab is not assigned on level '{name}'.", this);
+                return;
+            }
+
+            if (_portalSpawnPoints == null || _portalSpawnPoints.Length == 0)
+            {
+                Debug.LogWarning($"[{nameof(Level)}] Portal spawn points are not assigned on level '{name}'.", this);
+                return;
+            }
+
+            Transform spawnPoint = _portalSpawnPoints[Random.Range(0, _portalSpawnPoints.Length)];
+            if (spawnPoint == null)
+            {
+                Debug.LogWarning($"[{nameof(Level)}] Selected portal spawn point is missing on level '{name}'.", this);
+                return;
+            }
+
+            _spawnedPortal = Instantiate(_portalPrefab, spawnPoint.position, spawnPoint.rotation, transform);
+            _spawnedPortal.Initialize(this, spawnPoint);
         }
 
         public bool TryGetRandomDirectorSpawnPosition(Vector3 center, out Vector3 spawnPosition)

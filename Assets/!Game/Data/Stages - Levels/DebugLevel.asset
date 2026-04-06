@@ -18,3 +18,5 @@ MonoBehaviour:
   _directorMinSpawnRadius: 16
   _directorMaxSpawnRadius: 30
   _directorSpawnHeight: 1
+  _bossPrefabs:
+  - {fileID: 6753256552708966397, guid: 2a5c8bb72e4ad934182eb4ae7bb49dd7, type: 3}

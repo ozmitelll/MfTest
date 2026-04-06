@@ -15,6 +15,11 @@ namespace _Game.Scripts.Core
         public _Game.Scripts.Gameplay.Entities.Enemy.Enemy Enemy;
     }
 
+    public struct OnBossDiedEvent
+    {
+        public _Game.Scripts.Gameplay.Entities.Bosses.Boss Boss;
+    }
+
     // --- Session ---
     public struct OnSessionEndedEvent { }
 

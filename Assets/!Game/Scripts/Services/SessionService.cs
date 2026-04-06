@@ -1,5 +1,6 @@
 ﻿using _Game.Scripts.Configs;
 using _Game.Scripts.Core;
+using _Game.Scripts.Gameplay.Entities.Bosses;
 using _Game.Scripts.Gameplay.Entities.Enemy;
 using _Game.Scripts.Gameplay.Entities.Player;
 using UnityEngine;
@@ -62,6 +63,14 @@ namespace _Game.Scripts.Services
             enemy.ApplyDifficulty(CurrentDifficultyLevel, _gameConfig.EnemyDifficultyStatPercentPerLevel);
         }
 
+        public void ApplyDifficulty(Boss boss)
+        {
+            if (boss == null || _gameConfig == null)
+                return;
+
+            boss.ApplyDifficulty(CurrentDifficultyLevel, _gameConfig.EnemyDifficultyStatPercentPerLevel);
+        }
+
         public bool NextStage()
         {
             CurrentStage++;
@@ -117,6 +126,10 @@ namespace _Game.Scripts.Services
             Enemy[] activeEnemies = Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None);
             foreach (Enemy enemy in activeEnemies)
                 ApplyDifficulty(enemy);
+
+            Boss[] activeBosses = Object.FindObjectsByType<Boss>(FindObjectsSortMode.None);
+            foreach (Boss boss in activeBosses)
+                ApplyDifficulty(boss);
         }
 
         private float GetTimerTickInterval() => _gameConfig != null
