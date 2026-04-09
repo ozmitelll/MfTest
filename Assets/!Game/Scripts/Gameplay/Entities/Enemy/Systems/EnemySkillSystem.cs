@@ -13,6 +13,12 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
         [SerializeField] private ActiveSkill _skill3;
         [SerializeField] private ActiveSkill _skill4;
 
+        [Header("Movement Casting")]
+        [SerializeField] private bool _skill1CanUseWhileMoving;
+        [SerializeField] private bool _skill2CanUseWhileMoving;
+        [SerializeField] private bool _skill3CanUseWhileMoving;
+        [SerializeField] private bool _skill4CanUseWhileMoving;
+
         [Header("Passive")]
         [SerializeField] private PassiveSkill _passive;
 
@@ -61,6 +67,15 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
         }
 
         public bool HasSkill(int slot) => GetConfiguredSkill(slot) != null;
+
+        public bool CanUseWhileMoving(int slot) => slot switch
+        {
+            1 => _skill1 != null && _skill1CanUseWhileMoving,
+            2 => _skill2 != null && _skill2CanUseWhileMoving,
+            3 => _skill3 != null && _skill3CanUseWhileMoving,
+            4 => _skill4 != null && _skill4CanUseWhileMoving,
+            _ => false
+        };
 
         public bool IsReady(int slot)
         {

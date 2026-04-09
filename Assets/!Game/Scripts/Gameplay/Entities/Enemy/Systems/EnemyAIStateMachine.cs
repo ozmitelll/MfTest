@@ -98,14 +98,39 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
             if (!_hasAggro)
                 return;
 
-            ChangeState(distanceToTarget <= GetAttackRangeThreshold() ? EnemyAIState.Attack : EnemyAIState.Chase);
+            ChangeState(distanceToTarget <= GetAttackRangeThreshold() && !CanUsePrimarySkillWhileMoving()
+                ? EnemyAIState.Attack
+                : EnemyAIState.Chase);
         }
 
         private void TickChase(float distanceToTarget)
         {
             if (distanceToTarget <= GetAttackRangeThreshold())
             {
-                ChangeState(EnemyAIState.Attack);
+                if (CanUsePrimarySkillWhileMoving())
+                {
+                    if (TryUsePrimarySkillWhileMoving())
+                    {
+                        if (ShouldRetreat())
+                            ChangeState(EnemyAIState.Retreat);
+
+                        return;
+                    }
+
+                    if (!IsPrimarySkillReady() && ShouldRetreat())
+                    {
+                        ChangeState(EnemyAIState.Retreat);
+                        return;
+                    }
+                }
+                else
+                {
+                    ChangeState(EnemyAIState.Attack);
+                    return;
+                }
+
+                RefreshDestination(() => _movementSystem.MoveTo(_target.position, GetDesiredEngagementDistance()));
+                _movementSystem.FaceTowards(_target.position);
                 return;
             }
 
@@ -115,8 +140,17 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
 
         private void TickAttack(float distanceToTarget)
         {
+            if (CanUsePrimarySkillWhileMoving())
+            {
+                ChangeState(EnemyAIState.Chase);
+                return;
+            }
+
             _movementSystem.StopMovement();
             _movementSystem.FaceTowards(_target.position);
+
+            if (_movementSystem.IsMoving)
+                return;
 
             if (distanceToTarget > GetAttackRangeThreshold())
             {
@@ -124,7 +158,7 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
                 return;
             }
 
-            int primarySkillSlot = Mathf.Clamp(_config.PrimarySkillSlot, 1, 4);
+            int primarySkillSlot = GetPrimarySkillSlot();
             if (!_skillSystem.HasSkill(primarySkillSlot))
                 return;
 
@@ -142,17 +176,28 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
         {
             _movementSystem.MoveAwayFrom(_target.position, GetRetreatDistance());
 
-            int primarySkillSlot = Mathf.Clamp(_config.PrimarySkillSlot, 1, 4);
+            int primarySkillSlot = GetPrimarySkillSlot();
             if (_skillSystem.HasSkill(primarySkillSlot) &&
-                _skillSystem.IsReady(primarySkillSlot) &&
                 distanceToTarget <= GetAttackRangeThreshold())
             {
-                ChangeState(EnemyAIState.Attack);
-                return;
+                if (_skillSystem.CanUseWhileMoving(primarySkillSlot))
+                {
+                    if (TryUsePrimarySkillWhileMoving())
+                        return;
+                }
+                else if (_skillSystem.IsReady(primarySkillSlot))
+                {
+                    ChangeState(EnemyAIState.Attack);
+                    return;
+                }
             }
 
             if (_stateElapsed >= Mathf.Max(0f, _config.RetreatDuration))
-                ChangeState(distanceToTarget <= GetAttackRangeThreshold() ? EnemyAIState.Attack : EnemyAIState.Chase);
+            {
+                ChangeState(distanceToTarget <= GetAttackRangeThreshold() && !CanUsePrimarySkillWhileMoving()
+                    ? EnemyAIState.Attack
+                    : EnemyAIState.Chase);
+            }
         }
 
         private void UpdateAggro(float distanceToTarget)
@@ -215,6 +260,33 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
         }
 
         private bool ShouldRetreat() => GetRetreatDistance() > 0f && _config.RetreatDuration > 0f;
+
+        private int GetPrimarySkillSlot() => Mathf.Clamp(_config.PrimarySkillSlot, 1, 4);
+
+        private bool IsPrimarySkillReady()
+        {
+            int primarySkillSlot = GetPrimarySkillSlot();
+            return _skillSystem.HasSkill(primarySkillSlot) && _skillSystem.IsReady(primarySkillSlot);
+        }
+
+        private bool CanUsePrimarySkillWhileMoving()
+        {
+            int primarySkillSlot = GetPrimarySkillSlot();
+            return _skillSystem.HasSkill(primarySkillSlot) && _skillSystem.CanUseWhileMoving(primarySkillSlot);
+        }
+
+        private bool TryUsePrimarySkillWhileMoving()
+        {
+            int primarySkillSlot = GetPrimarySkillSlot();
+            if (!_skillSystem.HasSkill(primarySkillSlot) || !_skillSystem.CanUseWhileMoving(primarySkillSlot))
+                return false;
+
+            if (!_skillSystem.IsReady(primarySkillSlot))
+                return false;
+
+            _movementSystem.FaceTowards(_target.position);
+            return _skillSystem.TryActivateAtTarget(primarySkillSlot, _target);
+        }
 
         private void RefreshDestination(System.Action setDestination)
         {

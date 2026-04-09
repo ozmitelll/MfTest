@@ -17,6 +17,18 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
         private StatusEffectSystem _statusEffects;
         private bool _initialized;
 
+        public bool IsMoving
+        {
+            get
+            {
+                if (_agent == null || !_agent.isOnNavMesh)
+                    return false;
+
+                return _agent.velocity.sqrMagnitude > 0.01f ||
+                       (!_agent.isStopped && _agent.desiredVelocity.sqrMagnitude > 0.01f);
+            }
+        }
+
         public void Initialize(Enemy owner)
         {
             _owner = owner;
@@ -91,6 +103,7 @@ namespace _Game.Scripts.Gameplay.Entities.Enemy.Systems
                 return;
 
             _agent.isStopped = true;
+            _agent.velocity = Vector3.zero;
             if (_agent.hasPath)
                 _agent.ResetPath();
         }
