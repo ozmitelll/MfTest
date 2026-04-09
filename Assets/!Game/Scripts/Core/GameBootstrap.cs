@@ -24,6 +24,9 @@ namespace _Game.Scripts.Core
             ServiceLocator.Instance.Register(new InteractionService());
             ServiceLocator.Instance.Register(new PlayerService());
             ServiceLocator.Instance.Register(new ModificationScreenService());
+
+            if (!ServiceLocator.Instance.Has<ProjectilePoolService>())
+                ServiceLocator.Instance.Register(new ProjectilePoolService());
         }
 
         private void Start()

@@ -18,9 +18,17 @@ MonoBehaviour:
   MagicResistance: 0
   ElementalResistance: 0
   AttackDamage: 10
-  AttackRange: 2
+  AttackRange: 8
   AttackRate: 1
   AttackDamageType: 0
+  ModificationCapacity: 10
+  StartingModifications: []
   DetectionRange: 10
   AggroRange: 15
+  CombatRole: 1
+  PrimarySkillSlot: 1
+  RangeTolerance: 0.5
+  RetreatDistance: 4
+  RetreatDuration: 0.9
+  DirectorCost: 10
   CoinDrop: 5

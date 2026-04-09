@@ -11,13 +11,17 @@ GameObject:
   - component: {fileID: 7618672927219161959}
   - component: {fileID: 7495503625549773050}
   - component: {fileID: 1998012037388828399}
+  - component: {fileID: 7567238405368462402}
   - component: {fileID: 2220633442589817347}
+  - component: {fileID: 1193519809824769254}
+  - component: {fileID: 4010196504320545204}
   - component: {fileID: 8269492657054898504}
   - component: {fileID: 379329225167579793}
   - component: {fileID: 2809075539112830778}
   - component: {fileID: 338320203155040176}
   - component: {fileID: 6079183383983146259}
   - component: {fileID: 4233572017106506380}
+  - component: {fileID: 4461536017151168088}
   m_Layer: 7
   m_Name: Enemy Range
   m_TagString: Untagged
@@ -59,6 +63,9 @@ MonoBehaviour:
   _modificationLoadoutSystem: {fileID: 2809075539112830778}
   _statusEffectSystem: {fileID: 2220633442589817347}
   Config: {fileID: 11400000, guid: d113ae467ace1d8458848a6fdf428a30, type: 2}
+  _skillSystem: {fileID: 7567238405368462402}
+  _movementSystem: {fileID: 4010196504320545204}
+  _aiStateMachine: {fileID: 1193519809824769254}
 --- !u!114 &1998012037388828399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +78,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ee0fca2d838fb4d9d7b75d001af6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Health.HealthSystem
+--- !u!114 &7567238405368462402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c5b4d9d52a59f49ac182819d066740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Systems.EnemySkillSystem
+  _skill1: {fileID: 11400000, guid: 8cc68fb0f2ad49fb840f1f6994dda7f9, type: 2}
+  _skill2: {fileID: 0}
+  _skill3: {fileID: 0}
+  _skill4: {fileID: 0}
+  _passive: {fileID: 0}
 --- !u!114 &2220633442589817347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +107,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b4779927dd58046aeee11e79e2d0c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.StatusEffects.StatusEffectSystem
+--- !u!114 &1193519809824769254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916372e9f9e09c54299642b0c31d637b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Systems.EnemyAIStateMachine
+  _destinationRefreshInterval: 0.15
+--- !u!114 &4010196504320545204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a55bccfad1fd849b65b40de1819dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Systems.EnemyMovementSystem
+  _rotationSpeed: 540
+  _navMeshSnapDistance: 2
 --- !u!114 &8269492657054898504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +234,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!195 &4461536017151168088
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766048813976919801}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4714342642835935203
 GameObject:
   m_ObjectHideFlags: 0

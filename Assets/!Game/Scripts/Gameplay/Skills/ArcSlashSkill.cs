@@ -47,7 +47,10 @@ namespace _Game.Scripts.Gameplay.Skills
             {
                 Collider hit = _hitBuffer[i];
                 Entity entity = hit.GetComponent<Entity>() ?? hit.GetComponentInParent<Entity>();
-                if (entity == null || entity == ctx.Owner || entity.HealthSystem.IsDead || !hitEntities.Add(entity))
+                if (entity == null ||
+                    entity.HealthSystem.IsDead ||
+                    !EntityCombatUtility.AreHostile(ctx.Owner, entity) ||
+                    !hitEntities.Add(entity))
                     continue;
 
                 Vector3 toTarget = entity.transform.position - owner.position;

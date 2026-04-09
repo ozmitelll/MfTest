@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Primalone_1
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Configs.LevelConfig
   _levelPrefab: {fileID: 5029253770625246243, guid: df6499d122cb47d4f914cf8ed61c87d0, type: 3}
-  _directorEnemyPrefabs: []
+  _directorEnemyPrefabs:
+  - {fileID: 7495503625549773050, guid: fb612989ffb513342a91bded5d02c624, type: 3}
   _directorMinSpawnRadius: 16
   _directorMaxSpawnRadius: 30
   _directorSpawnHeight: 1

@@ -15,7 +15,7 @@ namespace _Game.Scripts.Gameplay.Interactables
         public string InteractionPrompt => _isOpened ? "" : $"Open ({_cost} coins)  [F]";
         public bool CanInteract(Player player) => !_isOpened;
 
-        private void Start()     => ServiceLocator.Instance.Get<InteractionService>().Register(this);
+        private void Start() => ServiceLocator.Instance.Get<InteractionService>().Register(this);
         private void OnDestroy()
         {
             if (ServiceLocator.Instance != null && ServiceLocator.Instance.Has<InteractionService>())

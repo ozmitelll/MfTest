@@ -14,14 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Systems.Modifications.ModificationCardDefinition
   _id: 1
   _displayName: Move Speed
+  _rarity: 0
+  _cardType: 0
   _rank: 1
   _installCost: 2
   _description: Increase Mod Stat
   _effects:
   - rid: 2762187703343907182
+  - rid: -2
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 2762187703343907182
       type: {class: StatModificationEffectDefinition, ns: _Game.Scripts.Gameplay.Systems.Modifications, asm: Assembly-CSharp}
       data:

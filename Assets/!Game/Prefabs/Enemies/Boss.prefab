@@ -18,6 +18,9 @@ GameObject:
   - component: {fileID: 368134181526531863}
   - component: {fileID: 143384777687162724}
   - component: {fileID: -5864017584767173806}
+  - component: {fileID: 3530764132258206170}
+  - component: {fileID: 2775703005368947999}
+  - component: {fileID: 7913501273234810768}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -81,6 +84,8 @@ MonoBehaviour:
   _statusEffectSystem: {fileID: 368134181526531863}
   Config: {fileID: 11400000, guid: 857d09c8f2c496242bc064228942b765, type: 2}
   _skillSystem: {fileID: 143384777687162724}
+  _movementSystem: {fileID: 0}
+  _aiStateMachine: {fileID: 0}
 --- !u!114 &6329355829055135628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +190,55 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!195 &3530764132258206170
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086307495786587234}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2775703005368947999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086307495786587234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a55bccfad1fd849b65b40de1819dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Systems.EnemyMovementSystem
+  _rotationSpeed: 540
+  _navMeshSnapDistance: 2
+--- !u!114 &7913501273234810768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086307495786587234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916372e9f9e09c54299642b0c31d637b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Systems.EnemyAIStateMachine
+  _destinationRefreshInterval: 0.15
 --- !u!1 &9053568812171133782
 GameObject:
   m_ObjectHideFlags: 0

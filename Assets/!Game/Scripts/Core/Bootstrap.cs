@@ -21,6 +21,7 @@ namespace _Game.Scripts.Core
             sessionService.SetGameConfig(_gameConfig);
             serviceLocator.Register(sessionService);
             serviceLocator.Register(new ModificationCardDatabaseService(_gameConfig.ModificationCardDatabase));
+            serviceLocator.Register(new ProjectilePoolService());
 
             var sceneService = new SceneService(serviceLocator);
             serviceLocator.Register(sceneService);

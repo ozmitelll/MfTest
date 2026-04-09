@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78c7aaef10fd8141b4c86e437d22e23, type: 3}
+  m_Name: EnemyRangerProjectileSkill
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Skills.ProjectileSkill
+  SkillName: Ranger Shot
+  Icon: {fileID: 0}
+  Description: Fires a projectile at the player from medium range.
+  Cooldown: 1
+  HoldToRepeat: 0
+  UseOwnerAttackDamageType: 1
+  DamageType: 0
+  ProjectilePrefab: {fileID: 6575997627488573233, guid: 646b130b1aad68749a43521a467d11e2, type: 3}
+  ProjectileSpeed: 18
+  SpawnForwardOffset: 0.9
+  SpawnHeightOffset: 1.1
+  RotateOwnerToAim: 1
+  UseRuntimeFallbackProjectile: 1
+  FallbackProjectileRadius: 0.18
