@@ -6,10 +6,23 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
 {
     public class PlayerMovementSystem : MonoBehaviour
     {
+        [Header("Gravity")]
+        [SerializeField] private float _gravity = 30f;
+        [SerializeField] private float _groundedVerticalVelocity = -2f;
+        [SerializeField] private float _maxFallSpeed = 50f;
+
+        [Header("Fall Recovery")]
+        [SerializeField] private float _fallRespawnDistance = 8f;
+        [SerializeField] private float _respawnVerticalOffset = 0.25f;
+
         private InputSystem_Actions.PlayerActions _actions;
         private CharacterController               _controller;
         private StatsSystem                       _stats;
         private StatusEffectSystem                _statusEffects;
+        private float                             _verticalVelocity;
+        private Vector3                           _lastGroundedPosition;
+        private Vector3                           _fallStartPosition;
+        private bool                              _isRecoveringFromFall;
 
         public void Initialize(InputSystem_Actions.PlayerActions actions, StatsSystem stats)
         {
@@ -17,17 +30,73 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
             _controller = GetComponent<CharacterController>();
             _stats      = stats;
             _statusEffects = GetComponent<StatusEffectSystem>();
+            _lastGroundedPosition = transform.position;
+            _fallStartPosition = transform.position;
         }
 
         private void Update()
         {
+            bool wasGrounded = _controller.isGrounded;
+            if (wasGrounded)
+                _lastGroundedPosition = transform.position;
+
+            Vector3 move = CalculateHorizontalMovement();
+            move.y = CalculateVerticalMovement();
+
+            _controller.Move(move);
+            UpdateFallRecovery(wasGrounded);
+        }
+
+        private Vector3 CalculateHorizontalMovement()
+        {
             if (_statusEffects?.BlocksMovement == true)
-                return;
+                return Vector3.zero;
 
             Vector2 input = _actions.Move.ReadValue<Vector2>();
             float moveSpeed = _stats.MoveSpeed.Value * (_statusEffects?.GetMoveSpeedMultiplier() ?? 1f);
-            Vector3 move  = new Vector3(input.x, 0f, input.y) * (moveSpeed * Time.deltaTime);
-            _controller.Move(move);
+            return new Vector3(input.x, 0f, input.y) * (moveSpeed * Time.deltaTime);
+        }
+
+        private float CalculateVerticalMovement()
+        {
+            if (_controller.isGrounded && _verticalVelocity < 0f)
+                _verticalVelocity = _groundedVerticalVelocity;
+            else
+                _verticalVelocity = Mathf.Max(_verticalVelocity - _gravity * Time.deltaTime, -_maxFallSpeed);
+
+            return _verticalVelocity * Time.deltaTime;
+        }
+
+        private void UpdateFallRecovery(bool wasGrounded)
+        {
+            if (_controller.isGrounded)
+            {
+                _lastGroundedPosition = transform.position;
+                _isRecoveringFromFall = false;
+                return;
+            }
+
+            if (wasGrounded)
+            {
+                _fallStartPosition = _lastGroundedPosition;
+                _isRecoveringFromFall = true;
+            }
+
+            if (_isRecoveringFromFall && transform.position.y <= _fallStartPosition.y - _fallRespawnDistance)
+                RestoreToFallStart();
+        }
+
+        private void RestoreToFallStart()
+        {
+            Vector3 restorePosition = _fallStartPosition + Vector3.up * _respawnVerticalOffset;
+
+            _controller.enabled = false;
+            transform.position = restorePosition;
+            _controller.enabled = true;
+
+            _verticalVelocity = _groundedVerticalVelocity;
+            _lastGroundedPosition = restorePosition;
+            _isRecoveringFromFall = false;
         }
     }
 }
