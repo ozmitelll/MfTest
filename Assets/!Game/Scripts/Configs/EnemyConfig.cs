@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Game.Scripts.Configs
 {
@@ -18,6 +19,7 @@ namespace _Game.Scripts.Configs
         [Min(1f)] public float DirectorCost = 10f;
 
         [Header("Rewards")]
-        public int CoinDrop = 5;
+        [Min(0), FormerlySerializedAs("CoinDrop")] public int CoinDropMin = 5;
+        [Min(0)] public int CoinDropMax = 7;
     }
 }

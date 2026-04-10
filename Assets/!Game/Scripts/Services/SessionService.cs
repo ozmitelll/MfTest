@@ -71,6 +71,22 @@ namespace _Game.Scripts.Services
             boss.ApplyDifficulty(CurrentDifficultyLevel, _gameConfig.EnemyDifficultyStatPercentPerLevel);
         }
 
+        public int GetEnemyCoinReward(Enemy enemy)
+        {
+            if (enemy == null || enemy.Config == null)
+                return 0;
+
+            int minReward = Mathf.Max(0, enemy.Config.CoinDropMin);
+            int maxReward = Mathf.Max(minReward, enemy.Config.CoinDropMax);
+            int baseReward = Random.Range(minReward, maxReward + 1);
+
+            if (_gameConfig == null || baseReward <= 0)
+                return baseReward;
+
+            float difficultyMultiplier = 1f + CurrentDifficultyLevel * _gameConfig.EnemyCoinRewardPercentPerDifficulty;
+            return Mathf.Max(0, Mathf.RoundToInt(baseReward * difficultyMultiplier));
+        }
+
         public bool NextStage()
         {
             CurrentStage++;

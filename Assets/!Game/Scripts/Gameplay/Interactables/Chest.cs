@@ -13,7 +13,7 @@ namespace _Game.Scripts.Gameplay.Interactables
         private bool _isOpened;
 
         public string InteractionPrompt => _isOpened ? "" : $"Open ({_cost} coins)  [F]";
-        public bool CanInteract(Player player) => !_isOpened;
+        public bool CanInteract(Player player) => !_isOpened && player != null && player.Wallet != null && player.Wallet.CanAfford(_cost);
 
         private void Start() => ServiceLocator.Instance.Get<InteractionService>().Register(this);
         private void OnDestroy()
@@ -24,32 +24,46 @@ namespace _Game.Scripts.Gameplay.Interactables
 
         public void Interact(Player player)
         {
-            if (_isOpened)
+            if (_isOpened || player == null)
+                return;
+
+            if (player.Wallet == null || !player.Wallet.CanAfford(_cost))
+                return;
+
+            if (!TryGetRewardCard(out ModificationCardDefinition rewardCard))
+                return;
+
+            if (!player.Wallet.TrySpendCoins(_cost))
                 return;
 
             _isOpened = true;
+
+            player.ModificationInventory.AddCard(rewardCard, ModificationCardAddReason.LootPickup);
+            Debug.Log($"Chest rewarded '{rewardCard.DisplayName}' ({rewardCard.Rarity}, {rewardCard.CardType}).", this);
+
+            EventBus.Publish(new OnChestOpenedEvent { Chest = this });
+        }
+
+        private bool TryGetRewardCard(out ModificationCardDefinition rewardCard)
+        {
+            rewardCard = null;
 
             if (ServiceLocator.Instance != null && ServiceLocator.Instance.Has<ModificationCardDatabaseService>())
             {
                 ModificationCardDatabaseService cardDatabaseService =
                     ServiceLocator.Instance.Get<ModificationCardDatabaseService>();
 
-                if (cardDatabaseService.TryGetRandomCard(out var rewardCard))
+                if (cardDatabaseService.TryGetRandomCard(out rewardCard))
                 {
-                    player.ModificationInventory.AddCard(rewardCard, ModificationCardAddReason.LootPickup);
-                    Debug.Log($"Chest rewarded '{rewardCard.DisplayName}' ({rewardCard.Rarity}, {rewardCard.CardType}).", this);
+                    return true;
                 }
-                else
-                {
-                    Debug.LogWarning("[Chest] No modifier cards are configured in the global card database.", this);
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[Chest] ModificationCardDatabaseService is not registered.", this);
+
+                Debug.LogWarning("[Chest] No modifier cards are configured in the global card database.", this);
+                return false;
             }
 
-            EventBus.Publish(new OnChestOpenedEvent { Chest = this });
+            Debug.LogWarning("[Chest] ModificationCardDatabaseService is not registered.", this);
+            return false;
         }
     }
 }

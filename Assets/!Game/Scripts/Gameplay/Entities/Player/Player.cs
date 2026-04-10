@@ -10,10 +10,13 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         [SerializeField] private PlayerMovementSystem _movementSystem;
         [SerializeField] private PlayerSkillSystem   _skillSystem;
         [SerializeField] private InteractionSystem   _interactionSystem;
+        [SerializeField] private PlayerWallet        _wallet;
         public PlayerConfig config;
 
         public PlayerSkillSystem SkillSystem => _skillSystem;
         public InteractionSystem InteractionSystem => _interactionSystem;
+        public PlayerWallet Wallet =>
+            _wallet != null ? _wallet : _wallet = GetComponent<PlayerWallet>() ?? gameObject.AddComponent<PlayerWallet>();
 
         private InputSystem_Actions _input;
 
@@ -24,6 +27,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
             _movementSystem.Initialize(_input.Player, StatsSystem);
             _skillSystem.Initialize(_input.Player, this);
             _interactionSystem.Initialize(_input.Player, this);
+            Wallet.Initialize(this);
         }
 
         private void OnEnable()

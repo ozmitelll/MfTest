@@ -68,6 +68,7 @@ namespace _Game.Scripts.Core
 
             _hudController.SetSkillSystem(player.SkillSystem);
             _hudController.SetInteractionContext(player, player.InteractionSystem);
+            _hudController.SetCoins(player.Wallet.Coins);
 
             EventBus.Publish(new OnPlayerHealthChangedEvent
             {

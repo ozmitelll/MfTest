@@ -30,6 +30,7 @@ namespace _Game.Scripts.UI.Controllers
         private readonly VisualElement _healthFill;
         private readonly Label         _healthText;
         private readonly Label         _timerText;
+        private readonly Label         _coinsText;
 
         // ── Skills ───────────────────────────────────────────────────────
         private readonly VisualElement[] _skillIcons  = new VisualElement[4];
@@ -58,6 +59,7 @@ namespace _Game.Scripts.UI.Controllers
         public HUDController(VisualElement root)
         {
             _timerText = root.Q<Label>("timer-text");
+            _coinsText = root.Q<Label>("coins-text");
             _healthFill = root.Q("health-bar-fill");
             _healthText = root.Q<Label>("health-text");
 
@@ -123,6 +125,7 @@ namespace _Game.Scripts.UI.Controllers
         {
             EventBus.Subscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
             EventBus.Subscribe<OnTimerTickEvent>(OnTimerTick);
+            EventBus.Subscribe<OnCoinsChangedEvent>(OnCoinsChanged);
             EventBus.Subscribe<OnBossSpawnedEvent>(OnBossSpawned);
             EventBus.Subscribe<OnBossDiedEvent>(OnBossDied);
             EventBus.Subscribe<OnModificationCardAddedEvent>(OnModificationCardAdded);
@@ -132,6 +135,7 @@ namespace _Game.Scripts.UI.Controllers
         {
             EventBus.Unsubscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
             EventBus.Unsubscribe<OnTimerTickEvent>(OnTimerTick);
+            EventBus.Unsubscribe<OnCoinsChangedEvent>(OnCoinsChanged);
             EventBus.Unsubscribe<OnBossSpawnedEvent>(OnBossSpawned);
             EventBus.Unsubscribe<OnBossDiedEvent>(OnBossDied);
             EventBus.Unsubscribe<OnModificationCardAddedEvent>(OnModificationCardAdded);
@@ -147,6 +151,14 @@ namespace _Game.Scripts.UI.Controllers
             _timerText.text = elapsed.TotalHours >= 1d
                 ? $"{(int)elapsed.TotalHours:00}:{elapsed.Minutes:00}:{elapsed.Seconds:00}"
                 : $"{elapsed.Minutes:00}:{elapsed.Seconds:00}";
+        }
+
+        public void SetCoins(int coins)
+        {
+            if (_coinsText == null)
+                return;
+
+            _coinsText.text = coins.ToString();
         }
 
         // Вызывается каждый кадр из GameBootstrap.Update()
@@ -176,6 +188,8 @@ namespace _Game.Scripts.UI.Controllers
         }
 
         private void OnTimerTick(OnTimerTickEvent evt) => SetTimer(evt.Time);
+
+        private void OnCoinsChanged(OnCoinsChangedEvent evt) => SetCoins(evt.Coins);
 
         private void OnBossSpawned(OnBossSpawnedEvent evt) => AttachBoss(evt.Boss);
 
@@ -245,7 +259,7 @@ namespace _Game.Scripts.UI.Controllers
                 return;
 
             string prompt = string.Empty;
-            if (_player != null && _interactionSystem?.CurrentInteractable?.CanInteract(_player) == true)
+            if (_interactionSystem?.CurrentInteractable != null)
                 prompt = _interactionSystem.CurrentInteractable.InteractionPrompt;
 
             bool hasPrompt = !string.IsNullOrWhiteSpace(prompt);

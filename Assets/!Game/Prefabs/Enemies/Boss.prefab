@@ -84,8 +84,8 @@ MonoBehaviour:
   _statusEffectSystem: {fileID: 368134181526531863}
   Config: {fileID: 11400000, guid: 857d09c8f2c496242bc064228942b765, type: 2}
   _skillSystem: {fileID: 143384777687162724}
-  _movementSystem: {fileID: 0}
-  _aiStateMachine: {fileID: 0}
+  _movementSystem: {fileID: 2775703005368947999}
+  _aiStateMachine: {fileID: 7913501273234810768}
 --- !u!114 &6329355829055135628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +162,10 @@ MonoBehaviour:
   _skill2: {fileID: 0}
   _skill3: {fileID: 0}
   _skill4: {fileID: 0}
+  _skill1CanUseWhileMoving: 0
+  _skill2CanUseWhileMoving: 0
+  _skill3CanUseWhileMoving: 0
+  _skill4CanUseWhileMoving: 0
   _passive: {fileID: 0}
 --- !u!54 &-5864017584767173806
 Rigidbody:

@@ -10,6 +10,7 @@ namespace _Game.Scripts.Configs
         [Min(0.1f)] public float TimerTickIntervalSeconds = 1f;
         [Min(1f)] public float DifficultyIncreaseIntervalSeconds = 60f;
         [Min(0f)] public float EnemyDifficultyStatPercentPerLevel = 0.1f;
+        [Min(0f)] public float EnemyCoinRewardPercentPerDifficulty = 0.15f;
 
         [Header("Director")]
         [Min(0f)] public float DirectorStartingCredits = 18f;
