@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 3530764132258206170}
   - component: {fileID: 2775703005368947999}
   - component: {fileID: 7913501273234810768}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 3048634433140395991}
   - component: {fileID: 1965345080124712471}
   - component: {fileID: 5338973341791361599}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

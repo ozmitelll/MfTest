@@ -15,6 +15,7 @@ MonoBehaviour:
   _levelPrefab: {fileID: 5634218120974637162, guid: 032f2a7521818b74cbbc868ab4a38787, type: 3}
   _directorEnemyPrefabs:
   - {fileID: 7495503625549773050, guid: fb612989ffb513342a91bded5d02c624, type: 3}
+  - {fileID: 7495503625549773050, guid: 099fb5ca388ff764d900993c479de007, type: 3}
   _directorMinSpawnRadius: 16
   _directorMaxSpawnRadius: 30
   _directorSpawnHeight: 1

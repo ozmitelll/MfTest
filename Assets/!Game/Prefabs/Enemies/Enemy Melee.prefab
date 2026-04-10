@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 4233572017106506380}
   - component: {fileID: 4461536017151168088}
   m_Layer: 8
-  m_Name: Enemy Range
+  m_Name: Enemy Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
   _modificationInventory: {fileID: 338320203155040176}
   _modificationLoadoutSystem: {fileID: 2809075539112830778}
   _statusEffectSystem: {fileID: 2220633442589817347}
-  Config: {fileID: 11400000, guid: d113ae467ace1d8458848a6fdf428a30, type: 2}
+  Config: {fileID: 11400000, guid: 12100888ebdc1c147a107a1ff1b23c5b, type: 2}
   _skillSystem: {fileID: 7567238405368462402}
   _movementSystem: {fileID: 4010196504320545204}
   _aiStateMachine: {fileID: 1193519809824769254}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c5b4d9d52a59f49ac182819d066740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Enemy.Systems.EnemySkillSystem
-  _skill1: {fileID: 11400000, guid: 8cc68fb0f2ad49fb840f1f6994dda7f9, type: 2}
+  _skill1: {fileID: 11400000, guid: c872d53102094b0cbd7adface23b9744, type: 2}
   _skill2: {fileID: 0}
   _skill3: {fileID: 0}
   _skill4: {fileID: 0}
