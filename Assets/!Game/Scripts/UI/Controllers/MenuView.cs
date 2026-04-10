@@ -1,14 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Game.Scripts.Configs;
-using _Game.Scripts.Gameplay.Entities.Player;
-using _Game.Scripts.Gameplay.Entities.Player.Systems;
-using _Game.Scripts.Gameplay.Skills;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace _Game.Scripts.Views
 {
+    public readonly struct CharacterSkillViewData
+    {
+        public CharacterSkillViewData(string slotLabel, string badge, string name)
+        {
+            SlotLabel = slotLabel;
+            Badge = badge;
+            Name = name;
+        }
+
+        public string SlotLabel { get; }
+        public string Badge { get; }
+        public string Name { get; }
+    }
+
+    public readonly struct CharacterSelectionViewData
+    {
+        public CharacterSelectionViewData(
+            int characterIndex,
+            string badgeText,
+            string displayName,
+            string role,
+            string summary,
+            string health,
+            string damage,
+            string speed,
+            string rate,
+            string launchLocation,
+            CharacterSkillViewData[] skills)
+        {
+            CharacterIndex = characterIndex;
+            BadgeText = badgeText;
+            DisplayName = displayName;
+            Role = role;
+            Summary = summary;
+            Health = health;
+            Damage = damage;
+            Speed = speed;
+            Rate = rate;
+            LaunchLocation = launchLocation;
+            Skills = skills ?? Array.Empty<CharacterSkillViewData>();
+        }
+
+        public int CharacterIndex { get; }
+        public string BadgeText { get; }
+        public string DisplayName { get; }
+        public string Role { get; }
+        public string Summary { get; }
+        public string Health { get; }
+        public string Damage { get; }
+        public string Speed { get; }
+        public string Rate { get; }
+        public string LaunchLocation { get; }
+        public CharacterSkillViewData[] Skills { get; }
+    }
+
     public class MenuView
     {
         private readonly VisualElement _root;
@@ -28,13 +78,13 @@ namespace _Game.Scripts.Views
         private readonly Button _startRunButton;
         private readonly Button _backButton;
         private readonly List<Button> _characterButtons = new();
-        private Player[] _characters = Array.Empty<Player>();
+        private CharacterSelectionViewData[] _characters = Array.Empty<CharacterSelectionViewData>();
         private int _selectedCharacterIndex;
         
         public event Action OnPlayClicked;
         public event Action OnSettingsClicked;
         public event Action OnQuitClicked;
-        public event Action<Player> OnCharacterConfirmed;
+        public event Action<int> OnCharacterConfirmed;
 
         public bool HasCharacters => _characters != null && _characters.Length > 0;
         
@@ -66,9 +116,9 @@ namespace _Game.Scripts.Views
             ShowMainMenu();
         }
 
-        public void BindCharacters(Player[] characters)
+        public void BindCharacters(CharacterSelectionViewData[] characters)
         {
-            _characters = characters ?? Array.Empty<Player>();
+            _characters = characters ?? Array.Empty<CharacterSelectionViewData>();
             _selectedCharacterIndex = 0;
             RebuildCharacterStrip();
             RefreshSelection();
@@ -99,7 +149,7 @@ namespace _Game.Scripts.Views
             for (int index = 0; index < _characters.Length; index++)
             {
                 int characterIndex = index;
-                Player playerPrefab = _characters[index];
+                CharacterSelectionViewData character = _characters[index];
                 Button button = new Button(() => SelectCharacter(characterIndex))
                 {
                     name = $"character-chip-{characterIndex}"
@@ -107,11 +157,11 @@ namespace _Game.Scripts.Views
 
                 button.AddToClassList("character-chip");
 
-                var badge = new Label(GetBadgeText(playerPrefab));
+                var badge = new Label(character.BadgeText);
                 badge.AddToClassList("character-chip__badge");
                 button.Add(badge);
 
-                var name = new Label(GetDisplayName(playerPrefab));
+                var name = new Label(character.DisplayName);
                 name.AddToClassList("character-chip__label");
                 button.Add(name);
 
@@ -131,12 +181,12 @@ namespace _Game.Scripts.Views
 
         private void RefreshSelection()
         {
-            Player selectedPlayer = GetSelectedPlayer();
+            CharacterSelectionViewData? selectedCharacter = GetSelectedCharacter();
 
             for (int i = 0; i < _characterButtons.Count; i++)
                 _characterButtons[i].EnableInClassList("character-chip--selected", i == _selectedCharacterIndex);
 
-            bool hasSelection = selectedPlayer != null;
+            bool hasSelection = selectedCharacter.HasValue;
             _startRunButton.SetEnabled(hasSelection);
 
             if (!hasSelection)
@@ -154,51 +204,42 @@ namespace _Game.Scripts.Views
                 return;
             }
 
-            PlayerConfig config = selectedPlayer.config;
-            _previewBadge.text = GetBadgeText(selectedPlayer);
-            _characterName.text = GetDisplayName(selectedPlayer);
-            _characterRole.text = !string.IsNullOrWhiteSpace(config.Archetype) ? config.Archetype : "Operative";
-            _characterSummary.text = !string.IsNullOrWhiteSpace(config.Summary)
-                ? config.Summary
-                : "Deploy into the next run with a custom loadout and combat profile.";
-            _statHealth.text = Mathf.RoundToInt(config.MaxHealth).ToString();
-            _statDamage.text = Mathf.RoundToInt(config.AttackDamage).ToString();
-            _statSpeed.text = config.MoveSpeed.ToString("0.0");
-            _statRate.text = config.AttackRate.ToString("0.0");
-            _launchLocation.text = "Emporium";
+            CharacterSelectionViewData character = selectedCharacter.Value;
+            _previewBadge.text = character.BadgeText;
+            _characterName.text = character.DisplayName;
+            _characterRole.text = character.Role;
+            _characterSummary.text = character.Summary;
+            _statHealth.text = character.Health;
+            _statDamage.text = character.Damage;
+            _statSpeed.text = character.Speed;
+            _statRate.text = character.Rate;
+            _launchLocation.text = character.LaunchLocation;
 
-            RebuildSkillList(selectedPlayer);
+            RebuildSkillList(character);
         }
 
-        private void RebuildSkillList(Player playerPrefab)
+        private void RebuildSkillList(CharacterSelectionViewData character)
         {
             _skillList.Clear();
 
-            PlayerSkillSystem skillSystem = playerPrefab != null ? playerPrefab.SkillSystem : null;
-            if (skillSystem == null)
-                return;
-
-            AddSkillTile(skillSystem.GetConfiguredSkill(0), "LMB");
-            AddSkillTile(skillSystem.GetConfiguredSkill(1), "RMB");
-            AddSkillTile(skillSystem.GetConfiguredSkill(2), "SPACE");
-            AddSkillTile(skillSystem.GetConfiguredSkill(3), "G");
-            AddSkillTile(skillSystem.GetConfiguredPassive(), "PASSIVE");
+            foreach (CharacterSkillViewData skill in character.Skills)
+                AddSkillTile(skill);
         }
 
-        private void AddSkillTile(Skill skill, string slotLabel)
+        private void AddSkillTile(CharacterSkillViewData skill)
         {
             var tile = new VisualElement();
             tile.AddToClassList("character-skill");
 
-            var slot = new Label(slotLabel);
+            var slot = new Label(skill.SlotLabel);
             slot.AddToClassList("character-skill__slot");
             tile.Add(slot);
 
-            var badge = new Label(GetSkillBadge(skill));
+            var badge = new Label(skill.Badge);
             badge.AddToClassList("character-skill__badge");
             tile.Add(badge);
 
-            var name = new Label(skill != null && !string.IsNullOrWhiteSpace(skill.SkillName) ? skill.SkillName : "Empty");
+            var name = new Label(skill.Name);
             name.AddToClassList("character-skill__name");
             tile.Add(name);
 
@@ -207,40 +248,14 @@ namespace _Game.Scripts.Views
 
         private void OnStartRunClicked()
         {
-            Player selectedPlayer = GetSelectedPlayer();
-            if (selectedPlayer != null)
-                OnCharacterConfirmed?.Invoke(selectedPlayer);
+            CharacterSelectionViewData? selectedCharacter = GetSelectedCharacter();
+            if (selectedCharacter.HasValue)
+                OnCharacterConfirmed?.Invoke(selectedCharacter.Value.CharacterIndex);
         }
 
-        private Player GetSelectedPlayer() =>
+        private CharacterSelectionViewData? GetSelectedCharacter() =>
             _characters != null && _selectedCharacterIndex >= 0 && _selectedCharacterIndex < _characters.Length
                 ? _characters[_selectedCharacterIndex]
                 : null;
-
-        private static string GetDisplayName(Player playerPrefab)
-        {
-            if (playerPrefab == null)
-                return "Unknown";
-
-            return playerPrefab.config != null && !string.IsNullOrWhiteSpace(playerPrefab.config.DisplayName)
-                ? playerPrefab.config.DisplayName
-                : playerPrefab.name;
-        }
-
-        private static string GetBadgeText(Player playerPrefab)
-        {
-            string displayName = GetDisplayName(playerPrefab);
-            return string.IsNullOrWhiteSpace(displayName)
-                ? "?"
-                : displayName.Substring(0, 1).ToUpperInvariant();
-        }
-
-        private static string GetSkillBadge(Skill skill)
-        {
-            if (skill == null || string.IsNullOrWhiteSpace(skill.SkillName))
-                return "-";
-
-            return skill.SkillName.Substring(0, 1).ToUpperInvariant();
-        }
     }
 }

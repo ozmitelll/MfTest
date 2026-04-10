@@ -1,4 +1,5 @@
 using UnityEngine;
+using _Game.Scripts.Gameplay.Entities.Player.Systems;
 
 namespace _Game.Scripts.Gameplay.Skills
 {
@@ -15,6 +16,13 @@ namespace _Game.Scripts.Gameplay.Skills
         public override void Activate(SkillContext ctx)
         {
             var target = GetTarget(ctx);
+            var movementSystem = ctx.Owner.GetComponent<PlayerMovementSystem>();
+            if (movementSystem != null)
+            {
+                movementSystem.TeleportTo(target);
+                return;
+            }
+
             var cc = ctx.Owner.GetComponent<CharacterController>();
             cc.enabled = false;
             ctx.Owner.transform.position = target;

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _Game.Scripts.Core;
-using _Game.Scripts.Gameplay.Entities.Player;
 using _Game.Scripts.Gameplay.Systems.Modifications;
-using _Game.Scripts.Gameplay.Systems.Stats;
+using _Game.Scripts.Services;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -55,7 +54,8 @@ namespace _Game.Scripts.UI.Controllers
 
         private readonly List<SlotView> _slotViews = new();
 
-        private Player _player;
+    private ModificationScreenService _screenService;
+    private ModificationScreenSnapshot _snapshot;
         private ModificationCardInstance _selectedCard;
         private ModificationCardInstance _draggedCard;
         private VisualElement _activeDropTarget;
@@ -129,9 +129,13 @@ namespace _Game.Scripts.UI.Controllers
             EventBus.Unsubscribe<OnModificationRemovedEvent>(OnModificationChanged);
         }
 
-        public void Open(Player player)
+        public void BindScreenService(ModificationScreenService screenService)
         {
-            _player = player;
+            _screenService = screenService;
+        }
+
+        public void Open()
+        {
             _selectedCard = null;
             Show();
             ShowLoadoutPanel();
@@ -143,7 +147,7 @@ namespace _Game.Scripts.UI.Controllers
         {
             EndDrag();
             _selectedCard = null;
-            _player = null;
+            _snapshot = null;
             HideInternal();
         }
 
@@ -214,7 +218,8 @@ namespace _Game.Scripts.UI.Controllers
 
         private void RefreshAll()
         {
-            if (_player == null)
+            _snapshot = _screenService?.GetSnapshot();
+            if (_snapshot == null)
                 return;
 
             RefreshHeader();
@@ -226,8 +231,8 @@ namespace _Game.Scripts.UI.Controllers
 
         private void RefreshHeader()
         {
-            _titleLabel.text = $"{_player.name} Modifications";
-            _capacityLabel.text = $"Capacity {GetUsedCapacity()} / {_player.ModificationLoadoutSystem.Capacity}";
+            _titleLabel.text = _snapshot.Title;
+            _capacityLabel.text = $"Capacity {_snapshot.UsedCapacity} / {_snapshot.Capacity}";
         }
 
         private void RefreshSlots()
@@ -235,7 +240,7 @@ namespace _Game.Scripts.UI.Controllers
             for (int i = 0; i < _slotViews.Count; i++)
             {
                 SlotView slot = _slotViews[i];
-                ModificationCardInstance card = _player.ModificationLoadoutSystem.GetCardInSlot(i);
+                ModificationCardInstance card = GetSlotCard(i);
 
                 slot.Root.RemoveFromClassList(EmptySlotClass);
                 slot.Root.RemoveFromClassList(FilledSlotClass);
@@ -261,17 +266,8 @@ namespace _Game.Scripts.UI.Controllers
         {
             _statsContainer.contentContainer.Clear();
 
-            StatsSystem stats = _player.StatsSystem;
-
-            AddStatRow("Max Health", stats.MaxHealth.Value);
-            AddStatRow("Move Speed", stats.MoveSpeed.Value);
-            AddStatRow("Armor", stats.Armor.Value);
-            AddStatRow("Magic Resist", stats.MagicResistance.Value);
-            AddStatRow("Elemental Resist", stats.ElementalResistance.Value);
-            AddStatRow("Attack Damage", stats.AttackDamage.Value);
-            AddStatRow("Attack Range", stats.AttackRange.Value);
-            AddStatRow("Attack Rate", stats.AttackRate.Value);
-            AddStatRow("Attack Type", stats.AttackDamageType.ToString());
+            foreach (ModificationStatViewData stat in _snapshot.Stats)
+                AddStatRow(stat.Label, stat.Value);
         }
 
         private void RefreshInventory()
@@ -279,11 +275,8 @@ namespace _Game.Scripts.UI.Controllers
             _inventoryScroll.contentContainer.Clear();
             _inventorySection.RemoveFromClassList(InventoryDropTargetClass);
 
-            foreach (ModificationCardInstance card in _player.ModificationInventory.Cards)
+            foreach (ModificationCardInstance card in _snapshot.InventoryCards)
             {
-                if (GetInstalledSlotIndex(card) >= 0)
-                    continue;
-
                 VisualElement cardElement = CreateInventoryCardElement(card);
                 _inventoryScroll.Add(cardElement);
             }
@@ -320,13 +313,13 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnSlotClicked(int slotIndex)
         {
-            if (ConsumeSuppressedClick() || _player == null)
+            if (ConsumeSuppressedClick() || _screenService == null || _snapshot == null)
                 return;
 
-            ModificationCardInstance installedCard = _player.ModificationLoadoutSystem.GetCardInSlot(slotIndex);
+            ModificationCardInstance installedCard = GetSlotCard(slotIndex);
             if (installedCard != null)
             {
-                if (_player.ModificationLoadoutSystem.TryRemove(slotIndex, out string removeError))
+                if (_screenService.TryRemove(slotIndex, out string removeError))
                 {
                     if (ReferenceEquals(_selectedCard, installedCard))
                         _selectedCard = null;
@@ -346,7 +339,7 @@ namespace _Game.Scripts.UI.Controllers
                 return;
             }
 
-            if (_player.ModificationLoadoutSystem.TryInstall(_selectedCard, slotIndex, out string installError))
+            if (_screenService.TryInstall(_selectedCard, slotIndex, out string installError))
             {
                 string installedName = _selectedCard.Definition.DisplayName;
                 _selectedCard = null;
@@ -360,7 +353,7 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnInventoryCardClicked(ModificationCardInstance card)
         {
-            if (ConsumeSuppressedClick() || _player == null || card == null)
+            if (ConsumeSuppressedClick() || _screenService == null || _snapshot == null || card == null)
                 return;
 
             _selectedCard = ReferenceEquals(_selectedCard, card) ? null : card;
@@ -377,7 +370,7 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnInventoryPointerDown(PointerDownEvent evt, ModificationCardInstance card)
         {
-            if (_player == null || card == null)
+            if (_screenService == null || _snapshot == null || card == null)
                 return;
 
             BeginDrag(evt, card, DragSourceKind.Inventory, -1);
@@ -385,10 +378,10 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnSlotPointerDown(PointerDownEvent evt, int slotIndex)
         {
-            if (_player == null)
+            if (_screenService == null || _snapshot == null)
                 return;
 
-            ModificationCardInstance card = _player.ModificationLoadoutSystem.GetCardInSlot(slotIndex);
+            ModificationCardInstance card = GetSlotCard(slotIndex);
             if (card == null)
                 return;
 
@@ -512,7 +505,7 @@ namespace _Game.Scripts.UI.Controllers
 
         private void TryInstallDraggedCard(int slotIndex)
         {
-            if (_player.ModificationLoadoutSystem.TryInstall(_draggedCard, slotIndex, out string error))
+            if (_screenService.TryInstall(_draggedCard, slotIndex, out string error))
             {
                 string cardName = _draggedCard.Definition.DisplayName;
                 _selectedCard = null;
@@ -532,7 +525,7 @@ namespace _Game.Scripts.UI.Controllers
                 return;
             }
 
-            if (_player.ModificationLoadoutSystem.TryRemove(_dragSourceSlotIndex, out string error))
+            if (_screenService.TryRemove(_dragSourceSlotIndex, out string error))
             {
                 string cardName = _draggedCard.Definition.DisplayName;
                 RefreshAll();
@@ -557,7 +550,7 @@ namespace _Game.Scripts.UI.Controllers
                 return;
             }
 
-            if (_player.ModificationLoadoutSystem.TryMove(_dragSourceSlotIndex, targetSlotIndex, out string error))
+            if (_screenService.TryMove(_dragSourceSlotIndex, targetSlotIndex, out string error))
             {
                 string cardName = _draggedCard.Definition.DisplayName;
                 RefreshAll();
@@ -585,10 +578,10 @@ namespace _Game.Scripts.UI.Controllers
 
         private bool IsValidSlotDropTarget(int slotIndex)
         {
-            if (_player == null || _draggedCard == null || slotIndex < 0 || slotIndex >= _slotViews.Count)
+            if (_screenService == null || _snapshot == null || _draggedCard == null || slotIndex < 0 || slotIndex >= _slotViews.Count)
                 return false;
 
-            ModificationCardInstance slotCard = _player.ModificationLoadoutSystem.GetCardInSlot(slotIndex);
+            ModificationCardInstance slotCard = GetSlotCard(slotIndex);
 
             if (_dragSourceKind == DragSourceKind.Inventory)
                 return slotCard == null;
@@ -600,21 +593,7 @@ namespace _Game.Scripts.UI.Controllers
         }
 
         private bool IsValidInventoryDropTarget() =>
-            _player != null && _draggedCard != null && _dragSourceKind == DragSourceKind.Slot;
-
-        private int GetInstalledSlotIndex(ModificationCardInstance card)
-        {
-            if (card == null || _player == null)
-                return -1;
-
-            return _player.ModificationLoadoutSystem.TryGetSlotIndex(card, out int slotIndex)
-                ? slotIndex
-                : -1;
-        }
-
-        private int GetUsedCapacity() => _player?.ModificationLoadoutSystem.UsedCapacity ?? 0;
-
-        private void AddStatRow(string label, float value) => AddStatRow(label, value.ToString("0.##"));
+            _screenService != null && _snapshot != null && _draggedCard != null && _dragSourceKind == DragSourceKind.Slot;
 
         private void AddStatRow(string label, string value)
         {
@@ -634,7 +613,7 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnModificationChanged(OnModificationCardAddedEvent evt)
         {
-            if (_player == null || evt.Entity != _player)
+            if (_screenService?.IsCurrentEntity(evt.Entity) != true)
                 return;
 
             RefreshAll();
@@ -642,7 +621,7 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnModificationChanged(OnModificationInstalledEvent evt)
         {
-            if (_player == null || evt.Entity != _player)
+            if (_screenService?.IsCurrentEntity(evt.Entity) != true)
                 return;
 
             RefreshAll();
@@ -650,10 +629,18 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnModificationChanged(OnModificationRemovedEvent evt)
         {
-            if (_player == null || evt.Entity != _player)
+            if (_screenService?.IsCurrentEntity(evt.Entity) != true)
                 return;
 
             RefreshAll();
+        }
+
+        private ModificationCardInstance GetSlotCard(int slotIndex)
+        {
+            if (_snapshot == null || slotIndex < 0 || slotIndex >= _snapshot.Slots.Length)
+                return null;
+
+            return _snapshot.Slots[slotIndex];
         }
 
         private void SetStatus(string text, bool isError = false)

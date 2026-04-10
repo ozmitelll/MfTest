@@ -1,5 +1,4 @@
 using _Game.Scripts.Core;
-using _Game.Scripts.Gameplay.Entities.Player;
 using _Game.Scripts.Gameplay.Interactables;
 using _Game.Scripts.Services;
 using _Game.Scripts.UI.Controllers;
@@ -30,6 +29,7 @@ namespace _Game.Scripts.UI
         private void Start()
         {
             _screenService = ResolveScreenService();
+            _controller.BindScreenService(_screenService);
             SubscribeToScreenService();
         }
 
@@ -50,7 +50,7 @@ namespace _Game.Scripts.UI
 
         private void OnDestroy() => _controller?.Dispose();
 
-        private void OnOpenRequested(ModificationStationNpc station, Player player)
+        private void OnOpenRequested(ModificationStationNpc station)
         {
             if (_station == null || station != _station)
             {
@@ -58,7 +58,7 @@ namespace _Game.Scripts.UI
                 return;
             }
 
-            _controller.Open(player);
+            _controller.Open();
         }
 
         private void OnClosed() => _controller.Hide();

@@ -38,7 +38,8 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                 Entity = _owner,
                 Card = instance,
                 TotalCards = _cards.Count,
-                Reason = reason
+                Reason = reason,
+                IsPlayerEntity = _owner is _Game.Scripts.Gameplay.Entities.Player.Player
             });
 
             return instance;

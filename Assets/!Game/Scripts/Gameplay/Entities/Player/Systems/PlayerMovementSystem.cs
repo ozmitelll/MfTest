@@ -1,3 +1,5 @@
+using _Game.Scripts.Configs;
+using _Game.Scripts.Gameplay.Systems.Health;
 using _Game.Scripts.Gameplay.Systems.Stats;
 using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
@@ -17,6 +19,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
 
         private InputSystem_Actions.PlayerActions _actions;
         private CharacterController               _controller;
+        private HealthSystem                      _health;
         private StatsSystem                       _stats;
         private StatusEffectSystem                _statusEffects;
         private float                             _verticalVelocity;
@@ -24,18 +27,22 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         private Vector3                           _fallStartPosition;
         private bool                              _isRecoveringFromFall;
 
-        public void Initialize(InputSystem_Actions.PlayerActions actions, StatsSystem stats)
+        public void Initialize(InputSystem_Actions.PlayerActions actions, StatsSystem stats, PlayerConfig config)
         {
             _actions    = actions;
             _controller = GetComponent<CharacterController>();
+            _health     = GetComponent<HealthSystem>();
             _stats      = stats;
             _statusEffects = GetComponent<StatusEffectSystem>();
-            _lastGroundedPosition = transform.position;
-            _fallStartPosition = transform.position;
+            ApplyConfig(config);
+            ResetMotionState(transform.position);
         }
 
         private void Update()
         {
+            if (_health?.IsDead == true)
+                return;
+
             bool wasGrounded = _controller.isGrounded;
             if (wasGrounded)
                 _lastGroundedPosition = transform.position;
@@ -45,6 +52,17 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
 
             _controller.Move(move);
             UpdateFallRecovery(wasGrounded);
+        }
+
+        public void TeleportTo(Vector3 position) => TeleportTo(position, transform.rotation);
+
+        public void TeleportTo(Vector3 position, Quaternion rotation)
+        {
+            _controller.enabled = false;
+            transform.SetPositionAndRotation(position, rotation);
+            _controller.enabled = true;
+
+            ResetMotionState(position);
         }
 
         private Vector3 CalculateHorizontalMovement()
@@ -89,13 +107,26 @@ namespace _Game.Scripts.Gameplay.Entities.Player.Systems
         private void RestoreToFallStart()
         {
             Vector3 restorePosition = _fallStartPosition + Vector3.up * _respawnVerticalOffset;
+            TeleportTo(restorePosition, transform.rotation);
+        }
 
-            _controller.enabled = false;
-            transform.position = restorePosition;
-            _controller.enabled = true;
+        private void ApplyConfig(PlayerConfig config)
+        {
+            if (config == null)
+                return;
 
+            _gravity = config.Gravity;
+            _groundedVerticalVelocity = config.GroundedVerticalVelocity;
+            _maxFallSpeed = config.MaxFallSpeed;
+            _fallRespawnDistance = config.FallRespawnDistance;
+            _respawnVerticalOffset = config.RespawnVerticalOffset;
+        }
+
+        private void ResetMotionState(Vector3 position)
+        {
             _verticalVelocity = _groundedVerticalVelocity;
-            _lastGroundedPosition = restorePosition;
+            _lastGroundedPosition = position;
+            _fallStartPosition = position;
             _isRecoveringFromFall = false;
         }
     }

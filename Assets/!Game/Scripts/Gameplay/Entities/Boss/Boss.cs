@@ -8,7 +8,7 @@ namespace _Game.Scripts.Gameplay.Entities.Bosses
     {
         protected override void OnDied()
         {
-            EventBus.Publish(new OnBossDiedEvent { Boss = this });
+            EventBus.Publish(new OnBossDiedEvent { Boss = this, BossInstanceId = GetInstanceID() });
             Destroy(gameObject);
         }
     }

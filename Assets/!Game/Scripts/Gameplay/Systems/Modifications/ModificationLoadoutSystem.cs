@@ -126,7 +126,8 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                 Card = card,
                 SlotIndex = slotIndex,
                 UsedCapacity = UsedCapacity,
-                Capacity = _capacity
+                Capacity = _capacity,
+                IsPlayerEntity = _entity is _Game.Scripts.Gameplay.Entities.Player.Player
             });
 
             error = null;
@@ -169,7 +170,8 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                 Card = card,
                 SlotIndex = fromSlotIndex,
                 UsedCapacity = UsedCapacity,
-                Capacity = _capacity
+                Capacity = _capacity,
+                IsPlayerEntity = _entity is _Game.Scripts.Gameplay.Entities.Player.Player
             });
 
             EventBus.Publish(new OnModificationInstalledEvent
@@ -178,7 +180,8 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                 Card = card,
                 SlotIndex = toSlotIndex,
                 UsedCapacity = UsedCapacity,
-                Capacity = _capacity
+                Capacity = _capacity,
+                IsPlayerEntity = _entity is _Game.Scripts.Gameplay.Entities.Player.Player
             });
 
             error = null;
@@ -210,7 +213,8 @@ namespace _Game.Scripts.Gameplay.Systems.Modifications
                 Card = card,
                 SlotIndex = slotIndex,
                 UsedCapacity = UsedCapacity,
-                Capacity = _capacity
+                Capacity = _capacity,
+                IsPlayerEntity = _entity is _Game.Scripts.Gameplay.Entities.Player.Player
             });
 
             error = null;

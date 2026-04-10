@@ -1,6 +1,7 @@
 using System;
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities;
+using _Game.Scripts.Gameplay.Entities.Bosses;
 using _Game.Scripts.Gameplay.Systems.Combat;
 using _Game.Scripts.Gameplay.Systems.StatusEffects;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace _Game.Scripts.Gameplay.Systems.Health
                 ? Mathf.Clamp(MaxHealth * healthRatio, 0f, MaxHealth)
                 : Mathf.Min(CurrentHealth, MaxHealth);
 
-            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
+            PublishHealthChanged();
         }
 
         public void TakeDamage(
@@ -77,7 +78,7 @@ namespace _Game.Scripts.Gameplay.Systems.Health
                 }
             }
 
-            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
+            PublishHealthChanged();
 
             if (CurrentHealth == 0f)
                 Die();
@@ -88,13 +89,36 @@ namespace _Game.Scripts.Gameplay.Systems.Health
             if (IsDead || amount <= 0f) return;
 
             CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + amount);
-            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
+            PublishHealthChanged();
         }
 
         private void Die()
         {
             IsDead = true;
             OnDied?.Invoke();
+        }
+
+        private void PublishHealthChanged()
+        {
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
+
+            _ownerEntity ??= GetComponent<Entity>();
+            if (_ownerEntity is not Boss boss)
+                return;
+
+            EventBus.Publish(new OnBossHealthChangedEvent
+            {
+                BossInstanceId = boss.GetInstanceID(),
+                DisplayName = GetBossDisplayName(boss),
+                Current = CurrentHealth,
+                Max = MaxHealth
+            });
+        }
+
+        private static string GetBossDisplayName(Boss boss)
+        {
+            string rawName = boss.Config != null ? boss.Config.name : boss.name;
+            return rawName.Replace("(Clone)", string.Empty).Trim();
         }
     }
 }

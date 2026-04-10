@@ -13,6 +13,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         [SerializeField] private PlayerWallet        _wallet;
         public PlayerConfig config;
 
+        public PlayerMovementSystem MovementSystem => _movementSystem;
         public PlayerSkillSystem SkillSystem => _skillSystem;
         public InteractionSystem InteractionSystem => _interactionSystem;
         public PlayerWallet Wallet =>
@@ -24,7 +25,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         {
             _input = new InputSystem_Actions();
             InitializeEntity(config);
-            _movementSystem.Initialize(_input.Player, StatsSystem);
+            _movementSystem.Initialize(_input.Player, StatsSystem, config);
             _skillSystem.Initialize(_input.Player, this);
             _interactionSystem.Initialize(_input.Player, this);
             Wallet.Initialize(this);
@@ -47,7 +48,10 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         private void OnHealthChanged(float current, float max) =>
             EventBus.Publish(new OnPlayerHealthChangedEvent { Current = current, Max = max });
 
-        private void OnDied() =>
+        private void OnDied()
+        {
+            _input.Player.Disable();
             EventBus.Publish(new OnPlayerDiedEvent());
+        }
     }
 }

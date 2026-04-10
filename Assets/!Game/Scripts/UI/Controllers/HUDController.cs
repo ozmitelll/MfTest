@@ -1,9 +1,6 @@
 using _Game.Scripts.Core;
-using _Game.Scripts.Gameplay.Entities.Player.Systems;
 using System;
 using System.Collections.Generic;
-using _Game.Scripts.Gameplay.Entities.Bosses;
-using _Game.Scripts.Gameplay.Entities.Player;
 using _Game.Scripts.Gameplay.Systems.Modifications;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,10 +45,7 @@ namespace _Game.Scripts.UI.Controllers
         private readonly Label           _modificationPickupName;
         private readonly Label           _modificationPickupMeta;
         private readonly Label           _modificationPickupDescription;
-        private Boss                     _activeBoss;
-        private Player                   _player;
-        private InteractionSystem        _interactionSystem;
-        private PlayerSkillSystem        _skillSystem;
+        private int                      _activeBossInstanceId = -1;
         private readonly Queue<ModificationCardInstance> _pendingModificationPickups = new();
         private ModificationToastPhase _modificationToastPhase;
         private float _modificationToastTimer;
@@ -99,28 +93,6 @@ namespace _Game.Scripts.UI.Controllers
             }
         }
 
-        public void SetSkillSystem(PlayerSkillSystem skillSystem)
-        {
-            _skillSystem = skillSystem;
-
-            for (int i = 0; i < 4; i++)
-            {
-                var icon = skillSystem.GetSkillIcon(i);
-                if (icon != null)
-                    _skillIcons[i].style.backgroundImage = new StyleBackground(icon);
-            }
-
-            var passive = skillSystem.GetPassiveIcon();
-            if (passive != null)
-                _passiveIcon.style.backgroundImage = new StyleBackground(passive);
-        }
-
-        public void SetInteractionContext(Player player, InteractionSystem interactionSystem)
-        {
-            _player = player;
-            _interactionSystem = interactionSystem;
-        }
-
         public void Subscribe()
         {
             EventBus.Subscribe<OnPlayerHealthChangedEvent>(OnHealthChanged);
@@ -128,6 +100,10 @@ namespace _Game.Scripts.UI.Controllers
             EventBus.Subscribe<OnCoinsChangedEvent>(OnCoinsChanged);
             EventBus.Subscribe<OnBossSpawnedEvent>(OnBossSpawned);
             EventBus.Subscribe<OnBossDiedEvent>(OnBossDied);
+            EventBus.Subscribe<OnBossHealthChangedEvent>(OnBossHealthChanged);
+            EventBus.Subscribe<OnPlayerSkillIconsChangedEvent>(OnSkillIconsChanged);
+            EventBus.Subscribe<OnPlayerSkillCooldownsChangedEvent>(OnSkillCooldownsChanged);
+            EventBus.Subscribe<OnInteractionPromptChangedEvent>(OnInteractionPromptChanged);
             EventBus.Subscribe<OnModificationCardAddedEvent>(OnModificationCardAdded);
         }
 
@@ -138,6 +114,10 @@ namespace _Game.Scripts.UI.Controllers
             EventBus.Unsubscribe<OnCoinsChangedEvent>(OnCoinsChanged);
             EventBus.Unsubscribe<OnBossSpawnedEvent>(OnBossSpawned);
             EventBus.Unsubscribe<OnBossDiedEvent>(OnBossDied);
+            EventBus.Unsubscribe<OnBossHealthChangedEvent>(OnBossHealthChanged);
+            EventBus.Unsubscribe<OnPlayerSkillIconsChangedEvent>(OnSkillIconsChanged);
+            EventBus.Unsubscribe<OnPlayerSkillCooldownsChangedEvent>(OnSkillCooldownsChanged);
+            EventBus.Unsubscribe<OnInteractionPromptChangedEvent>(OnInteractionPromptChanged);
             EventBus.Unsubscribe<OnModificationCardAddedEvent>(OnModificationCardAdded);
             DetachBoss();
         }
@@ -164,20 +144,7 @@ namespace _Game.Scripts.UI.Controllers
         // Вызывается каждый кадр из GameBootstrap.Update()
         public void Tick()
         {
-            UpdateInteractionPrompt();
             UpdateModificationPickupToast();
-
-            if (_skillSystem == null)
-                return;
-
-            for (int i = 0; i < 3; i++)
-            {
-                float ratio     = _skillSystem.GetCooldownRatio(i + 1);
-                float remaining = _skillSystem.GetRemainingCooldown(i + 1);
-
-                _cdOverlays[i].style.height = Length.Percent(ratio * 100f);
-                _cdTexts[i].text = remaining > 0.1f ? remaining.ToString("F1") : "";
-            }
         }
 
         private void OnHealthChanged(OnPlayerHealthChangedEvent evt)
@@ -191,17 +158,67 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnCoinsChanged(OnCoinsChangedEvent evt) => SetCoins(evt.Coins);
 
-        private void OnBossSpawned(OnBossSpawnedEvent evt) => AttachBoss(evt.Boss);
+        private void OnBossSpawned(OnBossSpawnedEvent evt)
+        {
+            if (_bossBar == null || _bossBarFill == null)
+                return;
+
+            _activeBossInstanceId = evt.BossInstanceId;
+            if (_bossBarName != null)
+                _bossBarName.text = evt.DisplayName;
+
+            _bossBar.style.display = DisplayStyle.Flex;
+            ApplyBossHealth(evt.CurrentHealth, evt.MaxHealth);
+        }
 
         private void OnBossDied(OnBossDiedEvent evt)
         {
-            if (evt.Boss == _activeBoss)
+            if (evt.BossInstanceId == _activeBossInstanceId)
                 DetachBoss();
+        }
+
+        private void OnBossHealthChanged(OnBossHealthChangedEvent evt)
+        {
+            if (evt.BossInstanceId != _activeBossInstanceId)
+                return;
+
+            if (_bossBarName != null && !string.IsNullOrWhiteSpace(evt.DisplayName))
+                _bossBarName.text = evt.DisplayName;
+
+            ApplyBossHealth(evt.Current, evt.Max);
+        }
+
+        private void OnSkillIconsChanged(OnPlayerSkillIconsChangedEvent evt)
+        {
+            ApplySkillIcon(0, evt.Skill0Icon);
+            ApplySkillIcon(1, evt.Skill1Icon);
+            ApplySkillIcon(2, evt.Skill2Icon);
+            ApplySkillIcon(3, evt.Skill3Icon);
+
+            if (_passiveIcon != null && evt.PassiveIcon != null)
+                _passiveIcon.style.backgroundImage = new StyleBackground(evt.PassiveIcon);
+        }
+
+        private void OnSkillCooldownsChanged(OnPlayerSkillCooldownsChangedEvent evt)
+        {
+            ApplyCooldown(0, evt.Slot1Ratio, evt.Slot1Remaining);
+            ApplyCooldown(1, evt.Slot2Ratio, evt.Slot2Remaining);
+            ApplyCooldown(2, evt.Slot3Ratio, evt.Slot3Remaining);
+        }
+
+        private void OnInteractionPromptChanged(OnInteractionPromptChangedEvent evt)
+        {
+            if (_interactionPrompt == null)
+                return;
+
+            bool hasPrompt = !string.IsNullOrWhiteSpace(evt.Prompt);
+            _interactionPrompt.text = hasPrompt ? evt.Prompt : string.Empty;
+            _interactionPrompt.style.display = hasPrompt ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         private void OnModificationCardAdded(OnModificationCardAddedEvent evt)
         {
-            if (_player == null || evt.Entity != _player || evt.Reason != ModificationCardAddReason.LootPickup)
+            if (!evt.IsPlayerEntity || evt.Reason != ModificationCardAddReason.LootPickup)
                 return;
 
             if (evt.Card?.Definition == null)
@@ -210,32 +227,15 @@ namespace _Game.Scripts.UI.Controllers
             _pendingModificationPickups.Enqueue(evt.Card);
         }
 
-        private void AttachBoss(Boss boss)
-        {
-            DetachBoss();
-
-            if (boss == null || _bossBar == null || _bossBarFill == null)
-                return;
-
-            _activeBoss = boss;
-            _activeBoss.HealthSystem.OnHealthChanged += OnBossHealthChanged;
-            _bossBarName.text = GetBossDisplayName(_activeBoss);
-            _bossBar.style.display = DisplayStyle.Flex;
-            OnBossHealthChanged(_activeBoss.HealthSystem.CurrentHealth, _activeBoss.HealthSystem.MaxHealth);
-        }
-
         private void DetachBoss()
         {
-            if (_activeBoss != null)
-                _activeBoss.HealthSystem.OnHealthChanged -= OnBossHealthChanged;
-
-            _activeBoss = null;
+            _activeBossInstanceId = -1;
 
             if (_bossBar != null)
                 _bossBar.style.display = DisplayStyle.None;
         }
 
-        private void OnBossHealthChanged(float current, float max)
+        private void ApplyBossHealth(float current, float max)
         {
             if (_bossBarFill == null)
                 return;
@@ -247,24 +247,21 @@ namespace _Game.Scripts.UI.Controllers
                 _bossBarValue.text = $"{Mathf.CeilToInt(current)} / {Mathf.CeilToInt(max)}";
         }
 
-        private static string GetBossDisplayName(Boss boss)
+        private void ApplySkillIcon(int index, Sprite icon)
         {
-            string rawName = boss.Config != null ? boss.Config.name : boss.name;
-            return rawName.Replace("(Clone)", string.Empty).Trim();
-        }
-
-        private void UpdateInteractionPrompt()
-        {
-            if (_interactionPrompt == null)
+            if (index < 0 || index >= _skillIcons.Length || _skillIcons[index] == null || icon == null)
                 return;
 
-            string prompt = string.Empty;
-            if (_interactionSystem?.CurrentInteractable != null)
-                prompt = _interactionSystem.CurrentInteractable.InteractionPrompt;
+            _skillIcons[index].style.backgroundImage = new StyleBackground(icon);
+        }
 
-            bool hasPrompt = !string.IsNullOrWhiteSpace(prompt);
-            _interactionPrompt.text = hasPrompt ? prompt : string.Empty;
-            _interactionPrompt.style.display = hasPrompt ? DisplayStyle.Flex : DisplayStyle.None;
+        private void ApplyCooldown(int index, float ratio, float remaining)
+        {
+            if (index < 0 || index >= _cdOverlays.Length)
+                return;
+
+            _cdOverlays[index].style.height = Length.Percent(Mathf.Clamp01(ratio) * 100f);
+            _cdTexts[index].text = remaining > 0.1f ? remaining.ToString("F1") : string.Empty;
         }
 
         private void UpdateModificationPickupToast()

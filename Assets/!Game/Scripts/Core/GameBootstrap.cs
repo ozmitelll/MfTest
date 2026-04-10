@@ -18,6 +18,7 @@ namespace _Game.Scripts.Core
         private LevelService _levelService;
         private HUDController _hudController;
         private DirectorSystem _directorSystem;
+        private bool _endingSession;
 
         private void Awake()
         {
@@ -41,6 +42,7 @@ namespace _Game.Scripts.Core
 
             _sessionService = ServiceLocator.Instance.Get<SessionService>();
             _sessionService.EnsureSessionRunning();
+            EventBus.Subscribe<OnPlayerDiedEvent>(OnPlayerDied);
             _hudController.SetTimer(_sessionService.ElapsedTime);
             _levelService.LoadLevel(_sessionService.GetCurrentStageConfig());
 
@@ -66,8 +68,6 @@ namespace _Game.Scripts.Core
                 ServiceLocator.Instance.Get<PlayerService>());
             _directorSystem.Initialize();
 
-            _hudController.SetSkillSystem(player.SkillSystem);
-            _hudController.SetInteractionContext(player, player.InteractionSystem);
             _hudController.SetCoins(player.Wallet.Coins);
 
             EventBus.Publish(new OnPlayerHealthChangedEvent
@@ -86,8 +86,18 @@ namespace _Game.Scripts.Core
 
         private void OnDestroy()
         {
+            EventBus.Unsubscribe<OnPlayerDiedEvent>(OnPlayerDied);
             _directorSystem?.Dispose();
             _hudController?.Dispose();
+        }
+
+        private void OnPlayerDied(OnPlayerDiedEvent _)
+        {
+            if (_endingSession || _sessionService == null)
+                return;
+
+            _endingSession = true;
+            _sessionService.EndSession();
         }
     }
 }

@@ -1,6 +1,7 @@
 using _Game.Scripts.Core;
 using _Game.Scripts.Gameplay.Entities.Bosses;
 using _Game.Scripts.Gameplay.Entities.Player;
+using _Game.Scripts.Gameplay.Entities.Player.Systems;
 using _Game.Scripts.Services;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -162,7 +163,14 @@ namespace _Game.Scripts.Gameplay.Interactables
             _isTransitioning = false;
             _state = PortalState.BossAlive;
 
-            EventBus.Publish(new OnBossSpawnedEvent { Boss = _activeBoss });
+            EventBus.Publish(new OnBossSpawnedEvent
+            {
+                Boss = _activeBoss,
+                BossInstanceId = _activeBoss.GetInstanceID(),
+                DisplayName = GetBossDisplayName(_activeBoss),
+                CurrentHealth = _activeBoss.HealthSystem.CurrentHealth,
+                MaxHealth = _activeBoss.HealthSystem.MaxHealth
+            });
         }
 
         private Boss GetRandomBossPrefab()
@@ -229,7 +237,11 @@ namespace _Game.Scripts.Gameplay.Interactables
                 return;
             }
 
-            player.transform.SetPositionAndRotation(nextLevel.playerSpawnPoint.position, nextLevel.playerSpawnPoint.rotation);
+            if (player.TryGetComponent(out PlayerMovementSystem movementSystem))
+                movementSystem.TeleportTo(nextLevel.playerSpawnPoint.position, nextLevel.playerSpawnPoint.rotation);
+            else
+                player.transform.SetPositionAndRotation(nextLevel.playerSpawnPoint.position, nextLevel.playerSpawnPoint.rotation);
+
             EventBus.Publish(new OnPlayerHealthChangedEvent
             {
                 Current = player.HealthSystem.CurrentHealth,
@@ -242,6 +254,8 @@ namespace _Game.Scripts.Gameplay.Interactables
             ResolveRuntimeServices();
 
             Player player = _playerService?.Player;
+            if (player == null || player.HealthSystem.IsDead)
+                return false;
 
             Vector3 chargeCenter = transform.position + _chargeAreaOffset;
             Vector3 playerPosition = player.transform.position;
@@ -261,6 +275,12 @@ namespace _Game.Scripts.Gameplay.Interactables
         {
             Gizmos.color = new Color(0.24f, 0.77f, 0.92f, 0.85f);
             Gizmos.DrawWireSphere(transform.position + _chargeAreaOffset, _chargeRadius);
+        }
+
+        private static string GetBossDisplayName(Boss boss)
+        {
+            string rawName = boss != null && boss.Config != null ? boss.Config.name : boss != null ? boss.name : string.Empty;
+            return rawName.Replace("(Clone)", string.Empty).Trim();
         }
     }
 }

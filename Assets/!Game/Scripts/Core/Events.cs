@@ -9,6 +9,30 @@ namespace _Game.Scripts.Core
 
     public struct OnPlayerDiedEvent { }
 
+    public struct OnPlayerSkillIconsChangedEvent
+    {
+        public UnityEngine.Sprite Skill0Icon;
+        public UnityEngine.Sprite Skill1Icon;
+        public UnityEngine.Sprite Skill2Icon;
+        public UnityEngine.Sprite Skill3Icon;
+        public UnityEngine.Sprite PassiveIcon;
+    }
+
+    public struct OnPlayerSkillCooldownsChangedEvent
+    {
+        public float Slot1Ratio;
+        public float Slot2Ratio;
+        public float Slot3Ratio;
+        public float Slot1Remaining;
+        public float Slot2Remaining;
+        public float Slot3Remaining;
+    }
+
+    public struct OnInteractionPromptChangedEvent
+    {
+        public string Prompt;
+    }
+
     public struct OnEntityDamagedEvent
     {
         public _Game.Scripts.Gameplay.Entities.Entity Target;
@@ -27,11 +51,24 @@ namespace _Game.Scripts.Core
     public struct OnBossDiedEvent
     {
         public _Game.Scripts.Gameplay.Entities.Bosses.Boss Boss;
+        public int BossInstanceId;
     }
 
     public struct OnBossSpawnedEvent
     {
         public _Game.Scripts.Gameplay.Entities.Bosses.Boss Boss;
+        public int BossInstanceId;
+        public string DisplayName;
+        public float CurrentHealth;
+        public float MaxHealth;
+    }
+
+    public struct OnBossHealthChangedEvent
+    {
+        public int BossInstanceId;
+        public string DisplayName;
+        public float Current;
+        public float Max;
     }
 
     // --- Session ---
@@ -63,6 +100,7 @@ namespace _Game.Scripts.Core
         public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardInstance Card;
         public int TotalCards;
         public _Game.Scripts.Gameplay.Systems.Modifications.ModificationCardAddReason Reason;
+        public bool IsPlayerEntity;
     }
 
     public struct OnModificationInstalledEvent
@@ -72,6 +110,7 @@ namespace _Game.Scripts.Core
         public int SlotIndex;
         public int UsedCapacity;
         public int Capacity;
+        public bool IsPlayerEntity;
     }
 
     public struct OnModificationRemovedEvent
@@ -81,5 +120,6 @@ namespace _Game.Scripts.Core
         public int SlotIndex;
         public int UsedCapacity;
         public int Capacity;
+        public bool IsPlayerEntity;
     }
 }
