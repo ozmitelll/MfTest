@@ -100,6 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1506f9321add446b9e29afc2d84d7309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Gameplay.Entities.Player.Systems.PlayerMovementSystem
+  _gravity: 30
+  _groundedVerticalVelocity: -2
+  _maxFallSpeed: 50
+  _fallRespawnDistance: 8
+  _respawnVerticalOffset: 0.25
 --- !u!114 &2395646296731491303
 MonoBehaviour:
   m_ObjectHideFlags: 0
