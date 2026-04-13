@@ -14,11 +14,11 @@
             </ui:VisualElement>
            
             <ui:VisualElement name="buttons" class="nav__buttons">
-                <ui:Button text="START" name="menuButton" class="menu__button"/>
-                <ui:Button text="DATABASE" name="menuButton" class="menu__button"/>
-                <ui:Button text="SETTINGS" name="menuButton" class="menu__button"/>
-                <ui:Button text="CREDITS" name="menuButton" class="menu__button"/>
-                <ui:Button text="EXIT" name="menuButton" class="menu__button" style="margin-top:40px;"/>
+                <ui:Button text="START" name="btn-start-game" class="menu__button"/>
+                <ui:Button text="DATABASE" name="btn-database" class="menu__button"/>
+                <ui:Button text="SETTINGS" name="btn-settings" class="menu__button"/>
+                <ui:Button text="CREDITS" name="btn-credits" class="menu__button"/>
+                <ui:Button text="EXIT" name="btn-exit" class="menu__button" style="margin-top:40px;"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="discord_info" class="discord__info">

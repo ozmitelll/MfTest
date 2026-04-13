@@ -29,10 +29,22 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="character_stats" class="character__stats">
-                    
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="rightSide" class="right__side"/>
+        <ui:VisualElement name="rightSide" class="right__side">
+            <ui:VisualElement name="difficulty_select" class="difficulty__select">
+                <ui:Label text="DIFFICULTY" name="difficultyLabel" class="difficulty__label"/>
+                <ui:VisualElement name="difficulties" class="difficulties__options">
+                    <ui:Button  name="buttonName" class="difficulty__rb" />
+                    <ui:Button name="buttonName" class="difficulty__rb" />
+                    <ui:Button  name="buttonName" class="difficulty__rb" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="panelButtons" class="panel__buttons">
+                <ui:Button text="WAKE UP" name="startButton" class="panel__button"/>
+                <ui:Button text="BACK" name="backButton" class="panel__button_back"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

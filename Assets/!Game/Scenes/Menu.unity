@@ -315,6 +315,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Core.MenuBootstrap
   _document: {fileID: 1433290265}
+  _characterSelectPanelAsset: {fileID: 9197481963319205126, guid: 57d1e0918aff9b64ca124fbcca95a25b, type: 3}
+  _menuPanelAsset: {fileID: 9197481963319205126, guid: d358d3c84df2ce04697c03470816c6de, type: 3}
+  _characterPreviewSpawnPoint: {fileID: 1678451001}
   _availablePlayers:
   - {fileID: 4133069552373077687, guid: 6f2b9e9422df5964f972e2da7007467c, type: 3}
   - {fileID: 4133069552373077687, guid: 5de0d4d95ea44c42831a28c7ca6d8578, type: 3}
@@ -367,6 +370,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1678451000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1678451001}
+  m_Layer: 0
+  m_Name: Character Preview Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1678451001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678451000}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.16097285, z: -0, w: 0.98695886}
+  m_LocalPosition: {x: 0.51, y: 1, z: 6.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -18.527, z: 0}
 --- !u!1 &2070311484
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,5 +642,6 @@ SceneRoots:
   - {fileID: 2070311487}
   - {fileID: 312268254}
   - {fileID: 1433290266}
+  - {fileID: 1678451001}
   - {fileID: 7008700067566182762}
   - {fileID: 1463304338}
