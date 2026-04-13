@@ -24,6 +24,7 @@ namespace _Game.Scripts.Gameplay.Entities.Player
         private void Awake()
         {
             _input = new InputSystem_Actions();
+            InputBindingsPersistence.ApplySavedOverrides(_input);
             InitializeEntity(config);
             _movementSystem.Initialize(_input.Player, StatsSystem, config);
             _skillSystem.Initialize(_input.Player, this);

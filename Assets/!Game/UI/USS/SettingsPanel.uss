@@ -102,6 +102,13 @@
 	background-color: var(--menu-text-strong);
 }
 
+.settings-page__hint {
+	margin-bottom: 14px;
+	color: var(--menu-text-muted);
+	font-size: 13px;
+	letter-spacing: 0.6px;
+}
+
 .settings-presets {
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -359,6 +366,13 @@
 .setting-key:hover {
 	background-color: var(--menu-field-bg-hover);
 	border-color: var(--menu-border-strong);
+}
+
+.setting-key--listening,
+.setting-key--listening:hover {
+	background-color: var(--menu-surface-selected);
+	border-color: var(--menu-border-active);
+	color: var(--menu-text-strong);
 }
 
 .settings-navigation {
