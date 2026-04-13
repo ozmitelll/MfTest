@@ -15,12 +15,15 @@ namespace _Game.Scripts.Core
         [SerializeField] private UIDocument _document;
         [SerializeField] private VisualTreeAsset _characterSelectPanelAsset;
         [SerializeField] private VisualTreeAsset _menuPanelAsset;
+        [SerializeField] private VisualTreeAsset _settingsPanelAsset;
         [SerializeField] private Transform _characterPreviewSpawnPoint;
         [SerializeField] private Player[] _availablePlayers;
         
         private MenuView _menuView;
+        private SettingsView _settingsView;
         private Button _startGameButton;
         private Button _exitButton;
+        private Button _settingsButton;
         private Button _wakeUpButton;
         private Button _backButton;
         private VisualElement _charactersGrid;
@@ -32,8 +35,7 @@ namespace _Game.Scripts.Core
         private Player _previewCharacterInstance;
         private int _selectedStandaloneCharacterIndex;
         private int _previewCharacterIndex = -1;
-        // private SettingsView _settingsView;
-        // private CharacterSelectView _characterSelectView;
+        private bool _usesCombinedMenuDocument;
 
         private void Awake()
         {
@@ -43,8 +45,9 @@ namespace _Game.Scripts.Core
         private void Start()
         {
             var root = _document.rootVisualElement;
+            _usesCombinedMenuDocument = IsCombinedMenuDocument(root);
 
-            if (IsCombinedMenuDocument(root))
+            if (_usesCombinedMenuDocument)
             {
                 InitializeCombinedMenu(root);
                 return;
@@ -55,16 +58,20 @@ namespace _Game.Scripts.Core
 
         private void InitializeCombinedMenu(VisualElement root)
         {
+            DisposeSettingsView();
             _menuView = new MenuView(root);
             _menuView.BindCharacters(BuildCharacterViewData());
 
             _menuView.OnPlayClicked += OnPlayClicked;
+            _menuView.OnSettingsClicked += ShowSettingsPanel;
             _menuView.OnCharacterConfirmed += OnCharacterConfirmed;
             _menuView.OnQuitClicked += OnQuitClicked;
         }
 
         private void InitializeStandaloneMenu(VisualElement root)
         {
+            DisposeSettingsView();
+
             if (root.Q("charactersGrid") != null)
             {
                 InitializeStandaloneCharacterSelection(root);
@@ -73,6 +80,7 @@ namespace _Game.Scripts.Core
 
             _startGameButton = root.Q<Button>("btn-start-game") ?? root.Q<Button>("menuButton");
             _exitButton = root.Q<Button>("btn-exit");
+            _settingsButton = root.Q<Button>("btn-settings");
 
             if (_startGameButton == null)
             {
@@ -84,6 +92,9 @@ namespace _Game.Scripts.Core
 
             if (_exitButton != null)
                 _exitButton.clicked += OnQuitClicked;
+
+            if (_settingsButton != null)
+                _settingsButton.clicked += ShowSettingsPanel;
         }
 
         private void InitializeStandaloneCharacterSelection(VisualElement root)
@@ -139,6 +150,63 @@ namespace _Game.Scripts.Core
 
             VisualElement root = _document.rootVisualElement;
             root.Clear();
+            _menuPanelAsset.CloneTree(root);
+            InitializeStandaloneMenu(root);
+        }
+
+        private void ShowSettingsPanel()
+        {
+            DestroyPreviewCharacter();
+
+            if (_settingsPanelAsset == null)
+            {
+                Debug.LogWarning($"[{nameof(MenuBootstrap)}] Settings panel asset is not assigned.", this);
+                return;
+            }
+
+            _menuView = null;
+            DisposeSettingsView();
+
+            VisualElement root = _document.rootVisualElement;
+            root.Clear();
+            _settingsPanelAsset.CloneTree(root);
+            InitializeSettingsPanel(root);
+        }
+
+        private void InitializeSettingsPanel(VisualElement root)
+        {
+            DisposeSettingsView();
+            _settingsView = new SettingsView(root);
+            _settingsView.OnBackClicked += RestoreMenuRoot;
+        }
+
+        private void RestoreMenuRoot()
+        {
+            DestroyPreviewCharacter();
+            DisposeSettingsView();
+
+            VisualElement root = _document.rootVisualElement;
+            root.Clear();
+
+            if (_usesCombinedMenuDocument)
+            {
+                if (_document.visualTreeAsset == null)
+                {
+                    Debug.LogWarning($"[{nameof(MenuBootstrap)}] UIDocument visual tree asset is not assigned.", this);
+                    return;
+                }
+
+                _document.visualTreeAsset.CloneTree(root);
+                InitializeCombinedMenu(root);
+                return;
+            }
+
+            if (_menuPanelAsset == null)
+            {
+                Debug.LogWarning($"[{nameof(MenuBootstrap)}] Menu panel asset is not assigned.", this);
+                return;
+            }
+
             _menuPanelAsset.CloneTree(root);
             InitializeStandaloneMenu(root);
         }
@@ -380,7 +448,18 @@ namespace _Game.Scripts.Core
 
         private void OnDestroy()
         {
+            DisposeSettingsView();
             DestroyPreviewCharacter();
+        }
+
+        private void DisposeSettingsView()
+        {
+            if (_settingsView == null)
+                return;
+
+            _settingsView.OnBackClicked -= RestoreMenuRoot;
+            _settingsView.Dispose();
+            _settingsView = null;
         }
 
         void OnPlayClicked()

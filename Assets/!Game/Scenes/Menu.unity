@@ -317,6 +317,7 @@ MonoBehaviour:
   _document: {fileID: 1433290265}
   _characterSelectPanelAsset: {fileID: 9197481963319205126, guid: 57d1e0918aff9b64ca124fbcca95a25b, type: 3}
   _menuPanelAsset: {fileID: 9197481963319205126, guid: d358d3c84df2ce04697c03470816c6de, type: 3}
+  _settingsPanelAsset: {fileID: 9197481963319205126, guid: 34c328d3ae77c234588b96122d54ee32, type: 3}
   _characterPreviewSpawnPoint: {fileID: 1678451001}
   _availablePlayers:
   - {fileID: 4133069552373077687, guid: 6f2b9e9422df5964f972e2da7007467c, type: 3}

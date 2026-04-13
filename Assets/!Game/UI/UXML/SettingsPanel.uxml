@@ -1,3 +1,130 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
     <Style src="project://database/Assets/!Game/UI/USS/SettingsPanel.uss?fileID=7433441132597879392&amp;guid=a9f05f6c8810e464caa55f7b2c7fd36e&amp;type=3#SettingsPanel"/>
+    <ui:VisualElement name="settings-root" class="settings-root" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
+        <!-- <ui:VisualElement class="settings-root__backdrop"/> -->
+        <ui:VisualElement name="settings-shell" class="settings-shell">
+            <ui:VisualElement name="settings-stage" class="settings-stage">
+                <ui:ScrollView name="settings-scroll" class="settings-scroll">
+                    <ui:VisualElement name="page-game" class="settings-page settings-page--active">
+                        <ui:Label text="ИГРА" class="settings-page__title"/>
+                        <ui:VisualElement class="settings-page__underline"/>
+                        <ui:VisualElement class="settings-list">
+                            <ui:VisualElement class="settings-row"><ui:Label text="АВТОСПРИНТ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="РЫВОК В СТОРОНУ КУРСОРА" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ПОЛНАЯ ОСТАНОВКА ВРЕМЕНИ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ЗАГЛУШАТЬ В ФОНОВОМ РЕЖИМЕ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--spaced"><ui:Label text="РЕЖИМ СТРИМЕРА" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="РЕЖИМ АРАХНОФОБИИ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ТРЯСКА КАМЕРЫ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ОТКЛОНЕНИЕ КАМЕРЫ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--spaced"><ui:Label text="ПОЛОСЫ ХП ПРОТИВНИКОВ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ПОЛОСА ХП НАД ПРИВРАТНИКОМ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ПАНЕЛЬ ХП ОТРЯДА" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--slider"><ui:Label text="ТЕНЬ ПРИЦЕЛА" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-slider"><ui:VisualElement class="setting-slider__track"><ui:VisualElement class="setting-slider__fill" style="width: 2%;"/><ui:VisualElement class="setting-slider__thumb" style="left: 2%;"/></ui:VisualElement><ui:Label text="0%" class="setting-slider__value"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ЦИФРЫ УРОНА" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ИНДИКАТОР НАПРАВЛЕНИЯ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="page-graphics" class="settings-page">
+                        <ui:Label text="ГРАФИКА" class="settings-page__title"/>
+                        <ui:VisualElement class="settings-page__underline"/>
+                        <ui:VisualElement class="settings-presets">
+                            <ui:Button text="НИЗКАЯ" name="preset-low" class="settings-preset"/>
+                            <ui:Button text="СРЕДНЯЯ" name="preset-medium" class="settings-preset"/>
+                            <ui:Button text="ВЫСОКАЯ" name="preset-high" class="settings-preset"/>
+                            <ui:Button text="УЛЬТРА" name="preset-ultra" class="settings-preset settings-preset--active"/>
+                            <ui:Button text="КАСТОМНЫЙ" name="preset-custom" class="settings-preset"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="settings-list">
+                            <ui:VisualElement class="settings-row"><ui:Label text="MSAA" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-cycle"><ui:Label text="‹" class="setting-cycle__arrow"/><ui:Label text="x2" class="setting-cycle__value"/><ui:Label text="›" class="setting-cycle__arrow"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="КАЧЕСТВО ТЕНЕЙ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-cycle"><ui:Label text="‹" class="setting-cycle__arrow"/><ui:Label text="Ультра" class="setting-cycle__value"/><ui:Label text="›" class="setting-cycle__arrow"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="КАЧЕСТВО ТЕКСТУР" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-cycle"><ui:Label text="‹" class="setting-cycle__arrow"/><ui:Label text="Ультра" class="setting-cycle__value"/><ui:Label text="›" class="setting-cycle__arrow"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--spaced"><ui:Label text="АНИЗОТРОПНАЯ ФИЛЬТРАЦИЯ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ОСНОВНЫЕ ТЕНИ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ТЕНИ ДОПОЛНИТЕЛЬНОГО СВЕТА" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="МЯГКИЕ ТЕНИ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="РАЗМЫТИЕ ПО КРАЯМ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="СВЕЧЕНИЕ" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--spaced"><ui:Label text="ЧАСТОТА КАДРОВ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-cycle"><ui:Label text="‹" class="setting-cycle__arrow"/><ui:Label text="60Hz" class="setting-cycle__value"/><ui:Label text="›" class="setting-cycle__arrow"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ПОЛНЫЙ ЭКРАН" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="VSYNC" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--resolution"><ui:Label text="РАЗРЕШЕНИЕ ЭКРАНА" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-cycle setting-cycle--wide"><ui:Label text="1920x1080" class="setting-cycle__value setting-cycle__value--wide"/><ui:Label text="›" class="setting-cycle__arrow"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="page-sound" class="settings-page">
+                        <ui:Label text="ЗВУК" class="settings-page__title"/>
+                        <ui:VisualElement class="settings-page__underline"/>
+                        <ui:VisualElement class="settings-list settings-list--compact">
+                            <ui:VisualElement class="settings-row settings-row--selected"><ui:Label text="МУЗЫКА" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-slider"><ui:VisualElement class="setting-slider__track"><ui:VisualElement class="setting-slider__fill" style="width: 5%;"/><ui:VisualElement class="setting-slider__thumb" style="left: 5%;"/></ui:VisualElement><ui:Label text="5%" class="setting-slider__value"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ЭФФЕКТЫ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--wide"><ui:VisualElement class="setting-slider"><ui:VisualElement class="setting-slider__track"><ui:VisualElement class="setting-slider__fill" style="width: 10%;"/><ui:VisualElement class="setting-slider__thumb" style="left: 10%;"/></ui:VisualElement><ui:Label text="10%" class="setting-slider__value"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="page-input" class="settings-page">
+                        <ui:VisualElement class="settings-page__topbar">
+                            <ui:VisualElement>
+                                <ui:Label text="КЛАВИАТУРА И МЫШЬ" class="settings-page__title settings-page__title--small"/>
+                                <ui:VisualElement class="settings-page__underline"/>
+                            </ui:VisualElement>
+                            <ui:Button text="ПО УМОЛЧАНИЮ" name="bindings-default" class="settings-preset settings-preset--wide settings-preset--active"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="settings-list">
+                            <ui:VisualElement class="settings-row"><ui:Label text="ДВИГАТЬСЯ ВПЕРЕД" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[W]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ДВИГАТЬСЯ НАЗАД" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[S]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ДВИГАТЬСЯ ВЛЕВО" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[A]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ДВИГАТЬСЯ ВПРАВО" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[D]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ВЗАИМОДЕЙСТВИЕ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[E]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--spaced"><ui:Label text="ПЕРВЫЙ НАВЫК" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[LMB]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ВТОРОЙ НАВЫК" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[RMB]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ТРЕТИЙ НАВЫК" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[SPACE]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ЧЕТВЕРТЫЙ НАВЫК" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[F]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ИНВЕНТАРЬ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[TAB]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="СПРИНТ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[LEFT SHIFT]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ОТКРЫТЬ ПАНЕЛЬ ЭВОЛЮЦИИ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[Q]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="ПИНГ" class="settings-row__label"/><ui:VisualElement class="settings-row__control settings-row__control--binding"><ui:Button text="[MMB]" class="setting-key"/></ui:VisualElement></ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="page-language" class="settings-page">
+                        <ui:Label text="ЯЗЫК" class="settings-page__title"/>
+                        <ui:VisualElement class="settings-page__underline"/>
+                        <ui:VisualElement class="settings-list">
+                            <ui:VisualElement class="settings-row"><ui:Label text="ENGLISH" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="CHINESE(SIMPLIFIED)" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="CHINESE (TRADITIONAL)" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="KOREAN" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="JAPANESE" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row settings-row--selected"><ui:Label text="RUSSIAN" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle setting-toggle--active"><ui:VisualElement class="setting-toggle__inner"/></ui:VisualElement></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="FRENCH" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="GERMAN" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="PORTUGUESE (BRAZIL)" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="SPANISH (LATIN AMERICA)" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="UKRAINIAN" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="BASQUE" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                            <ui:VisualElement class="settings-row"><ui:Label text="PORTUGUESE (PORTUGAL)" class="settings-row__label"/><ui:VisualElement class="settings-row__control"><ui:VisualElement class="setting-toggle"/></ui:VisualElement></ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="page-controller" class="settings-page">
+                        <ui:Label text="КОНТРОЛЛЕР" class="settings-page__title"/>
+                        <ui:VisualElement class="settings-page__underline"/>
+                        <ui:VisualElement class="settings-empty-state">
+                            <ui:Label text="ЗАГЛУШКА ПОД РАЗДЕЛ КОНТРОЛЛЕРА" class="settings-empty-state__title"/>
+                            <ui:Label text="Структура уже готова, здесь можно будет собрать отдельную сетку для биндов, чувствительности стиков и вибрации." class="settings-empty-state__copy"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:VisualElement>
+            <ui:VisualElement name="settings-navigation" class="settings-navigation">
+                <ui:VisualElement class="settings-navigation__card">
+                    <ui:Button text="ИГРА" name="nav-game" class="settings-nav__item settings-nav__item--active"/>
+                    <ui:Button text="ГРАФИКА" name="nav-graphics" class="settings-nav__item"/>
+                    <ui:Button text="ЗВУК" name="nav-sound" class="settings-nav__item"/>
+                    <ui:Button text="КЛАВИАТУРА И МЫШЬ" name="nav-input" class="settings-nav__item"/>
+                    <ui:Button text="КОНТРОЛЛЕР" name="nav-controller" class="settings-nav__item settings-nav__item--disabled"/>
+                    <ui:Button text="ЯЗЫК" name="nav-language" class="settings-nav__item"/>
+                    <ui:VisualElement class="settings-navigation__spacer"/>
+                    <ui:Button text="НАЗАД" name="nav-back" class="settings-nav__item settings-nav__item--back"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>
