@@ -1,0 +1,114 @@
+.character-select__panel{
+    width: 100%;
+    height: 100%;
+    flex-direction:row;
+    padding:40px;
+}
+
+.left__side{
+    width:25%;
+    height: 100%;
+}
+
+.steamID__label{
+    font-size: 24px;
+}
+
+.right__side{
+    width: 25%;
+    height: 100%;
+}
+
+.middle__side{
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.characters__section{
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 20%;
+}
+
+.characters__label{
+    font-size: 32px;
+}
+
+.characters__grid{
+    padding-top: 10px;
+    width: 100%;
+    height: 80%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.character__slot{
+    height: 100%;
+    width: 100px;
+    background-color: gray;
+    margin: 0 10px;
+}
+
+.character__info{
+    width: 60%;
+    height: 15%;
+    flex-direction: row;
+}
+
+.character__details{
+    width:80%;
+    background-color: rgb(30, 49, 78);
+    border-width: 2px;
+    border-color: black;
+    margin: 2px;
+}
+
+.character__name{
+    background-color: rgba(15,25,40,0.8);
+    margin: 4px;
+    border-width: 2px;
+    border-color: black;
+}
+
+.character__name-label{
+    -unity-text-align: middle-center;
+    color: white;
+    font-size: 24px;
+    margin: 2;
+    padding: 0;
+}
+
+.character__skills{
+    width: 100%;
+    height: 80%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.character__skill_active{
+    width:60px;
+    height: 60px;
+    border-width: 2px;
+    border-color: white;
+}
+
+.character__skill_passive{
+    width:40px;
+    height: 40px;
+    border-width: 2px;
+    border-color: white;
+}
+
+.character__stats{
+    width: 20%;
+    background-color: rgb(30, 49, 78);
+    border-width: 2px;
+    border-color: black;
+    margin: 2px;
+}

@@ -1,0 +1,29 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/MenuPanel.uss?fileID=7433441132597879392&amp;guid=4fdef7faed5131149b790a855041586f&amp;type=3#MenuPanel"/>
+    <ui:VisualElement name="menu-panel" class="menu__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
+        <ui:VisualElement name="steam_info" class="steam__info">
+            <ui:Label text="Это версия раннего доступа." name="labelName" class="steam__label"/>
+            <ui:Label text="Мы считаем, что это правильный выбор для соло-разработки. Открытое общение с нашими активными игроками и ваши бесценные отзывы критически важны для нас, чтобы выпустить наилучшую версию игры." name="labelName" class="steam__label"/>
+            <ui:Label text="Если вы хотите помочь нам в этом, не стесняйтесь сообщать о любых найденных ошибках или делиться своими идеями здесь:" name="labelName" class="steam__label"/>
+            <ui:Button text="DISSCUSION ON STEAM" name="steamButton" class="steam__button"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="menu_nav" class="menu__nav">
+            <ui:VisualElement name="labelsPanel" class="menu__labels">
+                 <ui:Label text="Modfall" name="labelName" class="menu__label" style="padding-bottom: 0; padding-top: 0; margin-bottom: 0; padding-left: 2px; margin-left: 0; margin-right: 0; margin-top: 0;"/>
+            <ui:Label text="Early Access" name="sublabelName" class="menu__sublabel"/>
+            </ui:VisualElement>
+           
+            <ui:VisualElement name="buttons" class="nav__buttons">
+                <ui:Button text="START" name="menuButton" class="menu__button"/>
+                <ui:Button text="DATABASE" name="menuButton" class="menu__button"/>
+                <ui:Button text="SETTINGS" name="menuButton" class="menu__button"/>
+                <ui:Button text="CREDITS" name="menuButton" class="menu__button"/>
+                <ui:Button text="EXIT" name="menuButton" class="menu__button" style="margin-top:40px;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="discord_info" class="discord__info">
+            <ui:Image name="imageName" class="discord__image" style="background-image: url(&quot;project://database/Assets/!Game/UI/discord-icon-svgrepo-com.svg?fileID=7388822144124034973&amp;guid=d2dc5b8a7f629a446966d7fb14df4235&amp;type=3#discord-icon-svgrepo-com&quot;);"/>
+            <ui:Label text="build 0.1.0" name="labelName" class="game__version"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

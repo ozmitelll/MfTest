@@ -1,0 +1,38 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/CharacterSelectPanel.uss?fileID=7433441132597879392&amp;guid=51a7b8556205de048a97014e75c67c52&amp;type=3#CharacterSelectPanel"/>
+    <ui:VisualElement name="characterSelectPanel" class="character-select__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
+        <ui:VisualElement name="leftSide" class="left__side">
+            <ui:VisualElement name="steamID" class="steamID__block">
+                <ui:Label text="STEAMID" name="steamIDLabel" class="steamID__label"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="middleSide" class="middle__side">
+            <ui:VisualElement name="characters_section" class="characters__section">
+                <ui:Label text="CHARACTERS SELECTION" name="charactersLabel" class="characters__label"/>
+                <ui:VisualElement name="charactersGrid" class="characters__grid">
+                    <ui:VisualElement name="slot1" class="character__slot"/>
+                    <ui:VisualElement name="slot1" class="character__slot"/>
+                    <ui:VisualElement name="slot1" class="character__slot"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="character_info" class="character__info">
+                <ui:VisualElement name="character_details" class="character__details">
+                    <ui:VisualElement name="character_name" class="character__name">
+                        <ui:Label text="ARBITER" name="characterNameLabel" class="character__name-label"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="character_skills" class="character__skills">
+                        <ui:VisualElement name="skill" class="character__skill_active"/>
+                        <ui:VisualElement name="skill" class="character__skill_active"/>
+                        <ui:VisualElement name="skill" class="character__skill_active"/>
+                        <ui:VisualElement name="skill" class="character__skill_active"/>
+                        <ui:VisualElement name="skill" class="character__skill_passive"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="character_stats" class="character__stats">
+                    
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="rightSide" class="right__side"/>
+    </ui:VisualElement>
+</ui:UXML>

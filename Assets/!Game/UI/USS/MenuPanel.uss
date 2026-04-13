@@ -1,0 +1,107 @@
+.menu__panel{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 40px;
+}
+
+.menu__nav{
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+}
+
+.nav__buttons{
+    padding-top: 40px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu__button{
+    width: 400px;
+    height: 50px;
+    font-size: 24px;
+    -unity-text-align: middle-left;
+    margin: 0;
+    margin-top: 10px;
+    background-color: rgba(15,25,40,0.8);
+    border-radius: 2px;
+    color: white;
+    border-color: rgba(100,150,200,0.2);
+    transition-property: scale, border-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out;
+}
+
+.menu__button:hover{
+    background-color: rgb(30, 49, 78);
+    scale: 1.07;
+    border-color: white;
+}
+
+
+.menu__label{
+    font-size: 116px;
+    color: rgba(0, 179, 255, 0.77);
+    -unity-font-style: bold;
+}
+
+.menu__sublabel{
+    font-size: 24px;
+    color: #8ab4f8;
+}
+
+.menu__labels{
+    flex-direction: column;
+    align-items: center;
+}
+
+.steam__info{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    color: #5d88a8;
+    padding-bottom: 180px;
+}
+
+.steam__label{
+    white-space: normal;
+    width:60%;
+}
+
+.steam__button{
+    width:400px;
+    height: 50px;
+    font-size: 18px;
+    margin: 0;
+    background-color: rgba(15,25,40,0.8);
+    border-radius: 2px;
+    border-color: rgba(100,150,200,0.2);
+    -unity-text-align: middle-left;
+}
+
+.discord__info{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.discord__image{
+    width: 40px;
+    height: 30px;
+    margin: 5px;
+}
+
+.game__version{
+    -unity-text-align: middle-right;
+    padding: 0;
+    margin: 0;
+    color: #5d88a8
+}
