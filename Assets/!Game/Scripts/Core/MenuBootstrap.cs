@@ -12,6 +12,10 @@ namespace _Game.Scripts.Core
 {
     public class MenuBootstrap : MonoBehaviour
     {
+        private const int DocumentTransitionDurationMs = 180;
+        private const string PanelTransitionHostClass = "panel-transition-host";
+        private const string PanelTransitionOutClass = "panel-transition-host--out";
+
         [SerializeField] private UIDocument _document;
         [SerializeField] private VisualTreeAsset _characterSelectPanelAsset;
         [SerializeField] private VisualTreeAsset _menuPanelAsset;
@@ -32,9 +36,12 @@ namespace _Game.Scripts.Core
         private Label _characterNameLabel;
         private readonly List<VisualElement> _standaloneCharacterSlots = new();
         private CharacterSelectionViewData[] _standaloneCharacters = Array.Empty<CharacterSelectionViewData>();
+        private IVisualElementScheduledItem _documentTransitionItem;
+        private Action<VisualElement> _queuedDocumentSwap;
         private Player _previewCharacterInstance;
         private int _selectedStandaloneCharacterIndex;
         private int _previewCharacterIndex = -1;
+        private bool _isDocumentTransitioning;
         private bool _usesCombinedMenuDocument;
 
         private void Awake()
@@ -45,6 +52,7 @@ namespace _Game.Scripts.Core
         private void Start()
         {
             var root = _document.rootVisualElement;
+            root.AddToClassList(PanelTransitionHostClass);
             _usesCombinedMenuDocument = IsCombinedMenuDocument(root);
 
             if (_usesCombinedMenuDocument)
@@ -132,10 +140,11 @@ namespace _Game.Scripts.Core
                 return;
             }
 
-            VisualElement root = _document.rootVisualElement;
-            root.Clear();
-            _characterSelectPanelAsset.CloneTree(root);
-            InitializeStandaloneCharacterSelection(root);
+            TransitionDocumentRoot(root =>
+            {
+                _characterSelectPanelAsset.CloneTree(root);
+                InitializeStandaloneCharacterSelection(root);
+            });
         }
 
         private void ShowMainMenuPanel()
@@ -148,10 +157,11 @@ namespace _Game.Scripts.Core
                 return;
             }
 
-            VisualElement root = _document.rootVisualElement;
-            root.Clear();
-            _menuPanelAsset.CloneTree(root);
-            InitializeStandaloneMenu(root);
+            TransitionDocumentRoot(root =>
+            {
+                _menuPanelAsset.CloneTree(root);
+                InitializeStandaloneMenu(root);
+            });
         }
 
         private void ShowSettingsPanel()
@@ -167,10 +177,11 @@ namespace _Game.Scripts.Core
             _menuView = null;
             DisposeSettingsView();
 
-            VisualElement root = _document.rootVisualElement;
-            root.Clear();
-            _settingsPanelAsset.CloneTree(root);
-            InitializeSettingsPanel(root);
+            TransitionDocumentRoot(root =>
+            {
+                _settingsPanelAsset.CloneTree(root);
+                InitializeSettingsPanel(root);
+            });
         }
 
         private void InitializeSettingsPanel(VisualElement root)
@@ -185,30 +196,30 @@ namespace _Game.Scripts.Core
             DestroyPreviewCharacter();
             DisposeSettingsView();
 
-            VisualElement root = _document.rootVisualElement;
-            root.Clear();
-
-            if (_usesCombinedMenuDocument)
+            TransitionDocumentRoot(root =>
             {
-                if (_document.visualTreeAsset == null)
+                if (_usesCombinedMenuDocument)
                 {
-                    Debug.LogWarning($"[{nameof(MenuBootstrap)}] UIDocument visual tree asset is not assigned.", this);
+                    if (_document.visualTreeAsset == null)
+                    {
+                        Debug.LogWarning($"[{nameof(MenuBootstrap)}] UIDocument visual tree asset is not assigned.", this);
+                        return;
+                    }
+
+                    _document.visualTreeAsset.CloneTree(root);
+                    InitializeCombinedMenu(root);
                     return;
                 }
 
-                _document.visualTreeAsset.CloneTree(root);
-                InitializeCombinedMenu(root);
-                return;
-            }
+                if (_menuPanelAsset == null)
+                {
+                    Debug.LogWarning($"[{nameof(MenuBootstrap)}] Menu panel asset is not assigned.", this);
+                    return;
+                }
 
-            if (_menuPanelAsset == null)
-            {
-                Debug.LogWarning($"[{nameof(MenuBootstrap)}] Menu panel asset is not assigned.", this);
-                return;
-            }
-
-            _menuPanelAsset.CloneTree(root);
-            InitializeStandaloneMenu(root);
+                _menuPanelAsset.CloneTree(root);
+                InitializeStandaloneMenu(root);
+            });
         }
 
         private void StartSelectedCharacter()
@@ -448,8 +459,56 @@ namespace _Game.Scripts.Core
 
         private void OnDestroy()
         {
+            _documentTransitionItem?.Pause();
             DisposeSettingsView();
             DestroyPreviewCharacter();
+        }
+
+        private void TransitionDocumentRoot(Action<VisualElement> swapAction)
+        {
+            if (swapAction == null || _document == null)
+                return;
+
+            VisualElement root = _document.rootVisualElement;
+            root.AddToClassList(PanelTransitionHostClass);
+
+            if (root.childCount == 0)
+            {
+                root.Clear();
+                swapAction(root);
+                root.AddToClassList(PanelTransitionHostClass);
+                root.RemoveFromClassList(PanelTransitionOutClass);
+                return;
+            }
+
+            if (_isDocumentTransitioning)
+            {
+                _queuedDocumentSwap = swapAction;
+                return;
+            }
+
+            _isDocumentTransitioning = true;
+            root.AddToClassList(PanelTransitionOutClass);
+
+            _documentTransitionItem?.Pause();
+            _documentTransitionItem = root.schedule.Execute(() => CompleteDocumentTransition(swapAction)).StartingIn(DocumentTransitionDurationMs);
+        }
+
+        private void CompleteDocumentTransition(Action<VisualElement> swapAction)
+        {
+            VisualElement root = _document.rootVisualElement;
+            root.Clear();
+            swapAction(root);
+            root.AddToClassList(PanelTransitionHostClass);
+            root.RemoveFromClassList(PanelTransitionOutClass);
+            _isDocumentTransitioning = false;
+
+            if (_queuedDocumentSwap != null)
+            {
+                Action<VisualElement> queuedSwap = _queuedDocumentSwap;
+                _queuedDocumentSwap = null;
+                TransitionDocumentRoot(queuedSwap);
+            }
         }
 
         private void DisposeSettingsView()

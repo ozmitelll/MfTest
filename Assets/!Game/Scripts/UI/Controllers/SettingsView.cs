@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace _Game.Scripts.Views
@@ -16,11 +17,13 @@ namespace _Game.Scripts.Views
 
     public class SettingsView : IDisposable
     {
+        private const int SectionTransitionDurationMs = 170;
         private const string HoverTargetClass = "settings-hover-target";
         private const string HoverTargetNavClass = "settings-hover-target--nav";
         private const string HoverIndicatorClass = "settings-hover-indicator";
         private const string HoverIndicatorLineClass = "settings-hover-indicator__line";
         private const string HoverIndicatorCaretClass = "settings-hover-indicator__caret";
+        private const string ScrollTransitionOutClass = "settings-scroll--transition-out";
 
         private readonly Dictionary<SettingsSection, VisualElement> _pages = new();
         private readonly Dictionary<SettingsSection, Button> _navButtons = new();
@@ -28,6 +31,12 @@ namespace _Game.Scripts.Views
         private readonly ScrollView _scrollView;
         private readonly Button _backButton;
         private readonly Action _backHandler;
+        private IVisualElementScheduledItem _pendingTransitionItem;
+        private SettingsSection _currentSection;
+        private SettingsSection _transitionTargetSection;
+        private SettingsSection? _queuedSection;
+        private bool _hasCurrentSection;
+        private bool _isTransitioning;
 
         public event Action OnBackClicked;
 
@@ -57,6 +66,35 @@ namespace _Game.Scripts.Views
 
         public void ShowSection(SettingsSection section)
         {
+            if (!_hasCurrentSection)
+            {
+                ShowSectionImmediate(section);
+                _currentSection = section;
+                _hasCurrentSection = true;
+                return;
+            }
+
+            if (section == _currentSection && !_isTransitioning)
+                return;
+
+            if (_isTransitioning)
+            {
+                _queuedSection = section;
+                return;
+            }
+
+            if (_scrollView == null)
+            {
+                ShowSectionImmediate(section);
+                _currentSection = section;
+                return;
+            }
+
+            BeginSectionTransition(section);
+        }
+
+        private void ShowSectionImmediate(SettingsSection section)
+        {
             foreach (KeyValuePair<SettingsSection, VisualElement> pair in _pages)
                 pair.Value.EnableInClassList("settings-page--active", pair.Key == section);
 
@@ -66,6 +104,8 @@ namespace _Game.Scripts.Views
 
         public void Dispose()
         {
+            _pendingTransitionItem?.Pause();
+
             for (int i = 0; i < _subscriptions.Count; i++)
             {
                 (Button button, Action handler) = _subscriptions[i];
@@ -76,6 +116,34 @@ namespace _Game.Scripts.Views
 
             if (_backButton != null && _backHandler != null)
                 _backButton.clicked -= _backHandler;
+        }
+
+        private void BeginSectionTransition(SettingsSection section)
+        {
+            _isTransitioning = true;
+            _transitionTargetSection = section;
+            _scrollView.AddToClassList(ScrollTransitionOutClass);
+
+            _pendingTransitionItem?.Pause();
+            _pendingTransitionItem = _scrollView.schedule.Execute(CompleteSectionTransition).StartingIn(SectionTransitionDurationMs);
+        }
+
+        private void CompleteSectionTransition()
+        {
+            SettingsSection targetSection = _transitionTargetSection;
+
+            ShowSectionImmediate(targetSection);
+            _currentSection = targetSection;
+            _scrollView.scrollOffset = Vector2.zero;
+            _scrollView.RemoveFromClassList(ScrollTransitionOutClass);
+            _isTransitioning = false;
+
+            if (_queuedSection.HasValue && _queuedSection.Value != _currentSection)
+            {
+                SettingsSection queuedSection = _queuedSection.Value;
+                _queuedSection = null;
+                BeginSectionTransition(queuedSection);
+            }
         }
 
         private void RegisterSection(

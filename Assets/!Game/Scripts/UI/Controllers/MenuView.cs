@@ -61,6 +61,16 @@ namespace _Game.Scripts.Views
 
     public class MenuView
     {
+        private const int PanelTransitionDurationMs = 180;
+        private const string PanelTransitionHostClass = "panel-transition-host";
+        private const string PanelTransitionOutClass = "panel-transition-host--out";
+
+        private enum MenuPanelState
+        {
+            MainMenu,
+            CharacterSelection
+        }
+
         private readonly VisualElement _root;
         private readonly VisualElement _mainMenuPanel;
         private readonly VisualElement _characterSelectPanel;
@@ -78,7 +88,13 @@ namespace _Game.Scripts.Views
         private readonly Button _startRunButton;
         private readonly Button _backButton;
         private readonly List<Button> _characterButtons = new();
+        private IVisualElementScheduledItem _panelTransitionItem;
         private CharacterSelectionViewData[] _characters = Array.Empty<CharacterSelectionViewData>();
+        private MenuPanelState _currentPanelState;
+        private MenuPanelState _transitionTargetState;
+        private MenuPanelState? _queuedPanelState;
+        private bool _hasCurrentPanelState;
+        private bool _isTransitioning;
         private int _selectedCharacterIndex;
         
         public event Action OnPlayClicked;
@@ -91,6 +107,7 @@ namespace _Game.Scripts.Views
         public MenuView(VisualElement root)
         {
             _root = root;
+            _root.AddToClassList(PanelTransitionHostClass);
             _mainMenuPanel = root.Q("main-menu-panel");
             _characterSelectPanel = root.Q("character-select-panel");
             _characterStrip = root.Q("character-strip");
@@ -126,20 +143,80 @@ namespace _Game.Scripts.Views
 
         public void ShowMainMenu()
         {
-            _mainMenuPanel.style.display = DisplayStyle.Flex;
-            _characterSelectPanel.style.display = DisplayStyle.None;
+            TransitionToPanel(MenuPanelState.MainMenu);
         }
 
         public void ShowCharacterSelection()
         {
-            _mainMenuPanel.style.display = DisplayStyle.None;
-            _characterSelectPanel.style.display = DisplayStyle.Flex;
-            RefreshSelection();
+            TransitionToPanel(MenuPanelState.CharacterSelection);
         }
 
         public void Show() => _root.style.display = DisplayStyle.Flex;
         public void Hide() => _root.style.display = DisplayStyle.None;
-        public void Dispose() { }
+        public void Dispose()
+        {
+            _panelTransitionItem?.Pause();
+        }
+
+        private void TransitionToPanel(MenuPanelState targetState)
+        {
+            if (!_hasCurrentPanelState)
+            {
+                ApplyPanelState(targetState);
+                _currentPanelState = targetState;
+                _hasCurrentPanelState = true;
+                return;
+            }
+
+            if (targetState == _currentPanelState && !_isTransitioning)
+            {
+                if (targetState == MenuPanelState.CharacterSelection)
+                    RefreshSelection();
+
+                return;
+            }
+
+            if (_isTransitioning)
+            {
+                _queuedPanelState = targetState;
+                return;
+            }
+
+            _isTransitioning = true;
+            _transitionTargetState = targetState;
+            _root.AddToClassList(PanelTransitionOutClass);
+
+            _panelTransitionItem?.Pause();
+            _panelTransitionItem = _root.schedule.Execute(CompletePanelTransition).StartingIn(PanelTransitionDurationMs);
+        }
+
+        private void CompletePanelTransition()
+        {
+            ApplyPanelState(_transitionTargetState);
+            _currentPanelState = _transitionTargetState;
+            _root.RemoveFromClassList(PanelTransitionOutClass);
+            _isTransitioning = false;
+
+            if (_queuedPanelState.HasValue && _queuedPanelState.Value != _currentPanelState)
+            {
+                MenuPanelState queuedState = _queuedPanelState.Value;
+                _queuedPanelState = null;
+                TransitionToPanel(queuedState);
+                return;
+            }
+
+            _queuedPanelState = null;
+        }
+
+        private void ApplyPanelState(MenuPanelState panelState)
+        {
+            bool showMainMenu = panelState == MenuPanelState.MainMenu;
+            _mainMenuPanel.style.display = showMainMenu ? DisplayStyle.Flex : DisplayStyle.None;
+            _characterSelectPanel.style.display = showMainMenu ? DisplayStyle.None : DisplayStyle.Flex;
+
+            if (!showMainMenu)
+                RefreshSelection();
+        }
 
         private void RebuildCharacterStrip()
         {
