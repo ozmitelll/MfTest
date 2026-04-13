@@ -1,7 +1,7 @@
 .settings-root {
 	flex-grow: 1;
 	position: relative;
-	color: var(--text-strong);
+	color: var(--menu-text-strong);
 }
 
 .settings-root__backdrop {
@@ -10,7 +10,7 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background-color: rgba(8, 11, 23, 0.76);
+	background-color: var(--menu-overlay);
 }
 
 .settings-root__glow {
@@ -18,7 +18,7 @@
 	width: 520px;
 	height: 520px;
 	border-radius: 260px;
-	background-color: rgba(123, 62, 72, 0.18);
+	background-color: var(--menu-glow-primary);
 }
 
 .settings-root__glow--left {
@@ -29,7 +29,7 @@
 .settings-root__glow--right {
 	right: 180px;
 	top: 80px;
-	background-color: rgba(62, 94, 142, 0.12);
+	background-color: var(--menu-glow-secondary);
 }
 
 .settings-shell {
@@ -74,7 +74,7 @@
 }
 
 .settings-page__title {
-	color: var(--text-strong);
+	color: var(--menu-text-strong);
 	font-size: 30px;
 	-unity-font-style: bold;
 	letter-spacing: 2px;
@@ -89,7 +89,7 @@
 	height: 4px;
 	margin-top: 6px;
 	margin-bottom: 18px;
-	background-color: var(--text-strong);
+	background-color: var(--menu-text-strong);
 }
 
 .settings-presets {
@@ -104,22 +104,22 @@
 	margin-right: 8px;
 	margin-bottom: 8px;
 	padding: 0 16px;
-	color: rgba(232, 240, 255, 0.9);
-	background-color: rgba(53, 85, 122, 0.68);
+	color: var(--menu-text-primary);
+	background-color: var(--menu-field-bg);
 	border-width: 1px;
-	border-color: rgba(110, 165, 216, 0.18);
+	border-color: var(--menu-border-base);
 	font-size: 14px;
 }
 
 .settings-preset:hover {
-	background-color: rgba(70, 108, 154, 0.82);
-	border-color: rgba(140, 195, 255, 0.54);
+	background-color: var(--menu-field-bg-hover);
+	border-color: var(--menu-border-strong);
 }
 
 .settings-preset--active {
-	background-color: rgba(106, 154, 209, 0.88);
-	border-color: rgba(189, 222, 255, 0.88);
-	color: rgba(248, 251, 255, 0.96);
+	background-color: var(--menu-surface-selected);
+	border-color: var(--menu-border-active);
+	color: var(--menu-text-strong);
 }
 
 .settings-preset--wide {
@@ -142,16 +142,16 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	background-color: rgba(15, 18, 34, 0.56);
+	background-color: var(--menu-surface-soft);
 	border-left-width: 1px;
 	border-right-width: 1px;
-	border-color: rgba(84, 106, 150, 0.14);
+	border-color: var(--menu-border-subtle);
 }
 
 .settings-row:hover {
-	background-color: rgba(27, 33, 57, 0.78);
+	background-color: var(--menu-surface-hover-soft);
 	border-left-width: 3px;
-	border-left-color: rgba(236, 184, 89, 0.94);
+	border-left-color: var(--menu-accent-gold);
 }
 
 .settings-row--spaced {
@@ -165,7 +165,7 @@
 
 .settings-row--selected {
 	border-left-width: 3px;
-	border-left-color: rgba(236, 184, 89, 0.94);
+	border-left-color: var(--menu-accent-gold);
 }
 
 .settings-hover-target {
@@ -188,7 +188,7 @@
 	width: 2px;
 	height: 20px;
 	margin-right: 4px;
-	background-color: rgba(236, 184, 89, 0.96);
+	background-color: var(--menu-accent-gold);
 }
 
 .settings-hover-indicator__caret {
@@ -199,7 +199,7 @@
 	border-left-width: 10px;
 	border-top-color: transparent;
 	border-bottom-color: transparent;
-	border-left-color: rgba(236, 184, 89, 0.96);
+	border-left-color: var(--menu-accent-gold);
 }
 
 .settings-row:hover > .settings-hover-indicator,
@@ -210,7 +210,7 @@
 
 .settings-row__label {
 	flex-grow: 1;
-	color: rgba(243, 245, 255, 0.88);
+	color: var(--menu-text-primary);
 	font-size: 20px;
     margin: 0;
 }
@@ -236,22 +236,22 @@
 	rotate: 45deg;
 	align-items: center;
 	justify-content: center;
-	background-color: rgba(24, 40, 66, 0.44);
+	background-color: var(--menu-toggle-bg);
 	border-width: 1px;
-	border-color: rgba(92, 154, 214, 0.75);
+	border-color: var(--menu-border-toggle);
 }
 
 .setting-toggle--active {
-	background-color: rgba(109, 167, 224, 0.22);
-	border-color: rgba(170, 214, 255, 0.94);
+	background-color: var(--menu-toggle-active);
+	border-color: var(--menu-border-toggle-active);
 }
 
 .setting-toggle__inner {
 	width: 10px;
 	height: 10px;
-	background-color: rgba(196, 229, 255, 0.96);
+	background-color: var(--menu-slider-fill);
 	border-width: 1px;
-	border-color: rgba(142, 192, 239, 0.88);
+	border-color: var(--menu-border-inner-active);
 }
 
 .setting-cycle {
@@ -264,21 +264,21 @@
 .setting-cycle--wide {
 	min-width: 188px;
 	padding: 0 12px;
-	background-color: rgba(15, 18, 34, 0.52);
+	background-color: var(--menu-surface-subtle);
 	border-width: 1px;
-	border-color: rgba(84, 106, 150, 0.14);
+	border-color: var(--menu-border-subtle);
 }
 
 .setting-cycle__arrow {
 	width: 28px;
-	color: rgba(99, 174, 237, 0.92);
+	color: var(--menu-accent-blue);
 	font-size: 24px;
 	-unity-text-align: middle-center;
 }
 
 .setting-cycle__value {
 	min-width: 82px;
-	color: rgba(246, 248, 255, 0.9);
+	color: var(--menu-text-primary);
 	font-size: 14px;
 	-unity-text-align: middle-center;
 }
@@ -300,9 +300,9 @@
 	width: 180px;
 	height: 4px;
 	margin-right: 12px;
-	background-color: rgba(13, 17, 28, 0.82);
+	background-color: var(--menu-slider-track);
 	border-width: 1px;
-	border-color: rgba(98, 124, 164, 0.12);
+	border-color: var(--menu-border-subtle);
 }
 
 .setting-slider__fill {
@@ -310,7 +310,7 @@
 	left: 0;
 	top: 0;
 	bottom: 0;
-	background-color: rgba(235, 239, 247, 0.88);
+	background-color: var(--menu-slider-fill);
 }
 
 .setting-slider__thumb {
@@ -319,17 +319,17 @@
 	width: 8px;
 	height: 18px;
 	margin-left: -4px;
-	background-color: rgba(255, 255, 255, 0.98);
+	background-color: var(--menu-slider-thumb);
 }
 
 .setting-slider__value {
 	min-width: 54px;
 	height: 24px;
 	padding-top: 4px;
-	color: rgba(244, 246, 255, 0.92);
-	background-color: rgba(12, 16, 28, 0.92);
+	color: var(--menu-text-primary);
+	background-color: var(--menu-slider-track);
 	border-width: 1px;
-	border-color: rgba(84, 106, 150, 0.14);
+	border-color: var(--menu-border-subtle);
 	font-size: 16px;
 	-unity-text-align: middle-center;
 }
@@ -338,17 +338,17 @@
 	min-width: 118px;
 	height: 30px;
 	padding: 0 12px;
-	color: rgba(231, 238, 251, 0.92);
-	background-color: rgba(46, 72, 104, 0.76);
+	color: var(--menu-text-primary);
+	background-color: var(--menu-field-bg);
 	border-width: 1px;
-	border-color: rgba(92, 154, 214, 0.16);
+	border-color: var(--menu-border-toggle-soft);
 	font-size: 14px;
 	-unity-text-align: middle-right;
 }
 
 .setting-key:hover {
-	background-color: rgba(60, 95, 136, 0.86);
-	border-color: rgba(145, 196, 247, 0.46);
+	background-color: var(--menu-field-bg-hover);
+	border-color: var(--menu-border-strong);
 }
 
 .settings-navigation {
@@ -372,7 +372,7 @@
 	height: 50px;
 	margin-bottom: 4px;
 	padding: 0 12px 0 28px;
-	color: rgba(241, 244, 255, 0.88);
+	color: var(--menu-text-primary);
 	background-color: transparent;
 	border-width: 0;
 	font-size: 20px;
@@ -380,12 +380,12 @@
 }
 
 .settings-nav__item:hover {
-	background-color: rgba(87, 138, 176, 0.16);
-	color: rgba(255, 248, 232, 0.98);
+	background-color: var(--menu-surface-selected-soft);
+	color: var(--menu-text-hover);
 }
 
 .settings-nav__item--active {
-	background-color: rgba(87, 138, 176, 0.72);
+	background-color: var(--menu-surface-selected);
 }
 
 .settings-hover-target--nav .settings-hover-indicator {
@@ -398,7 +398,7 @@
 }
 
 .settings-nav__item--disabled {
-	color: rgba(241, 244, 255, 0.34);
+	color: var(--menu-text-disabled);
 }
 
 .settings-nav__item--back {
@@ -410,20 +410,20 @@
 	max-width: 580px;
 	min-height: 200px;
 	padding: 22px;
-	background-color: rgba(15, 18, 34, 0.56);
+	background-color: var(--menu-surface-soft);
 	border-width: 1px;
-	border-color: rgba(84, 106, 150, 0.14);
+	border-color: var(--menu-border-subtle);
 }
 
 .settings-empty-state__title {
-	color: var(--text-strong);
+	color: var(--menu-text-strong);
 	font-size: 20px;
 	letter-spacing: 2px;
 }
 
 .settings-empty-state__copy {
 	margin-top: 12px;
-	color: rgba(243, 245, 255, 0.7);
+	color: var(--menu-text-muted);
 	font-size: 14px;
 	white-space: normal;
 }

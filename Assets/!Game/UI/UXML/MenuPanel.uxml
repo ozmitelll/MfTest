@@ -1,4 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
     <Style src="project://database/Assets/!Game/UI/USS/MenuPanel.uss?fileID=7433441132597879392&amp;guid=4fdef7faed5131149b790a855041586f&amp;type=3#MenuPanel"/>
     <ui:VisualElement name="menu-panel" class="menu__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
         <ui:VisualElement name="steam_info" class="steam__info">
