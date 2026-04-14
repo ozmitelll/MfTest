@@ -6,6 +6,10 @@ using _Game.Scripts.Gameplay.Entities.Player.Systems;
 using _Game.Scripts.Gameplay.Skills;
 using _Game.Scripts.Views;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
 namespace _Game.Scripts.Core
@@ -13,6 +17,8 @@ namespace _Game.Scripts.Core
     public class MenuBootstrap : MonoBehaviour
     {
         private const int DocumentTransitionDurationMs = 180;
+        private const string MenuTableName = "UI_Menu";
+        private const string MissingTranslationPrefix = "No translation found for";
         private const string PanelTransitionHostClass = "panel-transition-host";
         private const string PanelTransitionOutClass = "panel-transition-host--out";
 
@@ -41,7 +47,9 @@ namespace _Game.Scripts.Core
         private Player _previewCharacterInstance;
         private int _selectedStandaloneCharacterIndex;
         private int _previewCharacterIndex = -1;
+        private int _menuLocalizationRequestVersion;
         private bool _isDocumentTransitioning;
+        private bool _isWaitingForLocalizationInitialization;
         private bool _usesCombinedMenuDocument;
 
         private void Awake()
@@ -62,6 +70,22 @@ namespace _Game.Scripts.Core
             }
 
             InitializeStandaloneMenu(root);
+        }
+
+        private void OnEnable()
+        {
+            LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+        }
+
+        private void OnDisable()
+        {
+            LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+
+            if (_isWaitingForLocalizationInitialization)
+            {
+                LocalizationSettings.InitializationOperation.Completed -= OnLocalizationInitialized;
+                _isWaitingForLocalizationInitialization = false;
+            }
         }
 
         private void InitializeCombinedMenu(VisualElement root)
@@ -103,6 +127,102 @@ namespace _Game.Scripts.Core
 
             if (_settingsButton != null)
                 _settingsButton.clicked += ShowSettingsPanel;
+
+            ApplyStandaloneMenuLocalization(root);
+        }
+
+        private void OnSelectedLocaleChanged(Locale _)
+        {
+            RefreshStandaloneMenuLocalization();
+        }
+
+        private void RefreshStandaloneMenuLocalization()
+        {
+            if (_document == null)
+                return;
+
+            VisualElement root = _document.rootVisualElement;
+            if (root == null || root.Q("menu-panel") == null || root.Q("charactersGrid") != null)
+                return;
+
+            ApplyStandaloneMenuLocalization(root);
+        }
+
+        private void ApplyStandaloneMenuLocalization(VisualElement root)
+        {
+            if (root == null || root.Q("menu-panel") == null)
+                return;
+
+            if (!LocalizationSettings.InitializationOperation.IsDone)
+            {
+                QueueStandaloneMenuLocalizationRefresh();
+                return;
+            }
+
+            int requestVersion = ++_menuLocalizationRequestVersion;
+            AsyncOperationHandle<StringTable> tableHandle = LocalizationSettings.StringDatabase.GetTableAsync(MenuTableName);
+            tableHandle.Completed += operation => ApplyStandaloneMenuLocalization(operation, root, requestVersion);
+        }
+
+        private void ApplyStandaloneMenuLocalization(AsyncOperationHandle<StringTable> operation, VisualElement root, int requestVersion)
+        {
+            if (requestVersion != _menuLocalizationRequestVersion ||
+                operation.Status != AsyncOperationStatus.Succeeded ||
+                operation.Result == null ||
+                root == null ||
+                root.panel == null ||
+                root.Q("menu-panel") == null ||
+                root.Q("charactersGrid") != null)
+            {
+                return;
+            }
+
+            StringTable table = operation.Result;
+            SetLocalizedText(root.Q<Label>("steam-early-access-line-1"), table, "ui.menu.early_access.note_1");
+            SetLocalizedText(root.Q<Label>("steam-early-access-line-2"), table, "ui.menu.early_access.note_2");
+            SetLocalizedText(root.Q<Label>("steam-early-access-line-3"), table, "ui.menu.early_access.note_3");
+            SetLocalizedText(root.Q<Button>("steam-discussion-button"), table, "ui.menu.early_access.steam_button");
+            SetLocalizedText(root.Q<Label>("menu-subtitle"), table, "ui.menu.subtitle");
+            SetLocalizedText(root.Q<Button>("btn-start-game"), table, "ui.menu.start");
+            SetLocalizedText(root.Q<Button>("btn-database"), table, "ui.menu.database");
+            SetLocalizedText(root.Q<Button>("btn-settings"), table, "ui.menu.settings");
+            SetLocalizedText(root.Q<Button>("btn-credits"), table, "ui.menu.credits");
+            SetLocalizedText(root.Q<Button>("btn-exit"), table, "ui.menu.exit");
+        }
+
+        private void QueueStandaloneMenuLocalizationRefresh()
+        {
+            if (_isWaitingForLocalizationInitialization)
+                return;
+
+            _isWaitingForLocalizationInitialization = true;
+            LocalizationSettings.InitializationOperation.Completed += OnLocalizationInitialized;
+        }
+
+        private void OnLocalizationInitialized(AsyncOperationHandle<LocalizationSettings> _)
+        {
+            LocalizationSettings.InitializationOperation.Completed -= OnLocalizationInitialized;
+            _isWaitingForLocalizationInitialization = false;
+            RefreshStandaloneMenuLocalization();
+        }
+
+        private static void SetLocalizedText(TextElement element, StringTable table, string key)
+        {
+            if (element == null || table == null)
+                return;
+
+            StringTableEntry entry = table.GetEntry(key);
+            if (entry == null)
+                return;
+
+            string localizedText = entry.LocalizedValue;
+            if (string.IsNullOrWhiteSpace(localizedText) ||
+                localizedText.StartsWith(MissingTranslationPrefix, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            element.text = localizedText;
         }
 
         private void InitializeStandaloneCharacterSelection(VisualElement root)

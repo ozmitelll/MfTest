@@ -3,15 +3,15 @@
     <Style src="project://database/Assets/!Game/UI/USS/MenuPanel.uss?fileID=7433441132597879392&amp;guid=4fdef7faed5131149b790a855041586f&amp;type=3#MenuPanel"/>
     <ui:VisualElement name="menu-panel" class="menu__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
         <ui:VisualElement name="steam_info" class="steam__info">
-            <ui:Label text="Это версия раннего доступа." name="labelName" class="steam__label"/>
-            <ui:Label text="Мы считаем, что это правильный выбор для соло-разработки. Открытое общение с нашими активными игроками и ваши бесценные отзывы критически важны для нас, чтобы выпустить наилучшую версию игры." name="labelName" class="steam__label"/>
-            <ui:Label text="Если вы хотите помочь нам в этом, не стесняйтесь сообщать о любых найденных ошибках или делиться своими идеями здесь:" name="labelName" class="steam__label"/>
-            <ui:Button text="DISSCUSION ON STEAM" name="steamButton" class="steam__button"/>
+            <ui:Label text="Это версия раннего доступа." name="steam-early-access-line-1" class="steam__label"/>
+            <ui:Label text="Мы считаем, что это правильный выбор для соло-разработки. Открытое общение с нашими активными игроками и ваши бесценные отзывы критически важны для нас, чтобы выпустить наилучшую версию игры." name="steam-early-access-line-2" class="steam__label"/>
+            <ui:Label text="Если вы хотите помочь нам в этом, не стесняйтесь сообщать о любых найденных ошибках или делиться своими идеями здесь:" name="steam-early-access-line-3" class="steam__label"/>
+            <ui:Button text="DISSCUSION ON STEAM" name="steam-discussion-button" class="steam__button"/>
         </ui:VisualElement>
         <ui:VisualElement name="menu_nav" class="menu__nav">
             <ui:VisualElement name="labelsPanel" class="menu__labels">
                  <ui:Label text="Modfall" name="labelName" class="menu__label" style="padding-bottom: 0; padding-top: 0; margin-bottom: 0; padding-left: 2px; margin-left: 0; margin-right: 0; margin-top: 0;"/>
-            <ui:Label text="Early Access" name="sublabelName" class="menu__sublabel"/>
+            <ui:Label text="Early Access" name="menu-subtitle" class="menu__sublabel"/>
             </ui:VisualElement>
            
             <ui:VisualElement name="buttons" class="nav__buttons">

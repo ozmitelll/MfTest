@@ -1,0 +1,24 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/!Game/UI/USS/HUDPanel.uss?fileID=7433441132597879392&amp;guid=d73caaadeb48e6845a55ed628ba03e69&amp;type=3#HUDPanel"/>
+    <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
+    <ui:VisualElement name="hud_panel" class="hud__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
+        <ui:VisualElement name="leftSide" class="leftSide">
+            <ui:VisualElement name="progressInfo" class="progressInfo">
+                <ui:Label text="Stage 1" name="stage__label"/>
+                <ui:Label text="00:00" name="timer"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="characterStatus" class="character__status">
+                <ui:VisualElement name="lvlInfo" class="lvl__info">
+                    <ui:Label text="0" name="lvl_count" />
+                    <ui:Label text="Pennacy" name="pennacy_text" />
+                </ui:VisualElement>
+                <ui:VisualElement name="healthBar" class="health__bar">
+                    
+                </ui:VisualElement>
+                <ui:Label text="100/100" name="health__text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="middleSide" class="middleSide"/>
+        <ui:VisualElement name="rightSide" class="rightSide"/>
+    </ui:VisualElement>
+</ui:UXML>

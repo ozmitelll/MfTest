@@ -1,0 +1,64 @@
+.hud__panel{
+    padding: 40px;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.leftSide{
+    width: 33.3%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.progressInfo{
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.stage__label{
+    font-size: 18px;
+}
+
+.timer{
+    font-size: 16px;
+}
+
+.character__status{
+    width: 100%;
+    height: 50px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.lvl__info{
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.health__bar{
+    width: 50%;
+    height: 20px;
+    background-color: red;
+}
+
+.middleSide{
+    width: 33.3%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.rightSide{
+    width: 33.3%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
