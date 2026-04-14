@@ -22,6 +22,10 @@ namespace _Game.Scripts.UI.Controllers
         private const float ModificationToastExitDuration = 0.22f;
         private const float ModificationToastVisibleRight = 24f;
         private const float ModificationToastHiddenRight = -380f;
+        private const string Skill1BindingId = "05f6913d-c316-48b2-a6bb-e225f14c7960";
+        private const string Skill2BindingId = "ce93755f-33b9-4d50-94ad-e60d7da7c6dc";
+        private const string Skill3BindingId = "44853405-3710-4474-a6cb-004a9a8414b3";
+        private const string Skill4BindingId = "aa177ad1-2caa-4dbf-bb1c-797a9e42a10b";
 
         // ── Health ───────────────────────────────────────────────────────
         private readonly VisualElement _healthFill;
@@ -33,6 +37,7 @@ namespace _Game.Scripts.UI.Controllers
         private readonly VisualElement[] _skillIcons  = new VisualElement[4];
         private readonly VisualElement[] _cdOverlays  = new VisualElement[3]; // слоты 1,2,3
         private readonly Label[]         _cdTexts     = new Label[3];
+        private readonly Label[]         _skillKeyTexts = new Label[4];
         private readonly VisualElement   _passiveIcon;
         private readonly VisualElement   _bossBar;
         private readonly VisualElement   _bossBarFill;
@@ -45,6 +50,7 @@ namespace _Game.Scripts.UI.Controllers
         private readonly Label           _modificationPickupName;
         private readonly Label           _modificationPickupMeta;
         private readonly Label           _modificationPickupDescription;
+        private readonly InputSystem_Actions _hudInputActions;
         private int                      _activeBossInstanceId = -1;
         private readonly Queue<ModificationCardInstance> _pendingModificationPickups = new();
         private ModificationToastPhase _modificationToastPhase;
@@ -56,6 +62,10 @@ namespace _Game.Scripts.UI.Controllers
             _coinsText = root.Q<Label>("coins-text");
             _healthFill = root.Q("health-bar-fill");
             _healthText = root.Q<Label>("health-text");
+            _skillKeyTexts[0] = root.Q<Label>("hudSkillLabelLmb");
+            _skillKeyTexts[1] = root.Q<Label>("hudSkillLabelRmb");
+            _skillKeyTexts[2] = root.Q<Label>("hudSkillLabelSpace");
+            _skillKeyTexts[3] = root.Q<Label>("hudSkillLabelG");
 
             for (int i = 0; i < 4; i++)
                 _skillIcons[i] = root.Q($"skill-icon-{i}");
@@ -78,6 +88,10 @@ namespace _Game.Scripts.UI.Controllers
             _modificationPickupName = root.Q<Label>("modification-pickup-name");
             _modificationPickupMeta = root.Q<Label>("modification-pickup-meta");
             _modificationPickupDescription = root.Q<Label>("modification-pickup-description");
+            _hudInputActions = new InputSystem_Actions();
+            InputBindingsPersistence.ApplySavedOverrides(_hudInputActions);
+
+            RefreshSkillBindingLabels();
 
             if (_bossBar != null)
                 _bossBar.style.display = DisplayStyle.None;
@@ -120,6 +134,7 @@ namespace _Game.Scripts.UI.Controllers
             EventBus.Unsubscribe<OnInteractionPromptChangedEvent>(OnInteractionPromptChanged);
             EventBus.Unsubscribe<OnModificationCardAddedEvent>(OnModificationCardAdded);
             DetachBoss();
+            _hudInputActions?.Dispose();
         }
 
         public void SetTimer(float timeSeconds)
@@ -149,6 +164,9 @@ namespace _Game.Scripts.UI.Controllers
 
         private void OnHealthChanged(OnPlayerHealthChangedEvent evt)
         {
+            if (_healthFill == null || _healthText == null)
+                return;
+
             float pct = evt.Max > 0f ? evt.Current / evt.Max : 0f;
             _healthFill.style.width = Length.Percent(pct * 100f);
             _healthText.text = $"{Mathf.CeilToInt(evt.Current)} / {Mathf.CeilToInt(evt.Max)}";
@@ -255,9 +273,61 @@ namespace _Game.Scripts.UI.Controllers
             _skillIcons[index].style.backgroundImage = new StyleBackground(icon);
         }
 
+        private void RefreshSkillBindingLabels()
+        {
+            if (_hudInputActions == null)
+                return;
+
+            ApplySkillBindingLabel(0, _hudInputActions.Player.Skill1, Skill1BindingId);
+            ApplySkillBindingLabel(1, _hudInputActions.Player.Skill2, Skill2BindingId);
+            ApplySkillBindingLabel(2, _hudInputActions.Player.Skill3, Skill3BindingId);
+            ApplySkillBindingLabel(3, _hudInputActions.Player.Skill4, Skill4BindingId);
+        }
+
+        private void ApplySkillBindingLabel(int index, UnityEngine.InputSystem.InputAction action, string bindingId)
+        {
+            if (index < 0 || index >= _skillKeyTexts.Length || _skillKeyTexts[index] == null)
+                return;
+
+            int bindingIndex = FindBindingIndex(action, bindingId);
+            if (bindingIndex < 0)
+                return;
+
+            string display = InputBindingsPersistence.FormatBindingDisplay(action, bindingIndex);
+            _skillKeyTexts[index].text = TrimBindingDecorators(display);
+        }
+
+        private static int FindBindingIndex(UnityEngine.InputSystem.InputAction action, string bindingId)
+        {
+            if (action == null || string.IsNullOrWhiteSpace(bindingId))
+                return -1;
+
+            for (int i = 0; i < action.bindings.Count; i++)
+            {
+                if (string.Equals(action.bindings[i].id.ToString(), bindingId, StringComparison.OrdinalIgnoreCase))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private static string TrimBindingDecorators(string display)
+        {
+            if (string.IsNullOrWhiteSpace(display))
+                return string.Empty;
+
+            if (display.Length >= 2 && display[0] == '[' && display[^1] == ']')
+                return display.Substring(1, display.Length - 2);
+
+            return display;
+        }
+
         private void ApplyCooldown(int index, float ratio, float remaining)
         {
             if (index < 0 || index >= _cdOverlays.Length)
+                return;
+
+            if (_cdOverlays[index] == null || _cdTexts[index] == null)
                 return;
 
             _cdOverlays[index].style.height = Length.Percent(Mathf.Clamp01(ratio) * 100f);

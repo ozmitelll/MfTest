@@ -14,7 +14,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: UI_Settings
   m_TableCollectionNameGuidString: 56976511e628a5e4f8d0696269415184
-  m_Entries: []
+  m_Entries:
+  - m_Id: 45061894832128
+    m_Key: 'ui.settings.nav.game
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45091233988608
+    m_Key: 'ui.settings.nav.graphics
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45118551490560
+    m_Key: 'ui.settings.nav.sound
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45133961363456
+    m_Key: 'ui.settings.nav.input
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45156799348736
+    m_Key: 'ui.settings.nav.controller
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45175812128768
+    m_Key: 'ui.settings.nav.language
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45192606121984
+    m_Key: 'ui.settings.nav.back
+
+'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

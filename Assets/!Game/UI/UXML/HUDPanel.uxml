@@ -1,24 +1,82 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/!Game/UI/USS/HUDPanel.uss?fileID=7433441132597879392&amp;guid=d73caaadeb48e6845a55ed628ba03e69&amp;type=3#HUDPanel"/>
     <Style src="project://database/Assets/!Game/UI/USS/Common.uss?fileID=7433441132597879392&amp;guid=5b11d26cd5f06254e97b187917127f6f&amp;type=3#Common"/>
-    <ui:VisualElement name="hud_panel" class="hud__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
+    <ui:VisualElement name="hud-root" picking-mode="Ignore" class="hud__panel" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/Jura-VariableFont_wght.ttf?fileID=12800000&amp;guid=9293659fdd3218047a650c083d29c8c1&amp;type=3#Jura-VariableFont_wght&quot;);">
+        <ui:VisualElement name="boss-health-bar" class="boss-health-bar">
+            <ui:Label name="boss-health-bar__name" text="Boss" class="boss-health-bar__name"/>
+            <ui:VisualElement name="boss-health-bar__track" class="boss-health-bar__track">
+                <ui:VisualElement name="boss-health-bar__fill" class="boss-health-bar__fill"/>
+            </ui:VisualElement>
+            <ui:Label name="boss-health-bar__value" text="0 / 0" class="boss-health-bar__value"/>
+        </ui:VisualElement>
         <ui:VisualElement name="leftSide" class="leftSide">
             <ui:VisualElement name="progressInfo" class="progressInfo">
                 <ui:Label text="Stage 1" name="stage__label"/>
-                <ui:Label text="00:00" name="timer"/>
+                <ui:Label text="00:00" name="timer-text" class="timer"/>
             </ui:VisualElement>
             <ui:VisualElement name="characterStatus" class="character__status">
                 <ui:VisualElement name="lvlInfo" class="lvl__info">
-                    <ui:Label text="0" name="lvl_count" />
-                    <ui:Label text="Pennacy" name="pennacy_text" />
+                    <ui:Label text="0" name="lvl_count"/>
+                    <ui:Label text="Pennacy" name="pennacy_text"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="healthBar" class="health__bar">
-                    
+                    <ui:VisualElement name="healthBarFrame" class="health__bar-frame">
+                        <ui:VisualElement name="healthBarBackdrop" class="health__bar-backdrop">
+                            <ui:VisualElement name="healthBarUnderlay" class="health__bar-underlay" style="-unity-material: url(&quot;&quot;);"/>
+                            <ui:VisualElement name="health-bar-fill" class="health__bar-fill" style="-unity-material: url(&quot;&quot;);">
+                                <ui:VisualElement name="healthBarEffectHost" class="health__bar-effect-host" style="-unity-material: url(&quot;&quot;);">
+                                    <ui:VisualElement name="healthBarEffectLayer" class="health__bar-effect-layer"/>
+                                </ui:VisualElement>
+                                <ui:VisualElement name="healthBarHighlight" class="health__bar-highlight"/>
+                                <ui:VisualElement name="healthBarEdge" class="health__bar-edge"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label text="100/100" name="health__text" />
+                <ui:Label text="100/100" name="health-text" class="health__text"/>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="middleSide" class="middleSide"/>
-        <ui:VisualElement name="rightSide" class="rightSide"/>
+        <ui:VisualElement name="middleSide" class="middleSide">
+            <ui:VisualElement name="hudSkillsPanel" class="hud__skills-panel">
+                <ui:VisualElement name="hudSkillsFrame" class="hud__skills-frame">
+                    <ui:VisualElement name="hudSkillsRow" class="hud__skills-row">
+                        <ui:VisualElement name="hudSkillSlotLmb" class="hud__skill-slot">
+                            <ui:Label text="LMB" name="hudSkillLabelLmb" class="hud__skill-key"/>
+                            <ui:VisualElement name="skill-icon-0" class="hud__skill-active"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="hudSkillSlotRmb" class="hud__skill-slot">
+                            <ui:Label text="RMB" name="hudSkillLabelRmb" class="hud__skill-key"/>
+                            <ui:VisualElement name="skill-icon-1" class="hud__skill-active">
+                                <ui:VisualElement name="skill-cd-overlay-1" class="hud__skill-cd-overlay"/>
+                                <ui:Label name="skill-cd-text-1" class="hud__skill-cd-text"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="hudSkillSlotSpace" class="hud__skill-slot">
+                            <ui:Label text="Space" name="hudSkillLabelSpace" class="hud__skill-key"/>
+                            <ui:VisualElement name="skill-icon-2" class="hud__skill-active">
+                                <ui:VisualElement name="skill-cd-overlay-2" class="hud__skill-cd-overlay"/>
+                                <ui:Label name="skill-cd-text-2" class="hud__skill-cd-text"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="hudSkillSlotG" class="hud__skill-slot">
+                            <ui:Label text="G" name="hudSkillLabelG" class="hud__skill-key"/>
+                            <ui:VisualElement name="skill-icon-3" class="hud__skill-active">
+                                <ui:VisualElement name="skill-cd-overlay-3" class="hud__skill-cd-overlay"/>
+                                <ui:Label name="skill-cd-text-3" class="hud__skill-cd-text"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="hudSkillSlotPassive" class="hud__skill-slot hud__skill-slot--passive">
+                            <ui:VisualElement name="skill-icon-passive" class="hud__skill-passive"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="rightSide" class="rightSide">
+            <ui:VisualElement name="coinsPanel" class="coins__panel">
+                <ui:Image name="coins-image" class="coins__image" style="background-image: url(&quot;project://database/Assets/!Game/UI/svgviewer-output.svg?fileID=7388822144124034973&amp;guid=d5260523418503847a346455374ab0a7&amp;type=3#svgviewer-output&quot;);"/>
+                <ui:Label text="0" name="coins-text" class="coins__text"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

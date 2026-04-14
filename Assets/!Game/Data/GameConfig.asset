@@ -15,6 +15,7 @@ MonoBehaviour:
   TimerTickIntervalSeconds: 1
   DifficultyIncreaseIntervalSeconds: 60
   EnemyDifficultyStatPercentPerLevel: 0.1
+  EnemyCoinRewardPercentPerDifficulty: 0.15
   DirectorStartingCredits: 18
   DirectorCreditsPerSecond: 6
   DirectorCreditsPerSecondPerDifficulty: 1.5

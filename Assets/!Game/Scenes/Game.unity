@@ -528,7 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: a88f84e3613051f4dbbf1717eab655aa, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: e392661acfa915f47a7643a4505ad691, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: af6cf02f25b4f4249886e00eafabfe52, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -584,20 +584,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.UI.EnemyBarsLayer
   _styleSheet: {fileID: 7433441132597879392, guid: d4e73ca44342c874a9b4554e7526c16c, type: 3}
---- !u!114 &1486136132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1486136128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eaf0d0c7c15496cb4495fcbbdcf1452, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.UI.EnemyDamageNumbersManager
-  _config: {fileID: 11400000, guid: aec77cc1ebf34ef8b8d3711f6af834bb, type: 2}
-  _layer: {fileID: 1486136129}
 --- !u!114 &1486136130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,6 +622,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1486136132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486136128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eaf0d0c7c15496cb4495fcbbdcf1452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.UI.EnemyDamageNumbersManager
+  _config: {fileID: 11400000, guid: aec77cc1ebf34ef8b8d3711f6af834bb, type: 2}
+  _layer: {fileID: 1486136129}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

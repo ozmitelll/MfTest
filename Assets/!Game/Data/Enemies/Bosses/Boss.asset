@@ -25,5 +25,11 @@ MonoBehaviour:
   StartingModifications: []
   DetectionRange: 10
   AggroRange: 15
+  CombatRole: 0
+  PrimarySkillSlot: 1
+  RangeTolerance: 0.25
+  RetreatDistance: 3
+  RetreatDuration: 0.75
   DirectorCost: 10
-  CoinDrop: 5
+  CoinDropMin: 150
+  CoinDropMax: 250
