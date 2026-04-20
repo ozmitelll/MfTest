@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="100%" height="100%">
+  <defs>
+    <!-- 
+      ЦВЕТ РАМКИ:
+      Сейчас здесь настроен металлический градиент. 
+      Вы можете менять цвета (stop-color) на любые свои (например, темные оттенки для темной темы).
+    -->
+    <linearGradient id="frameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="80%" stop-color="#f8fafc"/>
+        <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+
+    <!-- Тень от рамки (можно удалить, если не нужна) -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+        <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- 
+    ОСНОВНАЯ ФОРМА РАМКИ 
+    Если вам нужен сплошной цвет без градиента: 
+    замените fill="url(#frameGradient)" на fill="#ВАШ_ЦВЕТ" 
+  -->
+  <path d="M 0,90 L 18,72 L 18,45 L 63,0 L 220,0 L 235,15 L 765,15 L 780,0 L 937,0 L 982,45 L 982,72 L 1000,90 L 1000,410 L 982,428 L 982,455 L 937,500 L 780,500 L 765,485 L 235,485 L 220,500 L 63,500 L 18,455 L 18,428 L 0,410 Z M 50,80 L 80,50 L 920,50 L 950,80 L 950,420 L 920,450 L 80,450 L 50,420 Z"
+        fill="url(#frameGradient)"
+        stroke="#ffffff"
+        stroke-width="2"
+        filter="url(#shadow)"
+        fill-rule="evenodd" />
+
+  <!-- 
+    ВНУТРЕННЯЯ ТОНКАЯ ФАСКА 
+    Меняйте stroke="#cbd5e1", чтобы сделать её ярче или темнее
+  -->
+  <path d="M 45,75 L 75,45 L 925,45 L 955,75 L 955,425 L 925,455 L 75,455 L 45,425 Z"
+        fill="none"
+        stroke="#cbd5e1"
+        stroke-width="1" />
+
+  <!-- НАСЕЧКИ СВЕРХУ СПРАВА (Цвет: stroke="#94a3b8") -->
+  <g stroke="#94a3b8" stroke-width="2" stroke-linecap="round">
+    <line x1="781" y1="7" x2="789" y2="15"/>
+    <line x1="789" y1="7" x2="797" y2="15"/>
+    <line x1="797" y1="7" x2="805" y2="15"/>
+    <line x1="805" y1="7" x2="813" y2="15"/>
+  </g>
+
+  <!-- НАСЕЧКИ СНИЗУ СЛЕВА (Цвет: stroke="#94a3b8") -->
+  <g stroke="#94a3b8" stroke-width="2" stroke-linecap="round">
+    <line x1="219" y1="493" x2="211" y2="485"/>
+    <line x1="211" y1="493" x2="203" y2="485"/>
+    <line x1="203" y1="493" x2="195" y2="485"/>
+    <line x1="195" y1="493" x2="187" y2="485"/>
+  </g>
+</svg>

@@ -24,11 +24,12 @@ MonoBehaviour:
   ModificationCapacity: 10
   StartingModifications: []
   DetectionRange: 10
-  AggroRange: 15
+  AggroRange: 35
   CombatRole: 1
   PrimarySkillSlot: 1
   RangeTolerance: 0.5
   RetreatDistance: 4
   RetreatDuration: 0.9
   DirectorCost: 10
-  CoinDrop: 5
+  CoinDropMin: 50
+  CoinDropMax: 80

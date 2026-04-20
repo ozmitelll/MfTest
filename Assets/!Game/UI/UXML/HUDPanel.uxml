@@ -9,9 +9,24 @@
             </ui:VisualElement>
             <ui:Label name="boss-health-bar__value" text="0 / 0" class="boss-health-bar__value"/>
         </ui:VisualElement>
+        <ui:VisualElement name="modification-pickup-toast" class="modification-pickup-toast" style="-unity-font-definition: url(&quot;project://database/Assets/!Game/Fonts/VictorMono-VariableFont_wght.ttf?fileID=12800000&amp;guid=cb0ab6447395bb243a28c96a30ded3bf&amp;type=3#VictorMono-VariableFont_wght&quot;);">
+            <ui:VisualElement name="modification-pickup-card" class="modification-pickup-card">
+                <ui:VisualElement class="modification-pickup-header" name="modification-pickup-header">
+                    <ui:Label name="modification-pickup-badge" text="COMMON DROP" class="modification-pickup-badge"/>
+                    <ui:Label text="1" name="modification-pickup-cost" class="modification-pickup-cost"/>
+                </ui:VisualElement>
+                <ui:Image name="modification-pickup-image" class="modification-pickup-image"/>
+                <ui:Label name="modification-pickup-name" text="Card Name" class="modification-pickup-name"/>
+                <ui:Label name="modification-pickup-description" text="Card description goes here." class="modification-pickup-description"/>
+                <ui:VisualElement name="modification-pickup-details" class="modification-pickup-details">
+                    <ui:Label text="General" name="modification-pickup-type"  class="modification-pickup-type"/>
+                    <ui:Label text="Rank 1" name="modification-pickup-rank" class="modification-pickup-rank"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
         <ui:VisualElement name="leftSide" class="leftSide">
             <ui:VisualElement name="progressInfo" class="progressInfo">
-                <ui:Label text="Stage 1" name="stage__label"/>
+                <ui:Label text="Stage 1" name="stage__label" class="stage__label"/>
                 <ui:Label text="00:00" name="timer-text" class="timer"/>
             </ui:VisualElement>
             <ui:VisualElement name="characterStatus" class="character__status">
